@@ -95,6 +95,46 @@ const map={
 "Network diagnostics":"Network diagnostics","Local config builder":"Local config builder",
 "Статистика раздачи":"Torrent swarm statistics","Скачивание идёт в фоне":"Download runs in the background","Официальный торрент":"Official torrent",
 "Экспериментальное получение .torrent из magnet-ссылки.":"Experimental .torrent creation from a magnet link.",
+"Импортировано полей: ":"Imported fields: ",". Проверь их перед сборкой.":". Review them before building.",
+": нужен корректный Base64-ключ длиной 32 байта.":": must be a valid 32-byte Base64 key.",
+": укажи целое число.":": enter an integer.",": диапазон ":": allowed range ",": проверь значение.":": check the value.",
+"Endpoint: порт должен быть 1–65535.":"Endpoint: port must be between 1 and 65535.",
+"Jmin не может быть больше Jmax.":"Jmin cannot be greater than Jmax.",
+"Конфигурация собрана локально. Ключи не отправлялись на сервер.":"Configuration built locally. Keys were not sent to a server.",
+"Не удалось собрать конфигурацию.":"Could not build the configuration.",
+"Конфигурация скопирована.":"Configuration copied.","Нажми Ctrl+C, текст выделен.":"Press Ctrl+C; the text is selected.",
+"Файл подготовлен для скачивания.":"File is ready to download.","Поля очищены.":"Fields cleared.",
+"Сначала вставь текст .conf.":"Paste the .conf text first.",
+"Не найдены поля [Interface] и [Peer]. Проверь формат.":"[Interface] and [Peer] sections not found. Check the format.",
+"Загружаю трекерный список с GitHub…":"Loading tracker list from GitHub…",
+"Загружаю список с GitHub…":"Loading the list from GitHub…","Получен пустой список.":"The returned list is empty.",
+"Загружено трекеров: ":"Trackers loaded: ",". Источник: ":". Source: ",
+"Не удалось загрузить список: ":"Could not load the list: ",". Открой raw-ссылку напрямую.":". Open the raw link directly.",
+"Список скопирован в буфер обмена.":"List copied to clipboard.","Текст выделен — нажми Ctrl+C.":"Text selected — press Ctrl+C.",
+"Индексирую страницы сайта…":"Indexing site pages…","Ничего не найдено. Попробуй другое название или ключевое слово.":"No results. Try another name or keyword.",
+"ГОТОВО · ":"READY · "," РЕЗУЛЬТАТОВ · ПОИСК ПО ВСЕМУ САЙТУ":" RESULTS · SITE-WIDE SEARCH",
+" МАТЕРИАЛОВ":" ITEMS","ИНДЕКСИРУЮ СТРАНИЦЫ И РЕПОЗИТОРИИ…":"INDEXING PAGES AND REPOSITORIES…",
+"ПОИСК ПО ДОСТУПНЫМ СТРАНИЦАМ":"SEARCHING AVAILABLE PAGES",
+"размер неизвестен":"size unknown","КиБ":"KiB","МиБ":"MiB","ГиБ":"GiB","ТиБ":"TiB",
+"Ссылка имеет неверный формат.":"The link format is invalid.","Нужна ссылка, начинающаяся с magnet:?":"A magnet link must start with magnet:?",
+"В ссылке не найден поддерживаемый infohash (xt=urn:btih или btmh).":"No supported infohash was found (xt=urn:btih or btmh).",
+"Сначала вставь magnet-ссылку.":"Paste a magnet link first.",
+"Загружаю WebTorrent и проверяю поддержку WebRTC…":"Loading WebTorrent and checking WebRTC support…",
+"Этот браузер или текущая среда не поддерживает WebRTC, необходимый для браузерного BitTorrent.":"This browser or environment does not support WebRTC, which browser BitTorrent requires.",
+"Ошибка BitTorrent-клиента: ":"BitTorrent client error: ","неизвестная ошибка":"unknown error",
+"Ищу WebRTC-пиров и запрашиваю метаданные. Это может занять несколько минут…":"Looking for WebRTC peers and requesting metadata. This may take a few minutes…",
+"За 3 минуты метаданные не получены. Вероятно, в этой раздаче нет доступных WebRTC-пиров.":"Metadata was not received within 3 minutes. This torrent probably has no reachable WebRTC peers.",
+"Ожидаю метаданные. Предупреждение: ":"Waiting for metadata. Warning: ",
+"Не удалось получить метаданные: ":"Could not retrieve metadata: ","ошибка BitTorrent":"BitTorrent error",
+"Метаданные получены, но WebTorrent не смог сформировать .torrent-файл.":"Metadata was received, but WebTorrent could not create a .torrent file.",
+"неизвестен":"unknown"," файлов · ":" files · ",
+"Метаданные получены. .torrent-файл готов к сохранению.":"Metadata received. The .torrent file is ready to save.",
+"Не удалось загрузить WebTorrent: ":"Could not load WebTorrent: ","ошибка загрузки библиотеки":"library loading error",
+"Ожидаю magnet-ссылку.":"Waiting for a magnet link.","Получение метаданных остановлено.":"Metadata retrieval stopped.",
+"Загрузка .torrent отправлена браузеру.":"The .torrent download was handed to the browser.",
+"Последние доступные данные":"Last available data","Проверено: ":"Checked: ","Первая проверка ещё не выполнена":"First check has not run yet",
+"Не удалось загрузить статистику (":"Could not load statistics ("
+
 "Собери конфигурацию WireGuard или AmneziaWG 2.0 на основе параметров своего Cloudflare WARP-аккаунта.":"Build a WireGuard or AmneziaWG 2.0 configuration from your Cloudflare WARP account parameters.",
 "S1–S4 и H1–H4 зафиксированы в WARP-совместимых значениях: S = 0, H = 1 / 2 / 3 / 4. Эти поля не рандомизируются, чтобы не нарушить совместимость со стандартным WireGuard peer Cloudflare.":"S1–S4 and H1–H4 use fixed WARP-compatible values: S = 0, H = 1 / 2 / 3 / 4. They are not randomized to preserve compatibility with Cloudflare's standard WireGuard peer.",
 "Генерация файла не проверяет доступность endpoint из твоей сети и не гарантирует соединение.":"File generation does not test endpoint reachability from your network or guarantee a connection.",
@@ -128,12 +168,18 @@ function detect(){
  return EN;
 }
 let lang=detect();
-function t(ru){return lang===EN?(map[ru]||ru):(reverse[ru]||ru);}
+function translateString(value){
+ let result=String(value);
+ const pairs=lang===EN?Object.entries(map):Object.entries(reverse);
+ pairs.sort((a,b)=>b[0].length-a[0].length);
+ for(const [from,to] of pairs)if(from)result=result.split(from).join(to);
+ return result;
+}
+function t(value){return translateString(value);}
 function translateNode(node){
  const value=node.nodeValue;if(!value||!value.trim())return;
- const source=value.trim(),dest=lang===EN?map[source]:reverse[source];
- if(!dest||dest===source)return;
- node.nodeValue=(value.match(/^\s*/)?.[0]||"")+dest+(value.match(/\s*$/)?.[0]||"");
+ const dest=translateString(value);
+ if(dest!==value)node.nodeValue=dest;
 }
 function apply(root=document.body){
  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode(n){
@@ -143,7 +189,7 @@ function apply(root=document.body){
  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);nodes.forEach(translateNode);
  const all=[];if(root.nodeType===1)all.push(root);all.push(...(root.querySelectorAll?.("*")||[]));
  for(const el of all)for(const attr of ["placeholder","aria-label","title"]){
-  const value=el.getAttribute(attr);if(!value)continue;const dest=lang===EN?map[value]:reverse[value];if(dest)el.setAttribute(attr,dest);
+  const value=el.getAttribute(attr);if(!value)continue;const dest=translateString(value);if(dest!==value)el.setAttribute(attr,dest);
  }
 }
 function buildControl(){
