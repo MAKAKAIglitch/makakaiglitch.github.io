@@ -6,10 +6,10 @@
 <meta name="theme-color" content="#0b0e13">
 <meta name="description" content="Создание готового Cloudflare WARP профиля для AmneziaWG: выбор DNS, порта, IPv6 и параметров пакетов.">
 <title>WARP Generator — MAKAKAIglitch</title>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261105-warp-ui-v1">
-<script src="/assets/js/warp-generator.js?v=20261105-warp-ui-v1" defer></script>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-warp-live-v1">
+<script src="/assets/js/warp-generator.js?v=20261105-warp-live-v1" defer></script>
 <script src="/assets/js/global-search.js?v=20261105-search-v6" defer></script>
-<script src="/assets/js/i18n.js?v=20261105-warp-ui-v1" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-warp-live-v1" defer></script>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div>
@@ -30,7 +30,7 @@
 <section class="intro tools-intro">
 <div class="eyebrow"><span class="status-dot"></span> NETWORKING / VPN</div>
 <h1>WARP Generator</h1>
-<p>Выбери важные параметры — готовый WARP-профиль соберётся во внешнем генераторе и будет доступен для скачивания в .conf.</p>
+<p>Выбери параметры — получи новый WARP-ключ и скачай готовый .conf прямо здесь, без перехода на другую страницу.</p>
 </section>
 
 <section class="warp-quick-card">
@@ -45,14 +45,12 @@
 
 <div class="warp-auto-settings">
 <div class="warp-setting">
-<label class="tool-field-label" for="warp-auto-profile">Формат клиента</label>
+<label class="tool-field-label" for="warp-auto-profile">Формат конфига</label>
 <select class="tool-input" id="warp-auto-profile">
-<option value="awg2" selected>AmneziaWG 2.0 — рекомендуется</option>
-<option value="legacy">AmneziaWG Legacy 1.5</option>
-<option value="awg3">AmneziaWG 3.0</option>
-<option value="awg31">AmneziaWG 3.1</option>
+<option value="awg2" selected>AmneziaWG 2.0</option>
+<option value="wireguard">WireGuard</option>
 </select>
-<p class="warp-setting-help" id="warp-profile-help">Хороший баланс совместимости и дополнительных возможностей. Для 3.x нужны новые версии клиента.</p>
+<p class="warp-setting-help" id="warp-profile-help">AWG 2.0 добавляет параметры шумовых пакетов. WireGuard — обычный конфиг без маскировки.</p>
 </div>
 <div class="warp-setting">
 <label class="tool-field-label" for="warp-auto-dns">DNS-сервер</label>
@@ -66,71 +64,85 @@
 <option value="comss_one">Comss.one</option>
 <option value="malw_link">malw.link</option>
 </select>
-<p class="warp-setting-help">DNS будет записан в конфигурацию клиента.</p>
+<p class="warp-setting-help">Выбранные DNS-адреса попадут в секцию Interface.</p>
 </div>
 <div class="warp-setting">
 <label class="tool-field-label" for="warp-auto-port">UDP-порт WARP</label>
 <select class="tool-input" id="warp-auto-port">
-<option value="4500" selected>4500 · стандартный</option>
+<option value="4500" selected>4500 · по умолчанию</option>
 <option value="2408">2408</option>
 <option value="500">500</option>
 <option value="1701">1701</option>
 <option value="880">880</option>
 <option value="8854">8854</option>
 </select>
-<p class="warp-setting-help">Меняй порт, если UDP на стандартном порту не проходит через сеть.</p>
+<p class="warp-setting-help">Порт указывается в Endpoint готового файла.</p>
 </div>
 <div class="warp-setting">
 <label class="tool-field-label" for="warp-auto-device">Профиль устройства</label>
 <select class="tool-input" id="warp-auto-device">
-<option value="universal" selected>Обычный · ПК и универсальные клиенты</option>
+<option value="universal" selected>Универсальный · ПК</option>
 <option value="mobile">Мобильный · Android / iOS</option>
 <option value="router">Роутер · OpenWrt / Keenetic / MikroTik</option>
-<option value="mobile-router">Мобильный + роутер</option>
 </select>
-<p class="warp-setting-help">Мобильный профиль автоматически отключает IPv6 и уменьшает нагрузку от шумовых пакетов.</p>
+<p class="warp-setting-help">Мобильный профиль отключает IPv6 по умолчанию; профиль роутера снижает шумовую нагрузку.</p>
 </div>
 <div class="warp-setting">
-<label class="tool-field-label" for="warp-auto-endpoint">Endpoint</label>
+<label class="tool-field-label" for="warp-auto-endpoint">Адрес сервера</label>
 <select class="tool-input" id="warp-auto-endpoint">
-<option value="lab" selected>Автоматический · свежая проверка Endpoint Lab</option>
-<option value="hostname">Домен Cloudflare · engage.cloudflareclient.com</option>
+<option value="hostname" selected>Cloudflare hostname · стабильный</option>
+<option value="random-ip">Случайный Cloudflare anycast IPv4</option>
 </select>
-<p class="warp-setting-help">Автоматический режим использует проверенные адреса, когда они доступны; иначе сервис объяснит причину.</p>
+<p class="warp-setting-help">По умолчанию engage.cloudflareclient.com; второй вариант выбирает адрес из стандартных Cloudflare WARP-подсетей.</p>
 </div>
 <div class="warp-setting">
-<label class="tool-field-label" for="warp-auto-cps">Протокол CPS / I1</label>
-<select class="tool-input" id="warp-auto-cps">
-<option value="auto" selected>Auto · стабильные варианты</option>
-<option value="static">Static</option>
-<option value="sip">SIP</option>
-<option value="stun">STUN</option>
-<optgroup label="Экспериментальные">
-<option value="quic">QUIC</option>
-<option value="dns">DNS</option>
-<option value="dtls">DTLS</option>
-</optgroup>
+<label class="tool-field-label" for="warp-auto-junk-profile">Профиль шумовых пакетов AWG</label>
+<select class="tool-input" id="warp-auto-junk-profile">
+<option value="balanced" selected>Сбалансированный · Jc 4 / 40–70</option>
+<option value="light">Лёгкий · Jc 2 / 40–64</option>
+<option value="off">Без шумовых пакетов</option>
 </select>
-<p class="warp-setting-help" id="warp-cps-help">Auto выбирает стабильный вариант. Экспериментальные режимы могут хуже работать в отдельных сетях.</p>
+<p class="warp-setting-help">Используется только при формате AmneziaWG 2.0. Для WireGuard эти параметры не добавляются.</p>
+</div>
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-mtu">MTU</label>
+<input class="tool-input" id="warp-auto-mtu" type="number" min="576" max="1500" value="1280" inputmode="numeric">
+<p class="warp-setting-help">1280 — безопасная отправная точка для мобильных и нестабильных сетей.</p>
+</div>
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-keepalive">PersistentKeepalive</label>
+<select class="tool-input" id="warp-auto-keepalive">
+<option value="0">Выключен</option>
+<option value="15">15 секунд</option>
+<option value="25" selected>25 секунд · обычно</option>
+<option value="30">30 секунд</option>
+</select>
+<p class="warp-setting-help">Поддерживает NAT-сессию; 25 секунд — обычное значение.</p>
 </div>
 </div>
 
 <div class="warp-auto-toggles">
-<label class="warp-toggle"><input id="warp-auto-ipv6" type="checkbox"><span class="warp-toggle-ui"></span><span><strong>IPv6</strong><small>Добавить IPv6-маршрутизацию в туннель</small></span></label>
-<label class="warp-toggle"><input id="warp-auto-cps5" type="checkbox"><span class="warp-toggle-ui"></span><span><strong>Дополнительные CPS-пакеты I2–I5</strong><small>Для современных совместимых клиентов AWG 2.0 / 3.x</small></span></label>
+<label class="warp-toggle"><input id="warp-auto-ipv6" type="checkbox"><span class="warp-toggle-ui"></span><span><strong>IPv6</strong><small>Добавить IPv6-адрес и маршрут ::/0</small></span></label>
+<label class="warp-toggle"><input id="warp-auto-junk" type="checkbox" checked><span class="warp-toggle-ui"></span><span><strong>AWG packet obfuscation</strong><small>Включить Jc/Jmin/Jmax и S/H для AmneziaWG 2.0</small></span></label>
 </div>
 
 <div class="warp-auto-warning" id="warp-auto-warning" hidden></div>
 <div class="warp-auto-actions">
-<button class="warp-auto-generate" id="warp-auto-generate" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg><span>Перейти к созданию готового .conf</span><b>↗</b></button>
-<a class="warp-auto-fallback" id="warp-auto-fallback" href="https://awgconfig.com/" target="_blank" rel="noopener noreferrer" hidden>Открыть генератор с выбранными настройками ↗</a>
+<button class="warp-auto-generate" id="warp-auto-generate" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg><span>Сгенерировать и скачать .conf</span><b>↗</b></button>
+
 </div>
-<p class="warp-auto-status" id="warp-auto-status" role="status" aria-live="polite">Настройки применятся автоматически при открытии генератора.</p>
+<p class="warp-auto-status" id="warp-auto-status" role="status" aria-live="polite">Генерация выполняется в этой вкладке. Файл скачивается автоматически.</p>
+<div class="warp-auto-result" id="warp-auto-result" hidden>
+<div class="warp-auto-result-head"><div><strong>Готовая конфигурация</strong><span id="warp-auto-filename">WARP.conf</span></div><span class="warp-result-ready">READY</span></div>
+<textarea class="tool-textarea warp-auto-output" id="warp-auto-output" readonly spellcheck="false" aria-label="Generated WARP configuration"></textarea>
+<div class="warp-actions"><button class="warp-action" id="warp-auto-copy-output" type="button">Копировать</button><button class="warp-action primary" id="warp-auto-download-again" type="button">Скачать ещё раз</button></div>
+<p class="warp-privacy">Файл содержит приватный ключ. Не публикуй и не отправляй его посторонним.</p>
+</div>
 </section>
 
 <section class="warp-service-note">
 <div class="warp-service-icon">i</div>
-<p><strong>Как работает генерация.</strong> GitHub Pages — статический хостинг: он не может самостоятельно регистрировать WARP-устройство и выдавать новые ключи. Поэтому кнопка открывает <a href="https://awgconfig.com/" target="_blank" rel="noopener noreferrer">awgconfig.com</a> — открытый генератор, который регистрирует устройство через API Cloudflare, применяет выбранные параметры и позволяет скачать готовый .conf. После открытия останется нажать Generate на странице генератора. <a href="https://github.com/HereIamGosu/amnezia-config-gen" target="_blank" rel="noopener noreferrer">Исходный код ↗</a></p>
+<p><strong>Как это работает.</strong> GitHub Pages запускает интерфейс и сборку файла в браузере. Для регистрации нового WARP-устройства используется публичный API-сервис, как и в <a href="https://warp-generation.github.io/" target="_blank" rel="noopener noreferrer">warp-generation.github.io</a>. API создаёт профиль и возвращает ключи; сайт собирает .conf и не сохраняет его на сервере. <strong>Важно:</strong> приватный ключ создаётся сторонним API, поэтому оператор этого API потенциально может его видеть. Если такой уровень доверия не подходит, используй ручной режим с уже имеющимся конфигом.</p>
 </section>
 
 <details class="warp-manual-details">
