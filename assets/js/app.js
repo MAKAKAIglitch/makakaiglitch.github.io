@@ -107,14 +107,31 @@ async function showDetails(r){
  if(languages&&Object.keys(languages).length){const total=Object.values(languages).reduce((a,b)=>a+b,0)||1;for(const [name,bytes] of Object.entries(languages).sort((a,b)=>b[1]-a[1])){const line=node("div","repo-language-row"),head=node("div","repo-language-top");head.append(node("strong","",name),node("span","",Math.round(bytes/total*100)+"%"));const bar=node("div","repo-language-bar"),fill=node("span");fill.style.width=(bytes/total*100)+"%";bar.appendChild(fill);line.append(head,bar);languageSection.appendChild(line);}}
  else languageSection.appendChild(node("p","repo-detail-muted",t("Нет данных о языках")));content.appendChild(languageSection);
  if(r.topics?.length){const sec=node("section","repo-detail-section");sec.appendChild(node("h3","",t("Темы")));const tags=node("div","repo-topic-list");r.topics.forEach(x=>tags.appendChild(node("span","repo-topic",x)));sec.appendChild(tags);content.appendChild(sec);}
- const latest=releases?.[0],release=node("section","repo-detail-section");release.appendChild(node("h3","",t("Последний релиз")));release.appendChild(node("p","repo-detail-release-name",latest?(latest.name||latest.tag_name):t("Нет опубликованных релизов")));if(latest?.published_at)release.appendChild(node("p","repo-detail-muted",latest.tag_name+" · "+date(latest.published_at)));content.appendChild(release);
- const links=node("div","repo-detail-links");links.append(link(t("Открыть репозиторий"),r.html_url),link(t("Открыть README"),r.html_url+"/blob/"+(r.default_branch||"main")+"/README.md"),link(t("Открыть Issues"),r.html_url+"/issues"),link(t("Открыть Commits"),r.html_url+"/commits"),link(t("Releases"),r.html_url+"/releases"));
+ const latest=releases?.[0],release=node("section","repo-detail-section");
+ release.appendChild(node("h3","",t("Последний релиз")));
+ release.appendChild(node("p","repo-detail-release-name",latest?(latest.name||latest.tag_name):t("Нет опубликованных релизов")));
+ if(latest?.published_at)release.appendChild(node("p","repo-detail-muted",latest.tag_name+" · "+date(latest.published_at)));
+ if(latest?.assets?.length){
+  const assetSection=node("div","repo-release-assets");
+  assetSection.appendChild(node("h4","",t("Файлы последнего релиза")));
+  for(const asset of latest.assets){
+   const item=node("div","repo-release-asset");
+   const assetLink=link(asset.name,asset.browser_download_url);
+   const meta=node("span","repo-detail-muted",number(asset.download_count)+" "+t("скачиваний")+" · "+formatBytes(asset.size));
+   item.append(assetLink,meta);assetSection.appendChild(item);
+  }
+  release.appendChild(assetSection);
+ }
+ content.appendChild(release);
+ const links=node("div","repo-detail-links");
+ links.append(link(t("Открыть репозиторий"),r.html_url),link(t("Открыть README"),r.html_url+"/blob/"+(r.default_branch||"main")+"/README.md"),link(t("Открыть Issues"),r.html_url+"/issues"),link(t("Открыть Commits"),r.html_url+"/commits"),link(t("Releases"),r.html_url+"/releases"));
+ if(r.homepage)links.appendChild(link(t("Сайт проекта"),r.homepage));
  const clone=node("button","repo-detail-link",t("Копировать")+" git clone");clone.type="button";clone.addEventListener("click",async()=>{try{await navigator.clipboard.writeText("git clone "+r.clone_url);clone.textContent=t("Скопировано");}catch{clone.textContent=t("Недоступно");}});links.appendChild(clone);content.appendChild(links);
  $("repo-modal-loading").hidden=true;content.hidden=false;
 }
 function closeDetails(){detailController?.abort();overlay.hidden=true;overlay.setAttribute("aria-hidden","true");document.body.classList.remove("modal-open");activeRepo=null;}
 close.addEventListener("click",closeDetails);overlay.addEventListener("click",e=>{if(e.target===overlay)closeDetails();});document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!overlay.hidden)closeDetails();});
-search.addEventListener("input",render);sort.addEventListener("change",render);retry.addEventListener("click",()=>load(true));document.addEventListener("site:language-change",()=>{render();});
+search.addEventListener("input",render);sort.addEventListener("change",render);retry.addEventListener("click",()=>load(true));document.addEventListener("site:language-change",()=>{render();if(activeRepo&&!overlay.hidden)showDetails(activeRepo);});
 document.addEventListener("keydown",e=>{const x=e.target,typing=x instanceof HTMLElement&&(x.isContentEditable||["INPUT","TEXTAREA","SELECT"].includes(x.tagName));if(e.key==="/"&&!typing){e.preventDefault();search.focus();}if(e.key==="Escape"&&document.activeElement===search){search.value="";render();search.blur();}});
 if(!cacheRead())load();
 })();
