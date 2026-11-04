@@ -214,7 +214,10 @@ const map={
 "ГОТОВО ·":"READY ·",
 "МАТЕРИАЛОВ":"ITEMS",
 "ИНДЕКСИРУЮ СТРАНИЦЫ САЙТА…":"INDEXING SITE PAGES…",
-"Страница":"Page"
+"Страница":"Page",
+"Файлы последнего релиза":"Latest release files",
+"скачиваний":"downloads",
+"Сайт проекта":"Project website"
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
