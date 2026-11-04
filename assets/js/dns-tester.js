@@ -15,14 +15,14 @@ const providers={
  tls:[
   {id:"dot-sb",name:"DNS.SB",endpoint:"tls://dot.sb"},
   {id:"quad9",name:"Quad9",endpoint:"tls://dns.quad9.net"},
-  {id:"mullvad-dot",name:"Mullvad",endpoint:"tls://dns.mullvad.net"},
+  {id:"mullvad-dot",name:"Mullvad (закрыт)",endpoint:"tls://dns.mullvad.net",retired:true,retiredReason:"Публичный DNS Mullvad (DoH/DoT) отключён 2 ноября 2026. Адрес оставлен только как историческая ссылка."},
   {id:"nextdns-dot",name:"NextDNS",endpoint:"tls://dns.nextdns.io"},
   {id:"cloudflare-ip",name:"Cloudflare (IP)",endpoint:"tls://1.1.1.1"}
  ],
  quic:[
   {id:"nextdns-doq",name:"NextDNS",endpoint:"quic://dns.nextdns.io"},
   {id:"controld",name:"Control D Free",endpoint:"quic://p0.freedns.controld.com"},
-  {id:"mullvad-doq",name:"Mullvad",endpoint:"quic://dns.mullvad.net"}
+  {id:"mullvad-doq",name:"Mullvad (DoQ не опубликован)",endpoint:"quic://dns.mullvad.net",retired:true,retiredReason:"Mullvad не публиковал официальный публичный DoQ endpoint. Его публичный DNS-сервис закрыт 2 ноября 2026."}
  ]
 };
 let protocol="https",busy=false;
@@ -148,13 +148,14 @@ function render(){
  });
  list.replaceChildren();
  entries.forEach((server,index)=>{
-  const result=results[protocol].get(server.id),card=make("article","dns-server-card");
+  const result=results[protocol].get(server.id),card=make("article","dns-server-card"+(server.retired?" is-retired":""));
   const head=make("div","dns-server-head"),title=make("strong","",server.name);
-  const badge=make("span","dns-server-rank",protocol==="https"&&result?.latency!==undefined?(index===0?t("Самый быстрый"):t("Проверен")):protocol==="https"?t("Не проверен"):t("Настройка"));
+  const badge=make("span","dns-server-rank",server.retired?t("Отключён"):protocol==="https"&&result?.latency!==undefined?(index===0?t("Самый быстрый"):t("Проверен")):protocol==="https"?t("Не проверен"):t("Настройка"));
   head.append(title,badge);
   const endpoint=make("code","dns-server-endpoint",server.endpoint),meta=make("div","dns-server-result");
   let latency=t("Ожидает проверки"),details=t("DNS-запрос не выполнялся");
-  if(protocol!=="https"){latency=t("Нет браузерного теста");details=t("Нужен отдельный DNS-клиент с поддержкой протокола");}
+  if(server.retired){latency=t("Сервис закрыт");details=t(server.retiredReason);}
+  else if(protocol!=="https"){latency=t("Нет браузерного теста");details=t("Нужен отдельный DNS-клиент с поддержкой протокола");}
   else if(result?.latency!==undefined){latency=Math.round(result.latency)+" ms";details=result.rcode+" · "+result.answers.length+" "+t("ответов")+" · "+result.samples+"/3 "+t("попыток");}
   else if(result?.error){latency=t("Ошибка");details=result.error;}
   meta.append(make("strong","dns-server-latency",latency),make("span","dns-server-detail",details));
