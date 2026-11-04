@@ -93,7 +93,20 @@ const map={
 "Сетевая диагностика":"Network diagnostics","Локальный сборщик конфигураций":"Local configuration builder",
 "Personal library":"Personal library","Experimental browser tool":"Experimental browser tool",
 "Network diagnostics":"Network diagnostics","Local config builder":"Local config builder",
-"Статистика раздачи":"Torrent swarm statistics","Скачивание идёт в фоне":"Download runs in the background","Официальный торрент":"Official torrent"
+"Статистика раздачи":"Torrent swarm statistics","Скачивание идёт в фоне":"Download runs in the background","Официальный торрент":"Official torrent",
+"Экспериментальное получение .torrent из magnet-ссылки.":"Experimental .torrent creation from a magnet link.",
+"Собери конфигурацию WireGuard или AmneziaWG 2.0 на основе параметров своего Cloudflare WARP-аккаунта.":"Build a WireGuard or AmneziaWG 2.0 configuration from your Cloudflare WARP account parameters.",
+"S1–S4 и H1–H4 зафиксированы в WARP-совместимых значениях: S = 0, H = 1 / 2 / 3 / 4. Эти поля не рандомизируются, чтобы не нарушить совместимость со стандартным WireGuard peer Cloudflare.":"S1–S4 and H1–H4 use fixed WARP-compatible values: S = 0, H = 1 / 2 / 3 / 4. They are not randomized to preserve compatibility with Cloudflare's standard WireGuard peer.",
+"Генерация файла не проверяет доступность endpoint из твоей сети и не гарантирует соединение.":"File generation does not test endpoint reachability from your network or guarantee a connection.",
+"Внешний генератор нового аккаунта:":"External new-account generator:",
+"исходный код ↗":"source code ↗","Движок:":"Engine:",
+"Узнай свой публичный IPv4 и IPv6, скопируй адрес и посмотри параметры браузера и сети":"Check your public IPv4 and IPv6, copy the address and view browser and network details",
+"Параметры сети браузера доступны не во всех браузерах и могут быть приблизительными.":"Browser network details are not exposed by every browser and may be approximate.",
+"Проверяй DNS-записи домена через зашифрованный DNS-over-HTTPS запрос":"Look up domain DNS records through an encrypted DNS-over-HTTPS request",
+"— сообщают клиенту адреса пиров конкретной раздачи.":"— tell the client about peers for a specific torrent.",
+"— распределённый поиск пиров без центрального трекера.":"— distributed peer discovery without a central tracker.",
+"— обмен адресами пиров между подключёнными участниками.":"— exchange peer addresses between connected participants.",
+"GitHub проекта ↗":"Project on GitHub ↗","Скопировано":"Copied"
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
