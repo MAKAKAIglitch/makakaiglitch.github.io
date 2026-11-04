@@ -719,3 +719,133 @@ kbd {
   .utility-card { padding: 15px; }
   .tool-detail-card { padding: 18px; }
 }
+
+
+/* Explicit tab bar, repository releases, and compact utility catalog */
+.main-nav {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  padding: 4px;
+  border: 1px solid rgba(220, 230, 255, 0.09);
+  border-radius: 14px;
+  background: rgba(10, 14, 22, 0.35);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.nav-link {
+  min-height: 36px;
+  padding: 0 13px;
+  border-radius: 10px;
+}
+.nav-link.is-active {
+  border-color: rgba(185, 198, 255, 0.16);
+  background: linear-gradient(135deg, rgba(152, 169, 255, 0.17), rgba(120, 145, 218, 0.08));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.055), 0 2px 12px rgba(0, 0, 0, 0.12);
+}
+.repo-card-actions {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 7px;
+}
+.repo-release-link {
+  display: inline-flex;
+  min-height: 29px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border: 1px solid rgba(177, 190, 255, 0.16);
+  border-radius: 8px;
+  color: #bac6ed;
+  background: rgba(145, 164, 255, 0.075);
+  font-size: 10px;
+  font-weight: 700;
+  transition: border-color 150ms ease, background 150ms ease, color 150ms ease;
+}
+.repo-release-link:hover {
+  color: #edf1ff;
+  border-color: rgba(177, 190, 255, 0.32);
+  background: rgba(145, 164, 255, 0.15);
+}
+.repo-external { width: 29px; height: 29px; }
+
+.utility-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 22px;
+  padding: 4px;
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid rgba(220, 230, 255, 0.085);
+  border-radius: 12px;
+  background: rgba(11, 15, 23, 0.54);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+.utility-tab {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 11px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: #929dad;
+  background: transparent;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 150ms ease, background 150ms ease, border-color 150ms ease;
+}
+.utility-tab span {
+  color: #718096;
+  font-family: var(--mono);
+  font-size: 9px;
+}
+.utility-tab:hover { color: #dce3f1; }
+.utility-tab.is-active {
+  color: #e5eaff;
+  border-color: rgba(177, 190, 255, 0.15);
+  background: rgba(145, 164, 255, 0.12);
+}
+.utility-tab.is-active span { color: #bac7ff; }
+.utilities-grid {
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+.utility-card {
+  align-items: center;
+  min-height: 76px;
+  padding: 12px 15px;
+  border-radius: 12px;
+}
+.utility-icon {
+  width: 31px;
+  height: 31px;
+  border-radius: 9px;
+}
+.utility-icon svg { width: 15px; height: 15px; }
+.utility-card-description { margin-top: 4px; }
+.utility-card-tags { margin-top: 7px; }
+.utility-card-tags span { padding: 2px 6px; }
+
+@media (max-width: 680px) {
+  .main-nav { gap: 2px; padding: 3px; }
+  .nav-link { gap: 6px; padding: 0 8px; font-size: 10px; }
+  .utility-tabs { width: 100%; overflow-x: auto; flex-wrap: nowrap; }
+  .utility-tab { flex: 0 0 auto; }
+  .repo-release-link { min-height: 27px; padding: 0 7px; font-size: 9px; }
+}
+@media (max-width: 430px) {
+  .topbar { grid-template-columns: auto minmax(0, 1fr) auto; gap: 5px; padding: 0 9px; }
+  .nav-link { gap: 4px; padding: 0 6px; font-size: 9px; }
+  .nav-link svg { width: 13px; height: 13px; }
+  .repo-card-top { align-items: flex-start; }
+  .repo-card-actions { gap: 5px; }
+  .repo-release-link { padding: 0 6px; font-size: 8px; }
+}

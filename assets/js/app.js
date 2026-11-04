@@ -71,13 +71,23 @@
     titleWrap.append(name);
     if (labels.childElementCount) titleWrap.appendChild(labels);
 
+    const actions = element("div", "repo-card-actions");
+
+    const releases = element("a", "repo-release-link", "Releases");
+    releases.href = repo.html_url.replace(/\\/$/, "") + "/releases";
+    releases.target = "_blank";
+    releases.rel = "noopener noreferrer";
+    releases.setAttribute("aria-label", "Открыть релизы " + repo.name);
+
     const external = element("a", "repo-external");
     external.href = repo.html_url;
     external.target = "_blank";
     external.rel = "noopener noreferrer";
     external.setAttribute("aria-label", "Открыть " + repo.name + " на GitHub");
     external.insertAdjacentHTML("afterbegin", icons.external);
-    top.append(titleWrap, external);
+
+    actions.append(releases, external);
+    top.append(titleWrap, actions);
 
     const description = element(
       "p",

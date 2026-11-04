@@ -59,13 +59,20 @@
             </label>
           </div>
 
+          <div class="utility-tabs" role="group" aria-label="Категории утилит">
+            <button class="utility-tab is-active" type="button" data-filter="all" aria-pressed="true">Все <span>04</span></button>
+            <button class="utility-tab" type="button" data-filter="developer" aria-pressed="false">Developer <span>02</span></button>
+            <button class="utility-tab" type="button" data-filter="security" aria-pressed="false">Security <span>01</span></button>
+            <button class="utility-tab" type="button" data-filter="encoding" aria-pressed="false">Encoding <span>01</span></button>
+          </div>
+
           <div class="utility-section-label">
             <span>ALL UTILITIES</span>
             <span id="utilities-count">04 TOOLS</span>
           </div>
 
           <div id="utilities-grid" class="utilities-grid">
-            <a class="utility-card" href="/tools/uuid/" data-search="uuid uuid v4 identifier генератор идентификатор developer">
+            <a class="utility-card" href="/tools/uuid/" data-category="developer" data-search="uuid uuid v4 identifier генератор идентификатор developer">
               <span class="utility-icon"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3M8 12h8M12 8v8"/></svg></span>
               <span class="utility-card-main">
                 <span class="utility-card-top"><strong>UUID Generator</strong><span class="utility-card-arrow">↗</span></span>
@@ -74,7 +81,7 @@
               </span>
             </a>
 
-            <a class="utility-card" href="/tools/password-generator/" data-search="password пароль generator генератор security безопасность random криптографический">
+            <a class="utility-card" href="/tools/password-generator/" data-category="security" data-search="password пароль generator генератор security безопасность random криптографический">
               <span class="utility-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span>
               <span class="utility-card-main">
                 <span class="utility-card-top"><strong>Password Generator</strong><span class="utility-card-arrow">↗</span></span>
@@ -83,7 +90,7 @@
               </span>
             </a>
 
-            <a class="utility-card" href="/tools/json-formatter/" data-search="json formatter validator форматирование проверка minify developer">
+            <a class="utility-card" href="/tools/json-formatter/" data-category="developer" data-search="json formatter validator форматирование проверка minify developer">
               <span class="utility-icon"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span>
               <span class="utility-card-main">
                 <span class="utility-card-top"><strong>JSON Formatter</strong><span class="utility-card-arrow">↗</span></span>
@@ -92,7 +99,7 @@
               </span>
             </a>
 
-            <a class="utility-card" href="/tools/base64/" data-search="base64 encoder decoder кодирование декодирование utf8 текст developer">
+            <a class="utility-card" href="/tools/base64/" data-category="encoding" data-search="base64 encoder decoder кодирование декодирование utf8 текст developer">
               <span class="utility-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 4v6M17 4v6M5 13h14v7H5z"/></svg></span>
               <span class="utility-card-main">
                 <span class="utility-card-top"><strong>Base64 Encoder / Decoder</strong><span class="utility-card-arrow">↗</span></span>
