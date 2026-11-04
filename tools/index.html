@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#0b0e13" />
-    <meta name="description" content="Бесплатные утилиты, работающие прямо в браузере." />
+    <meta name="description" content="Каталог бесплатных браузерных утилит MAKAKAIglitch." />
     <title>Utilities — MAKAKAIglitch</title>
     <link rel="stylesheet" href="/assets/css/style.css" />
-    <script src="/assets/js/tools.js" defer></script>
+    <script src="/assets/js/tools-catalog.js" defer></script>
   </head>
   <body>
     <div class="ambient ambient-one" aria-hidden="true"></div>
@@ -44,91 +44,75 @@
         <section class="intro tools-intro">
           <div class="eyebrow"><span class="status-dot"></span> BROWSER UTILITIES</div>
           <h1>Utilities<span class="title-period">.</span></h1>
-          <p>Небольшие инструменты, которые работают прямо в браузере. Без регистрации и отправки введённых данных на сервер.</p>
+          <p>Найди нужный инструмент. Каждая утилита открывается на отдельной странице.</p>
         </section>
 
-        <section aria-label="Полезные инструменты">
-          <div class="utility-section-label">
-            <span>DEVELOPER TOOLS</span>
-            <span>04 TOOLS</span>
+        <section aria-label="Каталог утилит">
+          <div class="toolbar">
+            <label class="search-box" for="utility-search">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.8" cy="10.8" r="6.8" />
+                <path d="m16 16 4.2 4.2" />
+              </svg>
+              <input id="utility-search" type="search" placeholder="Поиск утилит..." autocomplete="off" spellcheck="false" />
+              <kbd>/</kbd>
+            </label>
           </div>
-          <div class="tools-grid">
-            <article class="tool-card">
-              <div class="tool-card-heading">
-                <span class="tool-icon"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3M8 12h8M12 8v8"/></svg></span>
-                <div><h2>UUID Generator</h2><p>Создание случайных UUID v4</p></div>
-              </div>
-              <input id="uuid-output" class="tool-input" readonly value="Нажми Generate" aria-label="Сгенерированный UUID" />
-              <div class="tool-actions">
-                <button id="uuid-generate" class="tool-button" type="button">Generate UUID</button>
-                <button id="uuid-copy" class="tool-button secondary" type="button">Copy</button>
-              </div>
-              <div id="uuid-status" class="tool-status" role="status"></div>
-            </article>
 
-            <article class="tool-card">
-              <div class="tool-card-heading">
-                <span class="tool-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span>
-                <div><h2>Password Generator</h2><p>Криптографически случайный пароль</p></div>
-              </div>
-              <div class="tool-range-row">
-                <label class="tool-field-label" for="password-length">Длина пароля</label>
-                <output id="password-length-value" for="password-length">20</output>
-              </div>
-              <input id="password-length" class="tool-range" type="range" min="8" max="64" value="20" />
-              <div class="tool-options">
-                <label class="tool-check"><input id="password-lower" type="checkbox" checked /> a–z</label>
-                <label class="tool-check"><input id="password-upper" type="checkbox" checked /> A–Z</label>
-                <label class="tool-check"><input id="password-numbers" type="checkbox" checked /> 0–9</label>
-                <label class="tool-check"><input id="password-symbols" type="checkbox" checked /> Symbols</label>
-              </div>
-              <label class="tool-field-label" for="password-output">Результат</label>
-              <input id="password-output" class="tool-input" readonly placeholder="Твой пароль появится здесь" />
-              <div class="tool-actions">
-                <button id="password-generate" class="tool-button" type="button">Generate</button>
-                <button id="password-copy" class="tool-button secondary" type="button">Copy</button>
-              </div>
-              <div id="password-status" class="tool-status" role="status"></div>
-            </article>
+          <div class="utility-section-label">
+            <span>ALL UTILITIES</span>
+            <span id="utilities-count">04 TOOLS</span>
+          </div>
 
-            <article class="tool-card">
-              <div class="tool-card-heading">
-                <span class="tool-icon"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span>
-                <div><h2>JSON Formatter</h2><p>Форматирование и сжатие JSON</p></div>
-              </div>
-              <label class="tool-field-label" for="json-input">JSON</label>
-              <textarea id="json-input" class="tool-textarea" spellcheck="false" placeholder='{"hello":"world","items":[1,2,3]}'></textarea>
-              <div class="tool-actions">
-                <button id="json-format" class="tool-button" type="button">Format</button>
-                <button id="json-minify" class="tool-button secondary" type="button">Minify</button>
-                <button id="json-copy" class="tool-button secondary" type="button">Copy</button>
-              </div>
-              <div id="json-status" class="tool-status" role="status"></div>
-            </article>
+          <div id="utilities-grid" class="utilities-grid">
+            <a class="utility-card" href="/tools/uuid/" data-search="uuid uuid v4 identifier генератор идентификатор developer">
+              <span class="utility-icon"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3M8 12h8M12 8v8"/></svg></span>
+              <span class="utility-card-main">
+                <span class="utility-card-top"><strong>UUID Generator</strong><span class="utility-card-arrow">↗</span></span>
+                <span class="utility-card-description">Создание случайных UUID v4 с помощью криптографического генератора.</span>
+                <span class="utility-card-tags"><span>Developer</span><span>Random</span></span>
+              </span>
+            </a>
 
-            <article class="tool-card">
-              <div class="tool-card-heading">
-                <span class="tool-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 4v6M17 4v6M5 13h14v7H5z"/></svg></span>
-                <div><h2>Base64 Encoder</h2><p>Кодирование и декодирование UTF-8</p></div>
-              </div>
-              <label class="tool-field-label" for="base64-input">Входные данные</label>
-              <textarea id="base64-input" class="tool-textarea" spellcheck="false" placeholder="Текст или Base64..."></textarea>
-              <div class="tool-actions">
-                <button id="base64-encode" class="tool-button" type="button">Encode</button>
-                <button id="base64-decode" class="tool-button secondary" type="button">Decode</button>
-                <button id="base64-copy" class="tool-button secondary" type="button">Copy result</button>
-              </div>
-              <label class="tool-field-label" for="base64-output">Результат</label>
-              <textarea id="base64-output" class="tool-textarea" spellcheck="false" placeholder="Результат появится здесь..."></textarea>
-              <div id="base64-status" class="tool-status" role="status"></div>
-            </article>
+            <a class="utility-card" href="/tools/password-generator/" data-search="password пароль generator генератор security безопасность random криптографический">
+              <span class="utility-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span>
+              <span class="utility-card-main">
+                <span class="utility-card-top"><strong>Password Generator</strong><span class="utility-card-arrow">↗</span></span>
+                <span class="utility-card-description">Генерация стойких случайных паролей с настройкой длины и символов.</span>
+                <span class="utility-card-tags"><span>Security</span><span>Random</span></span>
+              </span>
+            </a>
+
+            <a class="utility-card" href="/tools/json-formatter/" data-search="json formatter validator форматирование проверка minify developer">
+              <span class="utility-icon"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span>
+              <span class="utility-card-main">
+                <span class="utility-card-top"><strong>JSON Formatter</strong><span class="utility-card-arrow">↗</span></span>
+                <span class="utility-card-description">Форматирование, сжатие и проверка корректности JSON.</span>
+                <span class="utility-card-tags"><span>Developer</span><span>JSON</span></span>
+              </span>
+            </a>
+
+            <a class="utility-card" href="/tools/base64/" data-search="base64 encoder decoder кодирование декодирование utf8 текст developer">
+              <span class="utility-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 4v6M17 4v6M5 13h14v7H5z"/></svg></span>
+              <span class="utility-card-main">
+                <span class="utility-card-top"><strong>Base64 Encoder / Decoder</strong><span class="utility-card-arrow">↗</span></span>
+                <span class="utility-card-description">Кодирование и декодирование текста в Base64 с поддержкой UTF-8.</span>
+                <span class="utility-card-tags"><span>Developer</span><span>Encoding</span></span>
+              </span>
+            </a>
+          </div>
+
+          <div id="utilities-empty" class="empty-state" hidden>
+            <span class="empty-icon" aria-hidden="true">⌕</span>
+            <strong>Утилиты не найдены</strong>
+            <span>Попробуй другое название или ключевое слово.</span>
           </div>
         </section>
       </main>
 
       <footer class="footer">
         <span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities</span>
-        <span>Вычисления выполняются локально в браузере</span>
+        <span>04 browser tools</span>
       </footer>
     </div>
   </body>
