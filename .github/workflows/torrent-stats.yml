@@ -1,6 +1,11 @@
 name: Update torrent swarm statistics
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/torrent-stats.yml"
+      - "scripts/update_torrent_stats.py"
   schedule:
     - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
@@ -14,6 +19,7 @@ concurrency:
 
 jobs:
   update:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
