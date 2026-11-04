@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": null,
+  "generated_at": "2026-11-04T22:13:06Z",
   "refresh_minutes": 15,
   "sort_default": "leechers",
   "games": {
@@ -9,32 +9,40 @@
       "name": "War Thunder",
       "project": "warthunder",
       "torrent_url": "https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=warthunder&torrent=1",
-      "checked_at": null,
-      "info_hash": null,
+      "checked_at": "2026-11-04T22:13:06Z",
+      "info_hash": "e107401ee71a98fc27bd186a5e5b9f32fe302283",
       "seeders": null,
       "leechers": null,
       "source_tracker": null,
       "trackers_responded": 0,
       "trackers_total": 0,
-      "status": "pending",
+      "status": "unavailable",
       "last_success_at": null,
-      "error": null
+      "error": "No tracker returned scrape statistics for this info hash.",
+      "torrent_name": "dbff0f2bd99323e1d947920569a8d07229f011c3",
+      "tracker_errors": [
+        "Torrent has no announce trackers"
+      ]
     },
     "enlisted": {
       "id": "enlisted",
       "name": "Enlisted",
       "project": "enlisted",
       "torrent_url": "https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=enlisted&torrent=1",
-      "checked_at": null,
-      "info_hash": null,
+      "checked_at": "2026-11-04T22:13:06Z",
+      "info_hash": "1649792dbe1c8404273241cb5f296938dc8fc89a",
       "seeders": null,
       "leechers": null,
       "source_tracker": null,
       "trackers_responded": 0,
       "trackers_total": 0,
-      "status": "pending",
+      "status": "unavailable",
       "last_success_at": null,
-      "error": null
+      "error": "No tracker returned scrape statistics for this info hash.",
+      "torrent_name": "754cafc128e7c75bfee6784eb47e68a628b29fd8",
+      "tracker_errors": [
+        "Torrent has no announce trackers"
+      ]
     }
   }
 }
