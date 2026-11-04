@@ -227,10 +227,56 @@ const titleMap={
 "/tools/magnet-to-torrent/":{ru:"Magnet → Torrent — MAKAKAIglitch",en:"Magnet → Torrent — MAKAKAIglitch"},
 "/tools/ip-check/":{ru:"IP Check — MAKAKAIglitch",en:"IP Check — MAKAKAIglitch"},
 "/tools/dns-lookup/":{ru:"DNS Lookup — MAKAKAIglitch",en:"DNS Lookup — MAKAKAIglitch"},
+"/tools/dns-tester/":{ru:"Тестер DNS-серверов — MAKAKAIglitch",en:"DNS Server Tester — MAKAKAIglitch"},
 "/library/":{ru:"Библиотека — MAKAKAIglitch",en:"Library — MAKAKAIglitch"},
 "/library/torrent/":{ru:"Torrent — Библиотека — MAKAKAIglitch",en:"Torrent — Library — MAKAKAIglitch"},
 "/library/torrent/shares/":{ru:"Раздачи — Torrent — MAKAKAIglitch",en:"Shares — Torrent — MAKAKAIglitch"},
 "/library/torrent/client/":{ru:"Настройки клиента — Torrent — MAKAKAIglitch",en:"Client settings — Torrent — MAKAKAIglitch"}
+,"Язык":"Language"
+,"Снимок GitHub обновлён":"GitHub snapshot updated"
+,"Скачивания последних 100 релизов":"Downloads from the latest 100 releases"
+,"Скачивания последних 1000 релизов":"Downloads from the latest 1000 releases"
+,"DNS Server Tester":"DNS Server Tester"
+,"Сравни DNS-резолверы, измерь время реального DoH-запроса и выбери подходящий протокол":"Compare DNS resolvers, measure real DoH query latency and choose a protocol"
+,"Выбор протокола":"Choose a protocol"
+,"HTTPS, TLS и QUIC с отдельными инструкциями и списками серверов":"HTTPS, TLS and QUIC with separate instructions and server lists"
+,"Домен для проверки":"Domain to test"
+,"Проверить HTTPS-серверы":"Test HTTPS servers"
+,"Готово к проверке DoH-серверов":"Ready to test DoH servers"
+,"Проверяем серверы…":"Testing servers…"
+,"Отправляем DNS-запросы к DoH-серверам…":"Sending DNS queries to DoH servers…"
+,"Проверка завершена: ":"Test complete: "
+,"серверов ответили для ":"servers responded for "
+,"ответов":"answers"
+,"попыток":"attempts"
+,"Самый быстрый":"Fastest"
+,"Проверен":"Tested"
+,"Не проверен":"Not tested"
+,"Настройка":"Configuration"
+,"Ожидает проверки":"Not tested yet"
+,"DNS-запрос не выполнялся":"No DNS query was sent"
+,"Нет браузерного теста":"No browser test"
+,"Нужен отдельный DNS-клиент с поддержкой протокола":"A separate DNS client with protocol support is required"
+,"Копировать адрес":"Copy endpoint"
+,"Адрес DNS-сервера скопирован.":"DNS server endpoint copied."
+,"Не удалось скопировать адрес. Выдели его вручную.":"Could not copy the endpoint. Select it manually."
+,"Выбран DoH. Нажми кнопку, чтобы сравнить задержку DNS-запросов.":"DoH selected. Run the test to compare DNS query latency."
+,"Для DoT скопируй имя сервера в совместимый DNS-клиент.":"For DoT, copy the server hostname into a compatible DNS client."
+,"Для DoQ используй клиент, который поддерживает DNS-over-QUIC.":"For DoQ, use a client that supports DNS-over-QUIC."
+,"Где поддерживается HTTPS / DoH":"Where HTTPS / DoH is supported"
+,"Firefox поддерживает встроенный и пользовательский URL DNS-over-HTTPS. Windows 11 позволяет задать шаблон DoH для совместимых DNS-серверов. На Android системная настройка «Частный DNS» использует DoT, поэтому для DoH нужно отдельное совместимое приложение или браузер.":"Firefox supports built-in and custom DNS-over-HTTPS URLs. Windows 11 lets you configure a DoH template for compatible resolvers. Android's system Private DNS setting uses DoT, so DoH needs a compatible app or browser."
+,"Где поддерживается TLS / DoT":"Where TLS / DoT is supported"
+,"Android 9 и новее: Настройки → Сеть и интернет → Частный DNS → имя хоста провайдера. Вводи имя без префикса tls://. На Linux и роутерах DoT доступен через совместимые резолверы и DNS-прокси, например systemd-resolved, Stubby или AdGuard dnsproxy.":"Android 9 and newer: Settings → Network & Internet → Private DNS → provider hostname. Enter the hostname without the tls:// prefix. On Linux and routers, DoT is available through compatible resolvers and DNS proxies such as systemd-resolved, Stubby or AdGuard dnsproxy."
+,"Для tls://1.1.1.1 проверка сертификата по IP может не пройти. Для Cloudflare DoT обычно используют имя one.one.one.one с адресом 1.1.1.1.":"For tls://1.1.1.1, certificate validation by IP may fail. Cloudflare DoT commonly uses the hostname one.one.one.one with address 1.1.1.1."
+,"Где поддерживается QUIC / DoQ":"Where QUIC / DoQ is supported"
+,"DoQ требует отдельного DNS-клиента с поддержкой DNS-over-QUIC. Протокол поддерживают приложения AdGuard для Android и iOS, AdGuard Home и AdGuard dnsproxy. Обычный браузер и стандартное поле Android Private DNS не подключаются к произвольным DoQ-серверам.":"DoQ requires a DNS client with DNS-over-QUIC support. AdGuard apps for Android and iOS, AdGuard Home and AdGuard dnsproxy support it. A normal browser and Android's standard Private DNS field cannot connect to arbitrary DoQ servers."
+,"В браузере измеряется время настоящего DNS-запроса через DoH, а не ICMP ping. DoT и DoQ показаны как конфигурации: JavaScript страницы не может напрямую открывать произвольные TCP/TLS и QUIC-соединения. Для них страница не показывает выдуманные значения задержки.":"The browser measures the time of a real DoH DNS query, not ICMP ping. DoT and DoQ are configuration-only here: page JavaScript cannot open arbitrary TCP/TLS or QUIC connections. No latency values are fabricated for them."
+,"Не удалось определить IP. Проверь соединение и попробуй снова.":"Could not detect the IP. Check your connection and try again."
+,"IPv4 источник: Amazon CheckIP":"IPv4 source: Amazon CheckIP"
+,"IPv4 проверяется через checkip.amazonaws.com с резервным переходом на ipify; IPv6 проверяется через ipify. Геолокация и имя провайдера не запрашиваются.":"IPv4 is checked through checkip.amazonaws.com with ipify as a fallback; IPv6 is checked through ipify. Geolocation and ISP name are not requested."
+,"Ожидаем ответ от трекеров":"Waiting for tracker responses"
+,"Серверы DNS":"DNS servers"
+
 };
 function detect(){
  try{const saved=localStorage.getItem(KEY);if(saved==="ru"||saved==="en")return saved;}catch{}
