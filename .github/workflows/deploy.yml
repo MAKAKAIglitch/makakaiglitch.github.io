@@ -6,7 +6,7 @@ on:
       - main
   workflow_dispatch:
   workflow_run:
-    workflows: ["Update torrent swarm statistics"]
+    workflows: ["Update torrent swarm statistics", "Update repository snapshot"]
     types: [completed]
 
 permissions:
@@ -38,6 +38,9 @@ jobs:
 
       - name: Check torrent statistics collector
         run: python3 scripts/update_torrent_stats.py --self-test
+
+      - name: Check repository snapshot collector
+        run: python3 scripts/update_repositories.py --self-test
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
