@@ -136,25 +136,61 @@ function validateWarpResponse(data){
  if(typeof data.client_ipv4!=="string"||!data.client_ipv4.includes("/"))throw new Error("API не вернул IPv4-адрес WARP.");
  return data;
 }
-async function requestWarpAccount(endpoint){
- const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),5500);
+async function requestWarpAccount(endpoint,withClientHeader=true){
+ const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),4000);
  try{
-  const response=await fetch(endpoint,{method:"GET",mode:"cors",credentials:"omit",cache:"no-store",headers:{Accept:"application/json"},signal:controller.signal});
-  if(!response.ok)throw new Error("HTTP "+response.status);
-  const data=await response.json();if(data?.error)throw new Error(String(data.error).slice(0,180));
+  const headers=withClientHeader?{"X-Client":"WARP"}:{};
+  const response=await fetch(endpoint,{method:"GET",mode:"cors",credentials:"omit",cache:"no-store",headers,signal:controller.signal});
+  if(!response.ok){
+   const body=await response.text().catch(()=>"");
+   let detail="";
+   if(body){
+    try{
+     const parsed=JSON.parse(body);
+     detail=String(parsed.error||parsed.message||parsed.detail||parsed.title||"");
+    }catch{
+     const plain=body.replace(/<script[\\s\\S]*?<\\/script>/gi," ").replace(/<style[\\s\\S]*?<\\/style>/gi," ").replace(/<[^>]+>/g," ").replace(/\\s+/g," ").trim();
+     if(plain&&!/^\\s*<!doctype html/i.test(plain))detail=plain.slice(0,150);
+    }
+   }
+   const ray=response.headers.get("cf-ray");
+   if(response.headers.get("cf-mitigated")==="challenge")detail="Cloudflare challenge";
+   const error=new Error("HTTP "+response.status+(detail?" · "+detail:"")+(ray?" · Ray "+ray:""));
+   error.httpStatus=response.status;
+   throw error;
+  }
+  const data=await response.json();
+  if(data?.error)throw new Error(String(data.error).slice(0,180));
   return validateWarpResponse(data);
  }catch(error){
   if(error.name==="AbortError")throw new Error("тайм-аут");
-  if(error instanceof TypeError)throw new Error("CORS или сеть не разрешили запрос");
+  if(error instanceof TypeError){
+   const corsError=new Error("CORS или сеть заблокировали запрос");
+   corsError.networkTypeError=true;
+   throw corsError;
+  }
   throw error;
  }finally{clearTimeout(timeout);}
+}
+async function requestWarpAccountCompatible(endpoint){
+ try{
+  // Совместимость с официальным warp-generation: сервисы ожидают X-Client: WARP.
+  return await requestWarpAccount(endpoint,true);
+ }catch(firstError){
+  // Если preflight отклонён CORS, повторяем обычный GET без нестандартного заголовка.
+  if(!firstError.networkTypeError)throw firstError;
+  try{return await requestWarpAccount(endpoint,false);}
+  catch(secondError){
+   throw new Error("X-Client: "+firstError.message+"; без X-Client: "+secondError.message);
+  }
+ }
 }
 async function fetchWarpAccount(){
  const failures=[];
  for(let i=0;i<WARP_API_ENDPOINTS.length;i++){
   const endpoint=WARP_API_ENDPOINTS[i];
   autoStatus("Получаю новый WARP-профиль · API "+(i+1)+"/"+WARP_API_ENDPOINTS.length+"…");
-  try{return await requestWarpAccount(endpoint);}
+  try{return await requestWarpAccountCompatible(endpoint);}
   catch(error){failures.push(new URL(endpoint).hostname+": "+error.message);}
  }
  throw new Error("Не удалось получить WARP-аккаунт ни от одного API. "+failures.join(" · "));
