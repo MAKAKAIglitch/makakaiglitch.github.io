@@ -84,7 +84,7 @@ const map={
 "Данные из кэша":"Cached data","Обновлено":"Updated","Показаны сохранённые данные; обновить не удалось":"Showing saved data; refresh failed",
 "Репозитории недоступны":"Repositories unavailable","Повторить":"Retry",
 "GitHub временно ограничил количество запросов. Попробуй немного позже.":"GitHub temporarily rate-limited requests. Try again later.",
-"Утилита":"Tool","Репозиторий":"Repository","Материал":"Page",
+"Репозитории":"Repositories","Утилиты":"Utilities","Библиотека":"Library","Основная навигация":"Main navigation","Список репозиториев":"Repository list","Каталог утилит":"Utilities catalog","Утилита":"Tool","Репозиторий":"Repository","Материал":"Page",
 "IP-адрес скопирован.":"IP address copied.","Буфер обмена недоступен в этом контексте.":"Clipboard access is unavailable in this context.",
 "Определён один адрес. Второй протокол может быть недоступен в этой сети.":"One address was detected. The other protocol may be unavailable on this network.",
 "Отправляем DNS-запрос через Cloudflare…":"Sending DNS query through Cloudflare…",
@@ -97,11 +97,16 @@ const map={
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
-"/":"Repositories — MAKAKAIglitch","/tools/":"Utilities — MAKAKAIglitch",
-"/tools/warp-generator/":"WARP Generator — MAKAKAIglitch","/tools/magnet-to-torrent/":"Magnet → Torrent — MAKAKAIglitch",
-"/tools/ip-check/":"IP Check — MAKAKAIglitch","/tools/dns-lookup/":"DNS Lookup — MAKAKAIglitch",
-"/library/":"Library — MAKAKAIglitch","/library/torrent/":"Torrent — Library — MAKAKAIglitch",
-"/library/torrent/shares/":"Shares — Torrent — MAKAKAIglitch","/library/torrent/client/":"Client settings — Torrent — MAKAKAIglitch"
+"/":{ru:"Репозитории — MAKAKAIglitch",en:"Repositories — MAKAKAIglitch"},
+"/tools/":{ru:"Утилиты — MAKAKAIglitch",en:"Utilities — MAKAKAIglitch"},
+"/tools/warp-generator/":{ru:"WARP Generator — MAKAKAIglitch",en:"WARP Generator — MAKAKAIglitch"},
+"/tools/magnet-to-torrent/":{ru:"Magnet → Torrent — MAKAKAIglitch",en:"Magnet → Torrent — MAKAKAIglitch"},
+"/tools/ip-check/":{ru:"IP Check — MAKAKAIglitch",en:"IP Check — MAKAKAIglitch"},
+"/tools/dns-lookup/":{ru:"DNS Lookup — MAKAKAIglitch",en:"DNS Lookup — MAKAKAIglitch"},
+"/library/":{ru:"Библиотека — MAKAKAIglitch",en:"Library — MAKAKAIglitch"},
+"/library/torrent/":{ru:"Torrent — Библиотека — MAKAKAIglitch",en:"Torrent — Library — MAKAKAIglitch"},
+"/library/torrent/shares/":{ru:"Раздачи — Torrent — MAKAKAIglitch",en:"Shares — Torrent — MAKAKAIglitch"},
+"/library/torrent/client/":{ru:"Настройки клиента — Torrent — MAKAKAIglitch",en:"Client settings — Torrent — MAKAKAIglitch"}
 };
 function detect(){
  try{const saved=localStorage.getItem(KEY);if(saved==="ru"||saved==="en")return saved;}catch{}
@@ -141,7 +146,7 @@ function buildControl(){
 function setLanguage(next,persist=false){
  lang=next==="en"?EN:RU;document.documentElement.lang=lang;
  const select=document.querySelector(".language-select");if(select)select.value=lang;
- if(titleMap[location.pathname])document.title=titleMap[location.pathname];
+ if(titleMap[location.pathname])document.title=titleMap[location.pathname][lang];
  apply();document.dispatchEvent(new CustomEvent("site:language-change",{detail:{language:lang}}));
  if(persist)try{localStorage.setItem(KEY,lang);}catch{}
 }
