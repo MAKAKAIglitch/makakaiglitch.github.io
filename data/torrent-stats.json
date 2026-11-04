@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "generated_at": null,
+  "refresh_minutes": 15,
+  "sort_default": "leechers",
+  "games": {
+    "war-thunder": {
+      "id": "war-thunder",
+      "name": "War Thunder",
+      "project": "warthunder",
+      "torrent_url": "https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=warthunder&torrent=1",
+      "checked_at": null,
+      "info_hash": null,
+      "seeders": null,
+      "leechers": null,
+      "source_tracker": null,
+      "trackers_responded": 0,
+      "trackers_total": 0,
+      "status": "pending",
+      "last_success_at": null,
+      "error": null
+    },
+    "enlisted": {
+      "id": "enlisted",
+      "name": "Enlisted",
+      "project": "enlisted",
+      "torrent_url": "https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=enlisted&torrent=1",
+      "checked_at": null,
+      "info_hash": null,
+      "seeders": null,
+      "leechers": null,
+      "source_tracker": null,
+      "trackers_responded": 0,
+      "trackers_total": 0,
+      "status": "pending",
+      "last_success_at": null,
+      "error": null
+    }
+  }
+}
