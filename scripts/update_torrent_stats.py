@@ -352,7 +352,13 @@ def collect_game(game: dict[str, str], previous: dict[str, Any], checked_at: str
             base["status"] = "stale"
             base["error"] = "No tracker returned a fresh scrape; showing the last successful sample."
         else:
-            base["error"] = "No tracker returned scrape statistics."
+            # Never carry counts across a torrent update: the new info hash
+            # represents a different swarm and needs its own scrape results.
+            base["seeders"] = None
+            base["leechers"] = None
+            base["source_tracker"] = None
+            base["last_success_at"] = None
+            base["error"] = "No tracker returned scrape statistics for this info hash."
 
         if errors:
             base["tracker_errors"] = errors[:8]
@@ -428,6 +434,39 @@ def self_test():
     assert len(decoded["trackers"]) == 2
     assert decoded["info_hash"] == hashlib.sha1(encode(info)).hexdigest()
     assert bdecode(encode({b"a": 1, b"b": [b"x", 2]}))[0] == {b"a": 1, b"b": [b"x", 2]}
+
+    # Exercise stale-data handling without making a network request.
+    global fetch_torrent, collect_tracker_stats
+    original_fetch_torrent = fetch_torrent
+    original_collect_tracker_stats = collect_tracker_stats
+    try:
+        fetch_torrent = lambda _url: payload
+        collect_tracker_stats = lambda _trackers, _info_hash: ([], ["test tracker offline"])
+
+        old_hash = "a" * 40
+        previous = {"games": {"war-thunder": {
+            "info_hash": old_hash, "seeders": 123, "leechers": 45,
+            "source_tracker": "udp://old.example/announce",
+            "last_success_at": "2026-01-01T00:00:00Z",
+        }}}
+        changed_hash = collect_game(GAMES[0], previous, "2026-01-01T00:15:00Z")
+        assert changed_hash["info_hash"] != old_hash
+        assert changed_hash["seeders"] is None and changed_hash["leechers"] is None
+        assert changed_hash["source_tracker"] is None
+        assert changed_hash["status"] == "unavailable"
+
+        same_previous = {"games": {"war-thunder": {
+            "info_hash": decoded["info_hash"], "seeders": 12, "leechers": 5,
+            "source_tracker": "udp://old.example/announce",
+            "last_success_at": "2026-01-01T00:00:00Z",
+        }}}
+        stale_same_hash = collect_game(GAMES[0], same_previous, "2026-01-01T00:15:00Z")
+        assert stale_same_hash["seeders"] == 12 and stale_same_hash["leechers"] == 5
+        assert stale_same_hash["status"] == "stale"
+    finally:
+        fetch_torrent = original_fetch_torrent
+        collect_tracker_stats = original_collect_tracker_stats
+
     print("Torrent stats collector self-test passed.")
 
 
