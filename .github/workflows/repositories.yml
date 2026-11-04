@@ -1,0 +1,49 @@
+name: Update repository snapshot
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/repositories.yml"
+      - "scripts/update_repositories.py"
+  schedule:
+    - cron: "13 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repository-snapshot
+  cancel-in-progress: false
+
+jobs:
+  update:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+
+      - name: Test snapshot collector
+        run: python3 scripts/update_repositories.py --self-test
+
+      - name: Refresh repository metadata and details
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/update_repositories.py --output data/repositories.json
+
+      - name: Commit snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/repositories.json
+          if git diff --cached --quiet; then
+            echo "Repository snapshot did not change."
+            exit 0
+          fi
+          git commit -m "chore: refresh repository snapshot"
+          git fetch origin main
+          git rebase origin/main
+          git push origin HEAD:main
