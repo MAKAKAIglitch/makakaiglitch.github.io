@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b0e13" />
+    <meta name="description" content="Бесплатные утилиты, работающие прямо в браузере." />
+    <title>Utilities — MAKAKAIglitch</title>
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <script src="/assets/js/tools.js" defer></script>
+  </head>
+  <body>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <div class="site-shell">
+      <header class="topbar">
+        <a class="brand" href="/" aria-label="MAKAKAIglitch — главная">
+          <span class="brand-mark" aria-hidden="true">m.</span>
+          <span class="brand-name">MAKAKAIglitch</span>
+        </a>
+        <nav class="main-nav" aria-label="Основная навигация">
+          <a class="nav-link" href="/">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z" />
+              <path d="M14 4v5h5M8.5 13h7M8.5 16.5h7" />
+            </svg>
+            <span>Repositories</span>
+          </a>
+          <a class="nav-link is-active" href="/tools/" aria-current="page">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z" />
+              <path d="m13 8 3 3" />
+            </svg>
+            <span>Utilities</span>
+          </a>
+        </nav>
+        <a class="github-link" href="https://github.com/MAKAKAIglitch" target="_blank" rel="noopener noreferrer">
+          <span>GitHub</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
+        </a>
+      </header>
+
+      <main class="main-content">
+        <section class="intro tools-intro">
+          <div class="eyebrow"><span class="status-dot"></span> BROWSER UTILITIES</div>
+          <h1>Utilities<span class="title-period">.</span></h1>
+          <p>Небольшие инструменты, которые работают прямо в браузере. Без регистрации и отправки введённых данных на сервер.</p>
+        </section>
+
+        <section aria-label="Полезные инструменты">
+          <div class="utility-section-label">
+            <span>DEVELOPER TOOLS</span>
+            <span>04 TOOLS</span>
+          </div>
+          <div class="tools-grid">
+            <article class="tool-card">
+              <div class="tool-card-heading">
+                <span class="tool-icon"><svg viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3M8 12h8M12 8v8"/></svg></span>
+                <div><h2>UUID Generator</h2><p>Создание случайных UUID v4</p></div>
+              </div>
+              <input id="uuid-output" class="tool-input" readonly value="Нажми Generate" aria-label="Сгенерированный UUID" />
+              <div class="tool-actions">
+                <button id="uuid-generate" class="tool-button" type="button">Generate UUID</button>
+                <button id="uuid-copy" class="tool-button secondary" type="button">Copy</button>
+              </div>
+              <div id="uuid-status" class="tool-status" role="status"></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-card-heading">
+                <span class="tool-icon"><svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg></span>
+                <div><h2>Password Generator</h2><p>Криптографически случайный пароль</p></div>
+              </div>
+              <div class="tool-range-row">
+                <label class="tool-field-label" for="password-length">Длина пароля</label>
+                <output id="password-length-value" for="password-length">20</output>
+              </div>
+              <input id="password-length" class="tool-range" type="range" min="8" max="64" value="20" />
+              <div class="tool-options">
+                <label class="tool-check"><input id="password-lower" type="checkbox" checked /> a–z</label>
+                <label class="tool-check"><input id="password-upper" type="checkbox" checked /> A–Z</label>
+                <label class="tool-check"><input id="password-numbers" type="checkbox" checked /> 0–9</label>
+                <label class="tool-check"><input id="password-symbols" type="checkbox" checked /> Symbols</label>
+              </div>
+              <label class="tool-field-label" for="password-output">Результат</label>
+              <input id="password-output" class="tool-input" readonly placeholder="Твой пароль появится здесь" />
+              <div class="tool-actions">
+                <button id="password-generate" class="tool-button" type="button">Generate</button>
+                <button id="password-copy" class="tool-button secondary" type="button">Copy</button>
+              </div>
+              <div id="password-status" class="tool-status" role="status"></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-card-heading">
+                <span class="tool-icon"><svg viewBox="0 0 24 24"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M14 5l-4 14"/></svg></span>
+                <div><h2>JSON Formatter</h2><p>Форматирование и сжатие JSON</p></div>
+              </div>
+              <label class="tool-field-label" for="json-input">JSON</label>
+              <textarea id="json-input" class="tool-textarea" spellcheck="false" placeholder='{"hello":"world","items":[1,2,3]}'></textarea>
+              <div class="tool-actions">
+                <button id="json-format" class="tool-button" type="button">Format</button>
+                <button id="json-minify" class="tool-button secondary" type="button">Minify</button>
+                <button id="json-copy" class="tool-button secondary" type="button">Copy</button>
+              </div>
+              <div id="json-status" class="tool-status" role="status"></div>
+            </article>
+
+            <article class="tool-card">
+              <div class="tool-card-heading">
+                <span class="tool-icon"><svg viewBox="0 0 24 24"><path d="M4 7h16M7 4v6M17 4v6M5 13h14v7H5z"/></svg></span>
+                <div><h2>Base64 Encoder</h2><p>Кодирование и декодирование UTF-8</p></div>
+              </div>
+              <label class="tool-field-label" for="base64-input">Входные данные</label>
+              <textarea id="base64-input" class="tool-textarea" spellcheck="false" placeholder="Текст или Base64..."></textarea>
+              <div class="tool-actions">
+                <button id="base64-encode" class="tool-button" type="button">Encode</button>
+                <button id="base64-decode" class="tool-button secondary" type="button">Decode</button>
+                <button id="base64-copy" class="tool-button secondary" type="button">Copy result</button>
+              </div>
+              <label class="tool-field-label" for="base64-output">Результат</label>
+              <textarea id="base64-output" class="tool-textarea" spellcheck="false" placeholder="Результат появится здесь..."></textarea>
+              <div id="base64-status" class="tool-status" role="status"></div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities</span>
+        <span>Вычисления выполняются локально в браузере</span>
+      </footer>
+    </div>
+  </body>
+</html>
