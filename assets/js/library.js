@@ -192,7 +192,7 @@
   });
 
   activateTabs(mainTabs, mainTabs.find(tab => tab.dataset.librarySection === activeSection));
-  activateTabs(torrentTabs, torrentTabs.find(tab => tab.dataset.torrentView === activeTorrentView));
+  activateTabs(torrentTabs, activeSection === "torrents" ? torrentTabs.find(tab => tab.dataset.torrentView === activeTorrentView) : null);
   setTorrentMenu(false);
   renderLibrary();
 })();
