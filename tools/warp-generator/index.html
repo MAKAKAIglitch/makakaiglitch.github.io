@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0e13">
+<meta name="description" content="Локальный конструктор конфигураций Cloudflare WARP для WireGuard и AmneziaWG 2.0.">
+<title>WARP Generator — MAKAKAIglitch</title>
+<link rel="stylesheet" href="/assets/css/style.css">
+<script src="/assets/js/warp-generator.js" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="site-shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
+<nav class="main-nav" aria-label="Основная навигация">
+<a class="nav-link" href="/"><span>Repositories</span></a>
+<a class="nav-link is-active" href="/tools/" aria-current="page"><span>Utilities</span></a>
+<a class="nav-link" href="/library/"><span>Library</span></a>
+</nav>
+<a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+</header>
+<main class="main-content warp-page">
+<a class="utility-back" href="/tools/"><span>←</span> Все утилиты</a>
+<section class="intro tools-intro">
+<div class="eyebrow"><span class="status-dot"></span> NETWORKING / VPN</div>
+<h1>WARP Generator<span class="title-period">.</span></h1>
+<p>Собери конфигурацию WireGuard или AmneziaWG 2.0 на основе параметров своего Cloudflare WARP-аккаунта.</p>
+</section>
+<div class="warp-external-note">
+<p><strong>Важно:</strong> этот инструмент собирает файл из уже существующих ключей и параметров WARP. Он работает локально и не регистрирует новое устройство в Cloudflare. Для регистрации нового WARP-аккаунта есть отдельный внешний сервис.</p>
+<a class="warp-external-link" href="https://awgconfig.com/" target="_blank" rel="noopener noreferrer">Новый WARP-аккаунт ↗</a>
+</div>
+<div class="warp-workspace">
+<section class="warp-panel">
+<h2>01 / Исходные данные</h2>
+<p class="warp-panel-subtitle">Вставь существующий WireGuard-конфиг — поля заполнятся автоматически. Либо введи значения вручную.</p>
+<label class="tool-field-label" for="warp-import">Импорт существующего .conf</label>
+<textarea class="tool-textarea warp-import-area" id="warp-import" spellcheck="false" placeholder="[Interface]
+PrivateKey = ...
+Address = ...
+DNS = 1.1.1.1
+
+[Peer]
+PublicKey = ...
+AllowedIPs = 0.0.0.0/0, ::/0
+Endpoint = engage.cloudflareclient.com:2408"></textarea>
+<div class="warp-actions"><button class="warp-action" id="warp-parse" type="button">Разобрать конфиг</button><button class="warp-action" id="warp-clear" type="button">Очистить</button></div>
+<div class="warp-mode-row"><label for="warp-mode">Формат результата</label><select id="warp-mode"><option value="awg2">AmneziaWG 2.0</option><option value="wireguard">Обычный WireGuard</option></select></div>
+<div class="warp-form-grid">
+<div class="warp-field full"><label class="tool-field-label" for="warp-private-key">PrivateKey</label><input class="tool-input" id="warp-private-key" type="password" autocomplete="off" spellcheck="false" placeholder="Ключ интерфейса (base64)"></div>
+<div class="warp-field full"><label class="tool-field-label" for="warp-address">Address</label><input class="tool-input" id="warp-address" autocomplete="off" spellcheck="false" placeholder="Например: 172.16.0.2/32"></div>
+<div class="warp-field full"><label class="tool-field-label" for="warp-dns">DNS</label><input class="tool-input" id="warp-dns" value="1.1.1.1, 1.0.0.1" autocomplete="off" spellcheck="false"></div>
+<div class="warp-field"><label class="tool-field-label" for="warp-mtu">MTU</label><input class="tool-input" id="warp-mtu" type="number" min="576" max="1500" value="1280"></div>
+<div class="warp-field"><label class="tool-field-label" for="warp-keepalive">PersistentKeepalive</label><input class="tool-input" id="warp-keepalive" type="number" min="0" max="65535" value="25"></div>
+<div class="warp-field full"><label class="tool-field-label" for="warp-peer-key">Peer PublicKey</label><input class="tool-input" id="warp-peer-key" autocomplete="off" spellcheck="false" placeholder="Публичный ключ Cloudflare"></div>
+<div class="warp-field full"><label class="tool-field-label" for="warp-psk">PresharedKey (необязательно)</label><input class="tool-input" id="warp-psk" type="password" autocomplete="off" spellcheck="false" placeholder="Оставь пустым, если его нет"></div>
+<div class="warp-field full"><label class="tool-field-label" for="warp-endpoint">Endpoint</label><input class="tool-input" id="warp-endpoint" value="engage.cloudflareclient.com:2408" autocomplete="off" spellcheck="false"></div>
+<div class="warp-field full"><label class="tool-field-label" for="warp-allowed-ips">AllowedIPs</label><input class="tool-input" id="warp-allowed-ips" value="0.0.0.0/0, ::/0" autocomplete="off" spellcheck="false"></div>
+</div>
+<div class="warp-advanced" id="warp-awg-options">
+<div class="warp-advanced-title"><span>AmneziaWG 2.0 — шумовые пакеты</span><span>ADVANCED</span></div>
+<div class="warp-form-grid">
+<div class="warp-field"><label class="tool-field-label" for="warp-jc">Jc</label><input class="tool-input" id="warp-jc" type="number" min="0" max="128" value="3"></div>
+<div class="warp-field"><label class="tool-field-label" for="warp-jmin">Jmin</label><input class="tool-input" id="warp-jmin" type="number" min="0" max="1280" value="64"></div>
+<div class="warp-field"><label class="tool-field-label" for="warp-jmax">Jmax</label><input class="tool-input" id="warp-jmax" type="number" min="0" max="1280" value="128"></div>
+</div>
+<p class="warp-fixed-note">S1–S4 и H1–H4 зафиксированы в WARP-совместимых значениях: S = 0, H = 1 / 2 / 3 / 4. Эти поля не рандомизируются, чтобы не нарушить совместимость со стандартным WireGuard peer Cloudflare.</p>
+</div>
+<div class="warp-actions"><button class="warp-action primary" id="warp-generate" type="button">Собрать конфигурацию</button></div>
+<p class="warp-status" id="warp-status" role="status" aria-live="polite">Данные остаются в этой вкладке браузера.</p>
+<p class="warp-privacy"><strong>Приватность:</strong> страница не отправляет введённые ключи на сервер и не сохраняет их в localStorage. Не публикуй готовый .conf: внутри приватный ключ.</p>
+</section>
+<section class="warp-panel">
+<h2>02 / Результат</h2>
+<p class="warp-panel-subtitle">Проверь настройки и скачай файл для импорта в AmneziaWG или WireGuard.</p>
+<label class="tool-field-label" for="warp-output">Конфигурация .conf</label>
+<textarea class="tool-textarea warp-output" id="warp-output" spellcheck="false" readonly placeholder="Здесь появится готовая конфигурация..."></textarea>
+<div class="warp-actions"><button class="warp-action" id="warp-copy" type="button" disabled>Копировать</button><button class="warp-action primary" id="warp-download" type="button" disabled>Скачать .conf</button></div>
+<p class="warp-privacy">Генерация файла не проверяет доступность endpoint из твоей сети и не гарантирует соединение.</p>
+<div class="library-note-line">Внешний генератор нового аккаунта: <a href="https://github.com/HereIamGosu/amnezia-config-gen" target="_blank" rel="noopener noreferrer">исходный код ↗</a>.</div>
+</section>
+</div>
+</main>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> WARP Generator</span><span>Local config builder</span></footer>
+</div>
+</body>
+</html>
