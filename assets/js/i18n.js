@@ -191,7 +191,7 @@ const map={
 "Публичный DNS Mullvad (DoH/DoT) отключён 2 ноября 2026. Адрес оставлен только как историческая ссылка.":"Mullvad public DNS (DoH/DoT) was shut down on November 2, 2026. This endpoint is kept for historical reference only.",
 "Mullvad не публиковал официальный публичный DoQ endpoint. Его публичный DNS-сервис закрыт 2 ноября 2026.":"Mullvad did not publish an official public DoQ endpoint. Its public DNS service was shut down on November 2, 2026.",
 "Mullvad (закрыт)":"Mullvad (retired)",
-"Mullvad (DoQ не опубликован)":"Mullvad (no published DoQ)"
+"Mullvad (DoQ не опубликован)":"Mullvad (no published DoQ)",
 "Актуально":"Current",
 "Проверено:":"Checked:",
 "Скачать torrent-файл War Thunder в фоне":"Download War Thunder torrent in the background",
