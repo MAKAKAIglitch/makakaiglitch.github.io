@@ -1495,3 +1495,7 @@ body.modal-open{overflow:hidden}
 .dns-doc-links a:hover{text-decoration:underline}
 .dns-tester-limit{margin:14px 0 0;color:#7e8da3;font-size:9px;line-height:1.65}
 @media(max-width:680px){.dns-server-grid{grid-template-columns:1fr}.dns-query-fields{grid-template-columns:minmax(0,1fr) 112px}.dns-protocol-tabs{gap:5px}.dns-protocol-tab{flex:1;padding:0 8px}.dns-test-form{padding:11px}}
+
+/* Retired DNS resolver entries */
+.dns-server-card.is-retired{opacity:.72;border-color:rgba(196,150,112,.18)}
+.dns-server-card.is-retired .dns-server-rank{color:#c69a78;border-color:rgba(196,150,112,.2)}
