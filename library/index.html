@@ -5,8 +5,8 @@
 <meta name="theme-color" content="#0b0e13">
 <meta name="description" content="Технические заметки, торрент-раздачи, публичные трекеры и полезные ссылки.">
 <title>Library — MAKAKAIglitch</title>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261105-library-tabs">
-<script src="/assets/js/library.js?v=20261105-library-tabs" defer></script>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-global">
+<script src="/assets/js/library.js?v=20261105-global" defer></script>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
@@ -31,22 +31,20 @@
 <div class="toolbar">
 <label class="search-box" for="library-search">
 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></svg>
-<input id="library-search" type="search" placeholder="Поиск по материалам..." autocomplete="off" spellcheck="false"><kbd>/</kbd>
+<input id="library-search" type="search" placeholder="Поиск по Library..." autocomplete="off" spellcheck="false"><kbd>/</kbd>
 </label>
 </div>
 
-<nav class="library-primary-tabs" role="tablist" aria-label="Разделы Library">
-<button class="library-section-tab" type="button" role="tab" data-library-section="all" aria-pressed="false">Все материалы <span class="tab-count">04</span></button>
-<button class="library-section-tab is-active" type="button" role="tab" data-library-section="torrents" aria-pressed="true">Торренты <span class="tab-count">02</span></button>
-<button class="library-section-tab" type="button" role="tab" data-library-section="guides" aria-pressed="false">Инструкции <span class="tab-count">01</span></button>
-<button class="library-section-tab" type="button" role="tab" data-library-section="notes" aria-pressed="false">Заметки <span class="tab-count">01</span></button>
-</nav>
+<div class="utility-tabs library-tabs" role="group" aria-label="Разделы Library">
+<button class="utility-tab is-active" type="button" data-library-section="torrents" aria-pressed="true">Торрент <span>02</span></button>
+<button class="utility-tab" type="button" data-library-section="guides" aria-pressed="false">Инструкции <span>01</span></button>
+<button class="utility-tab" type="button" data-library-section="notes" aria-pressed="false">Заметки <span>01</span></button>
+</div>
 
 <div id="torrent-subtabs-wrap" class="library-subtabs-wrap">
-<div class="library-subtabs-label">TORRENTS <span class="library-subtabs-separator">/</span> КАТЕГОРИЯ</div>
-<div class="library-secondary-tabs" role="tablist" aria-label="Категории торрентов">
-<button class="library-subtab is-active" type="button" role="tab" data-torrent-view="shares" aria-pressed="true">Раздачи <span class="tab-count">01</span></button>
-<button class="library-subtab" type="button" role="tab" data-torrent-view="trackers" aria-pressed="false">Трекеры <span class="tab-count">01</span></button>
+<div class="utility-tabs library-torrent-tabs" role="group" aria-label="Разделы торрентов">
+<button class="utility-tab is-active" type="button" data-torrent-view="shares" aria-pressed="true">Раздачи <span>01</span></button>
+<button class="utility-tab" type="button" data-torrent-view="client" aria-pressed="false">Настройка торрент-клиента <span>01</span></button>
 </div>
 </div>
 
@@ -63,7 +61,7 @@
 <div class="library-note-line">Источник: домен Gaijin Entertainment. Ссылка ведёт на получение .torrent, а не на сторонний установщик.</div>
 </article>
 
-<article class="library-card" data-section="torrents" data-torrent-view="trackers" data-search="трекеры trackers udp http https публичные списки bittorrent ngosang announce">
+<article class="library-card" data-section="torrents" data-torrent-view="client" data-search="трекеры trackers udp http https публичные списки bittorrent ngosang announce">
 <div class="library-card-head"><h2>Публичные BitTorrent-трекеры</h2><span class="library-tag">Live list</span></div>
 <p>Актуальные подборки announce URL из проекта ngosang/trackerslist. Выбери список, чтобы загрузить адреса, скопировать их или открыть оригинальный файл.</p>
 <div class="library-actions">
