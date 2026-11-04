@@ -2,10 +2,11 @@
   "use strict";
   const PAGE_PATHS = [
     "/", "/tools/", "/tools/base64/", "/tools/json-formatter/",
-    "/tools/password-generator/", "/tools/uuid/", "/tools/warp-generator/", "/library/"
+    "/tools/password-generator/", "/tools/uuid/", "/tools/warp-generator/",
+    "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
   ];
   const REPOSITORY_API = "https://api.github.com/users/MAKAKAIglitch/repos?type=owner&sort=updated&direction=desc&per_page=100";
-  const CACHE_KEY = "makakaiglitch.global-search.v1";
+  const CACHE_KEY = "makakaiglitch.global-search.v2";
   const CACHE_TTL = 5 * 60 * 1000;
   const MAX_RESULTS = 12;
   const topbar = document.querySelector(".topbar");
