@@ -146,7 +146,40 @@ const map={
 "— сообщают клиенту адреса пиров конкретной раздачи.":"— tell the client about peers for a specific torrent.",
 "— распределённый поиск пиров без центрального трекера.":"— distributed peer discovery without a central tracker.",
 "— обмен адресами пиров между подключёнными участниками.":"— exchange peer addresses between connected participants.",
-"GitHub проекта ↗":"Project on GitHub ↗","Скопировано":"Copied"
+"GitHub проекта ↗":"Project on GitHub ↗","Скопировано":"Copied",
+"Релизы":"Releases",
+"Язык":"Language",
+"ОТКРЫТЫЙ КОД":"OPEN SOURCE",
+"СЕТЬ / ДИАГНОСТИКА":"NETWORK / DIAGNOSTICS",
+"СЕТЬ / DNS":"NETWORK / DNS",
+"СЕТЬ / VPN":"NETWORKING / VPN",
+"BITTORRENT / ЭКСПЕРИМЕНТ":"BITTORRENT / EXPERIMENTAL",
+"ЛИЧНАЯ БИБЛИОТЕКА":"PERSONAL LIBRARY",
+"ТОРРЕНТ / РАЗДАЧИ":"TORRENT / SHARES",
+"ТОРРЕНТ / КЛИЕНТ":"TORRENT / CLIENT",
+"MAKAKAIglitch — главная":"MAKAKAIglitch — home",
+"Ключ интерфейса (base64)":"Interface key (base64)",
+"Например: 172.16.0.2/32":"Example: 172.16.0.2/32",
+"Публичный ключ Cloudflare":"Cloudflare public key",
+"Оставь пустым, если его нет":"Leave empty if not available",
+"Здесь появится готовая конфигурация...":"Your generated configuration will appear here...",
+"Браузер не предоставляет эти данные":"Not exposed by browser",
+"Запрос завершён:":"Query completed:",
+"Не удалось выполнить DNS-запрос:":"Could not complete DNS query:",
+"Открыть на GitHub":"Open on GitHub",
+"репозиториев":"repositories",
+"форков":"forks",
+"Кэш обновлён":"Cache updated",
+"Вклад":"Contributors",
+"Последнее обновление":"Last updated",
+"Открыть репозиторий":"Open repository",
+"Скачивания последних 100 релизов":"Downloads from the latest 100 releases",
+"Коммиты":"Commits",
+"Ветки":"Branches",
+"Источник форка":"Forked from",
+"Форк":"Fork",
+"СЕТЕВЫЕ ИНСТРУМЕНТЫ":"NETWORK UTILITIES",
+"Локальная библиотека":"Local library"
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
@@ -195,8 +228,8 @@ function apply(root=document.body){
 function buildControl(){
  const top=document.querySelector(".topbar"),host=top?.querySelector(".topbar-actions")||top;
  if(!host||host.querySelector(".language-switcher"))return;
- const wrap=document.createElement("label");wrap.className="language-switcher";wrap.setAttribute("aria-label","Language");
- const select=document.createElement("select");select.className="language-select";select.setAttribute("aria-label","Language");
+ const wrap=document.createElement("label");wrap.className="language-switcher";wrap.setAttribute("aria-label",t("Язык"));
+ const select=document.createElement("select");select.className="language-select";select.setAttribute("aria-label",t("Язык"));
  select.innerHTML='<option value="ru">RU</option><option value="en">EN</option>';select.value=lang;
  select.addEventListener("change",()=>setLanguage(select.value,true));wrap.append(select);
  const search=host.querySelector(".global-search-trigger");
