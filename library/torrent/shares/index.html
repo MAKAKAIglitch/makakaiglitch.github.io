@@ -6,8 +6,9 @@
 <meta name="theme-color" content="#0b0e13">
 <meta name="description" content="Торрент-раздачи в Library MAKAKAIglitch.">
 <title>Раздачи — Torrent — MAKAKAIglitch</title>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261105-library-navigation">
-<script src="/assets/js/global-search.js?v=20261105-global-library" defer></script>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-torrent-stats">
+<script src="/assets/js/global-search.js?v=20261105-search-v3" defer></script>
+<script src="/assets/js/torrent-shares.js?v=20261105-stats" defer></script>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div>
@@ -38,23 +39,44 @@
 <h1>Раздачи</h1>
 <p>Торрент-файлы и официальные источники</p>
 </section>
-<section class="utilities-grid" aria-label="Торрент-раздачи">
-<article class="utility-card">
+<div class="share-sort-row">
+  <label class="sort-control" for="share-sort">
+    <span>Сортировка</span>
+    <select id="share-sort">
+      <option value="leechers" selected>По личерам ↓</option>
+      <option value="seeders">По сидерам ↓</option>
+      <option value="name">По названию</option>
+    </select>
+  </label>
+  <span class="share-refresh-label" id="share-refresh-label">Статистика ещё не собрана</span>
+</div>
+<section class="utilities-grid share-grid" id="shares-grid" aria-label="Торрент-раздачи">
+<article class="utility-card share-card" data-game-id="war-thunder" data-seeders="" data-leechers="">
 <span class="utility-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5"/><path d="M4 17v2.25A1.75 1.75 0 0 0 5.75 21h12.5A1.75 1.75 0 0 0 20 19.25V17"/></svg></span>
 <span class="utility-card-main">
 <span class="utility-card-top"><strong>War Thunder</strong><span class="library-tag">Gaijin torrent</span></span>
 <span class="utility-card-description">Официальный торрент Gaijin Entertainment для War Thunder — можно открыть в qBittorrent или другом BitTorrent-клиенте</span>
+<span class="share-stats" aria-label="Статистика раздачи">
+<span class="share-stat"><span>Сидеры</span><strong data-stat="seeders">—</strong></span>
+<span class="share-stat"><span>Личеры</span><strong data-stat="leechers">—</strong></span>
+<span class="share-stat-state" data-stat="state">Ожидаем статистику</span>
+</span>
 <span class="library-actions">
 <a class="repo-release-link" href="https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=warthunder&amp;torrent=1" target="torrent-download-frame" aria-label="Скачать torrent-файл War Thunder в фоне">Скачать .torrent ↓</a>
 <a class="repo-release-link" href="https://warthunder.com/" target="_blank" rel="noopener noreferrer">Сайт War Thunder ↗</a>
 </span>
 </span>
 </article>
-<article class="utility-card">
+<article class="utility-card share-card" data-game-id="enlisted" data-seeders="" data-leechers="">
 <span class="utility-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5"/><path d="M4 17v2.25A1.75 1.75 0 0 0 5.75 21h12.5A1.75 1.75 0 0 0 20 19.25V17"/></svg></span>
 <span class="utility-card-main">
 <span class="utility-card-top"><strong>Enlisted</strong><span class="library-tag">Gaijin torrent</span></span>
 <span class="utility-card-description">Официальный торрент Gaijin Entertainment для Enlisted — загрузка идёт в фоне, страница остаётся открытой</span>
+<span class="share-stats" aria-label="Статистика раздачи">
+<span class="share-stat"><span>Сидеры</span><strong data-stat="seeders">—</strong></span>
+<span class="share-stat"><span>Личеры</span><strong data-stat="leechers">—</strong></span>
+<span class="share-stat-state" data-stat="state">Ожидаем статистику</span>
+</span>
 <span class="library-actions">
 <a class="repo-release-link" href="https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=enlisted&amp;torrent=1" target="torrent-download-frame" aria-label="Скачать torrent-файл Enlisted в фоне">Скачать .torrent ↓</a>
 <a class="repo-release-link" href="https://enlisted.net/" target="_blank" rel="noopener noreferrer">Сайт Enlisted ↗</a>
