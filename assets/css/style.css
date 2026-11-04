@@ -1199,3 +1199,57 @@ kbd {
   .global-search-overlay { padding: 8vh 10px 12px; }
   .global-search-dialog { max-height: 84vh; }
 }
+
+
+/* Library torrent category: click the Utilities-style pill to reveal a menu */
+.library-tabs { position: relative; }
+.library-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.library-dropdown-menu {
+  position: absolute;
+  z-index: 40;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: max-content;
+  max-width: min(92vw, 370px);
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.30);
+}
+.library-dropdown-menu[hidden],
+.library-menu-backdrop[hidden] { display: none !important; }
+.library-dropdown-tabs {
+  width: fit-content;
+  max-width: min(92vw, 370px);
+  margin: 0;
+  flex-wrap: wrap;
+  border-color: rgba(220, 230, 255, 0.12);
+  background: rgba(11, 15, 23, 0.97);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+}
+.library-dropdown-tabs .utility-tab {
+  white-space: nowrap;
+}
+@media (max-width: 680px) {
+  .library-tabs {
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+  .library-dropdown-menu {
+    max-width: calc(100vw - 48px);
+  }
+  .library-dropdown-tabs {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .library-dropdown-tabs .utility-tab {
+    justify-content: flex-start;
+  }
+}

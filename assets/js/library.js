@@ -1,15 +1,19 @@
 (() => {
   "use strict";
+
   const search = document.getElementById("library-search");
   const grid = document.getElementById("library-grid");
   const cards = Array.from(grid.querySelectorAll(".library-card"));
   const sectionTabs = Array.from(document.querySelectorAll("[data-library-section]"));
   const torrentTabs = Array.from(document.querySelectorAll("button[data-torrent-view]"));
-  const torrentTabsWrap = document.getElementById("torrent-subtabs-wrap");
+  const torrentMenu = document.getElementById("torrent-menu");
+  const torrentToggle = document.getElementById("torrent-menu-toggle");
+  const torrentDropdown = document.getElementById("torrent-dropdown");
   const empty = document.getElementById("library-empty");
   const count = document.getElementById("library-count");
   const sectionTitle = document.getElementById("library-section-title");
-  let activeSection = "torrents";
+
+  let activeSection = "all";
   let activeTorrentView = "shares";
   let trackerText = "";
 
@@ -21,13 +25,17 @@
     }
   }
 
+  function setTorrentMenu(open) {
+    torrentMenu.hidden = !open;
+    torrentToggle.setAttribute("aria-expanded", String(open));
+  }
+
   function renderLibrary() {
     const query = search.value.trim().toLocaleLowerCase("ru");
     let visible = 0;
-    torrentTabsWrap.hidden = activeSection !== "torrents";
 
     for (const card of cards) {
-      const sectionMatches = activeSection === card.dataset.section;
+      const sectionMatches = activeSection === "all" || card.dataset.section === activeSection;
       const torrentMatches = activeSection !== "torrents" || card.dataset.torrentView === activeTorrentView;
       const haystack = (card.dataset.search + " " + card.textContent).toLocaleLowerCase("ru");
       const matches = sectionMatches && torrentMatches && haystack.includes(query);
@@ -38,7 +46,9 @@
     grid.hidden = visible === 0;
     empty.hidden = visible !== 0;
     count.textContent = visible + " / " + cards.length + " MATERIALS";
+
     const titles = {
+      all: "ALL MATERIALS",
       torrents: activeTorrentView === "shares" ? "TORRENT / SHARES" : "TORRENT / CLIENT SETTINGS",
       guides: "GUIDES",
       notes: "NOTES"
@@ -48,12 +58,19 @@
 
   for (const tab of sectionTabs) {
     tab.addEventListener("click", () => {
-      activeSection = tab.dataset.librarySection || "torrents";
-      if (activeSection === "torrents") {
-        activeTorrentView = "shares";
-        activateTab(torrentTabs, torrentTabs.find(item => item.dataset.torrentView === "shares"));
+      const section = tab.dataset.librarySection || "all";
+      if (section === "torrents") {
+        const wasOpen = !torrentMenu.hidden && activeSection === "torrents";
+        activeSection = "torrents";
+        activateTab(sectionTabs, tab);
+        setTorrentMenu(!wasOpen);
+        renderLibrary();
+        return;
       }
+
+      activeSection = section;
       activateTab(sectionTabs, tab);
+      setTorrentMenu(false);
       renderLibrary();
     });
   }
@@ -62,9 +79,23 @@
     tab.addEventListener("click", () => {
       activeTorrentView = tab.dataset.torrentView || "shares";
       activateTab(torrentTabs, tab);
+      setTorrentMenu(false);
       renderLibrary();
     });
   }
+
+  document.addEventListener("click", event => {
+    if (!torrentMenu.hidden && !torrentDropdown.contains(event.target)) {
+      setTorrentMenu(false);
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !torrentMenu.hidden) {
+      setTorrentMenu(false);
+      torrentToggle.focus();
+    }
+  });
 
   const trackerFiles = {
     best: "trackers_best.txt",
@@ -139,7 +170,9 @@
       search.blur();
     }
   });
+
   activateTab(sectionTabs, sectionTabs.find(item => item.dataset.librarySection === activeSection));
   activateTab(torrentTabs, torrentTabs.find(item => item.dataset.torrentView === activeTorrentView));
+  setTorrentMenu(false);
   renderLibrary();
 })();
