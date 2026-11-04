@@ -4,8 +4,8 @@
     "/", "/tools/", "/tools/warp-generator/", "/tools/magnet-to-torrent/",
     "/tools/ip-check/", "/tools/dns-lookup/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
   ];
-  const REPOSITORY_API = "https://api.github.com/users/MAKAKAIglitch/repos?type=owner&sort=updated&direction=desc&per_page=100";
-  const CACHE_KEY = "makakaiglitch.global-search.v4";
+  const REPOSITORY_API = "https://api.github.com/users/MAKAKAIglitch/repos?type=all&sort=updated&direction=desc&per_page=100";
+  const CACHE_KEY = "makakaiglitch.global-search.v5";
   const CACHE_TTL = 5 * 60 * 1000;
   const MAX_RESULTS = 12;
   const topbar = document.querySelector(".topbar");
@@ -97,11 +97,11 @@
       const repos = await response.json();
       if (!Array.isArray(repos)) return;
       for (const repo of repos) {
-        if (!repo || repo.fork || repo.owner?.login?.toLowerCase() !== "makakaiglitch") continue;
+        if (!repo || repo.owner?.login?.toLowerCase() !== "makakaiglitch") continue;
         searchItems.push(createItem(
           repo.name,
-          [repo.description || "", repo.language || "", ...(Array.isArray(repo.topics) ? repo.topics : [])].join(" "),
-          repo.html_url, "GitHub", "repository repositories репозиторий проект исходный код releases релизы"
+          [repo.description || "", repo.language || "", repo.parent?.full_name || "", ...(Array.isArray(repo.topics) ? repo.topics : [])].join(" "),
+          repo.html_url, "GitHub", "repository repositories репозиторий проект исходный код releases релизы fork forks форк форки"
         ));
       }
     } catch { /* Static content remains searchable. */ }
