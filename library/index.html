@@ -51,37 +51,43 @@
 <div class="utility-section-label"><span id="library-section-title">TORRENTS / SHARES</span><span id="library-count">04 / 04 ITEMS</span></div>
 <section id="library-grid" class="library-grid" aria-live="polite">
 
-<article class="library-card" data-section="torrents" data-torrent-view="shares" data-search="war thunder вартандер gaijin torrent раздача игра торрент файл">
+<article class="library-card utility-card" data-section="torrents" data-torrent-view="shares" data-search="war thunder вартандер gaijin torrent раздача игра торрент файл">
 <div class="library-card-head"><h2>War Thunder</h2><span class="library-tag">Torrent / Share</span></div>
 <p>Официальный endpoint Gaijin для получения торрент-файла War Thunder. Скачанный файл можно открыть в qBittorrent или другом BitTorrent-клиенте.</p>
 <div class="library-actions">
-<a class="library-link" href="https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=warthunder&amp;torrent=1" target="_blank" rel="noopener noreferrer">Получить .torrent ↗</a>
-<a class="library-link" href="https://warthunder.com/" target="_blank" rel="noopener noreferrer">Сайт War Thunder ↗</a>
+<div class="utility-tabs library-action-tabs" role="group" aria-label="Ссылки War Thunder">
+<a class="utility-tab library-link" href="https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=warthunder&amp;torrent=1" target="_blank" rel="noopener noreferrer">Получить .torrent ↗</a>
+<a class="utility-tab library-link" href="https://warthunder.com/" target="_blank" rel="noopener noreferrer">Сайт War Thunder ↗</a>
+</div>
 </div>
 <div class="library-note-line">Источник: домен Gaijin Entertainment. Ссылка ведёт на получение .torrent, а не на сторонний установщик.</div>
 </article>
 
-<article class="library-card" data-section="torrents" data-torrent-view="client" data-search="трекеры trackers udp http https публичные списки bittorrent ngosang announce">
+<article class="library-card utility-card" data-section="torrents" data-torrent-view="client" data-search="трекеры trackers udp http https публичные списки bittorrent ngosang announce">
 <div class="library-card-head"><h2>Публичные BitTorrent-трекеры</h2><span class="library-tag">Live list</span></div>
 <p>Актуальные подборки announce URL из проекта ngosang/trackerslist. Выбери список, чтобы загрузить адреса, скопировать их или открыть оригинальный файл.</p>
 <div class="library-actions">
-<button class="library-button" type="button" data-trackers-list="best">Лучшие</button>
-<button class="library-button" type="button" data-trackers-list="all">Все</button>
-<button class="library-button" type="button" data-trackers-list="udp">UDP</button>
-<button class="library-button" type="button" data-trackers-list="http">HTTP</button>
-<button class="library-button" type="button" data-trackers-list="https">HTTPS</button>
-<a class="library-link" href="https://github.com/ngosang/trackerslist" target="_blank" rel="noopener noreferrer">GitHub проекта ↗</a>
+<div class="utility-tabs library-action-tabs" role="group" aria-label="Тип списка трекеров">
+<button class="utility-tab library-button" type="button" data-trackers-list="best" aria-pressed="false">Лучшие</button>
+<button class="utility-tab library-button" type="button" data-trackers-list="all" aria-pressed="false">Все</button>
+<button class="utility-tab library-button" type="button" data-trackers-list="udp" aria-pressed="false">UDP</button>
+<button class="utility-tab library-button" type="button" data-trackers-list="http" aria-pressed="false">HTTP</button>
+<button class="utility-tab library-button" type="button" data-trackers-list="https" aria-pressed="false">HTTPS</button>
+<a class="utility-tab library-link" href="https://github.com/ngosang/trackerslist" target="_blank" rel="noopener noreferrer">GitHub проекта ↗</a>
+</div>
 </div>
 <pre id="tracker-preview" class="library-preview" aria-label="Список трекеров"></pre>
 <div class="library-actions">
-<button class="library-button" id="tracker-copy" type="button" disabled>Копировать список</button>
-<a class="library-link" id="tracker-raw-link" href="https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt" target="_blank" rel="noopener noreferrer">Открыть raw ↗</a>
+<div class="utility-tabs library-action-tabs" role="group" aria-label="Действия со списком трекеров">
+<button class="utility-tab library-button" id="tracker-copy" type="button" disabled>Копировать список</button>
+<a class="utility-tab library-link" id="tracker-raw-link" href="https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt" target="_blank" rel="noopener noreferrer">Открыть raw ↗</a>
+</div>
 </div>
 <p class="library-status" id="tracker-status" role="status" aria-live="polite">Список загружается по нажатию кнопки.</p>
 <div class="library-note-line">Списки могут содержать недоступные трекеры: состояние каждого адреса меняется со временем.</div>
 </article>
 
-<article class="library-card" data-section="guides" data-search="qbittorrent инструкция трекеры dht pex сиды пиры как работает bittorrent">
+<article class="library-card utility-card" data-section="guides" data-search="qbittorrent инструкция трекеры dht pex сиды пиры как работает bittorrent">
 <div class="library-card-head"><h2>Как работают Tracker, DHT и PeX</h2><span class="library-tag">Guide</span></div>
 <p>Три механизма помогают BitTorrent-клиенту находить участников раздачи, но работают по-разному.</p>
 <ul class="library-bullet-list">
@@ -92,7 +98,7 @@
 <p>В qBittorrent список трекеров находится в свойствах задачи на вкладке «Трекеры». Каждый URL добавляется отдельной строкой. DHT и PeX включаются в настройках BitTorrent.</p>
 </article>
 
-<article class="library-card" data-section="notes" data-search="заметки библиотека материалы техническое wiki сети linux windows vpn">
+<article class="library-card utility-card" data-section="notes" data-search="заметки библиотека материалы техническое wiki сети linux windows vpn">
 <div class="library-card-head"><h2>Технические заметки</h2><span class="library-tag">Notes</span></div>
 <p>Короткие разборы, команды, полезные конфигурации и наблюдения по сетям, Linux, Windows, VPN и другим темам.</p>
 <div class="library-note-line">Новые материалы добавляются отдельными карточками в <span class="library-inline-code">library/index.html</span>. Укажи раздел и поисковые слова, чтобы карточка автоматически попала в нужную вкладку.</div>
