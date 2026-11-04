@@ -149,8 +149,8 @@ async function requestWarpAccount(endpoint,withClientHeader=true){
      const parsed=JSON.parse(body);
      detail=String(parsed.error||parsed.message||parsed.detail||parsed.title||"");
     }catch{
-     const plain=body.replace(/<script[\\s\\S]*?<\\/script>/gi," ").replace(/<style[\\s\\S]*?<\\/style>/gi," ").replace(/<[^>]+>/g," ").replace(/\\s+/g," ").trim();
-     if(plain&&!/^\\s*<!doctype html/i.test(plain))detail=plain.slice(0,150);
+     const plain=body.replace(/<[^>]*>/g," ").replace(/\s+/g," ").trim();
+     if(plain&&!/^\s*<!doctype html/i.test(plain))detail=plain.slice(0,150);
     }
    }
    const ray=response.headers.get("cf-ray");
