@@ -133,8 +133,7 @@ const map={
 "Ожидаю magnet-ссылку.":"Waiting for a magnet link.","Получение метаданных остановлено.":"Metadata retrieval stopped.",
 "Загрузка .torrent отправлена браузеру.":"The .torrent download was handed to the browser.",
 "Последние доступные данные":"Last available data","Проверено: ":"Checked: ","Первая проверка ещё не выполнена":"First check has not run yet",
-"Не удалось загрузить статистику (":"Could not load statistics ("
-
+"Не удалось загрузить статистику (":"Could not load statistics (",
 "Собери конфигурацию WireGuard или AmneziaWG 2.0 на основе параметров своего Cloudflare WARP-аккаунта.":"Build a WireGuard or AmneziaWG 2.0 configuration from your Cloudflare WARP account parameters.",
 "S1–S4 и H1–H4 зафиксированы в WARP-совместимых значениях: S = 0, H = 1 / 2 / 3 / 4. Эти поля не рандомизируются, чтобы не нарушить совместимость со стандартным WireGuard peer Cloudflare.":"S1–S4 and H1–H4 use fixed WARP-compatible values: S = 0, H = 1 / 2 / 3 / 4. They are not randomized to preserve compatibility with Cloudflare's standard WireGuard peer.",
 "Генерация файла не проверяет доступность endpoint из твоей сети и не гарантирует соединение.":"File generation does not test endpoint reachability from your network or guarantee a connection.",
