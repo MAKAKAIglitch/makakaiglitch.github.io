@@ -1271,3 +1271,70 @@ kbd {
   .library-tracker-tabs .utility-tab { flex: 0 0 auto; }
   .library-panel-heading { align-items: flex-start; }
 }
+
+
+/* Torrent shares: live tracker stats and sorting */
+.share-sort-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin: 0 0 13px;
+}
+.share-sort-row .sort-control { margin-left: auto; }
+.share-refresh-label {
+  color: #758398;
+  font-size: 9px;
+  font-family: var(--mono);
+  text-align: right;
+}
+.share-refresh-label[data-state="error"] { color: #e6a0a0; }
+.share-refresh-label[data-state="pending"] { color: #d0b27d; }
+.share-grid { align-items: stretch; }
+.share-card { align-items: flex-start; }
+.share-stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px 18px;
+  margin-top: 13px;
+  padding: 10px 11px;
+  border: 1px solid rgba(220, 230, 255, 0.07);
+  border-radius: 9px;
+  background: rgba(6, 10, 16, 0.28);
+}
+.share-stat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.share-stat > span {
+  color: #78869a;
+  font-size: 9px;
+}
+.share-stat strong {
+  color: #dce5fb;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.share-stat-state {
+  margin-left: auto;
+  color: #78869a;
+  font-family: var(--mono);
+  font-size: 8px;
+  text-align: right;
+}
+@media (max-width: 680px) {
+  .share-sort-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .share-sort-row .sort-control {
+    width: 100%;
+    margin-left: 0;
+  }
+  .share-sort-row .sort-control select { max-width: none; flex: 1; }
+  .share-refresh-label { text-align: left; }
+  .share-stats { gap: 8px 12px; }
+}
