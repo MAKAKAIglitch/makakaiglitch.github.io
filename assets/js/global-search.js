@@ -2,10 +2,10 @@
   "use strict";
   const PAGE_PATHS = [
     "/", "/tools/", "/tools/warp-generator/", "/tools/magnet-to-torrent/",
-    "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
+    "/tools/ip-check/", "/tools/dns-lookup/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
   ];
   const REPOSITORY_API = "https://api.github.com/users/MAKAKAIglitch/repos?type=owner&sort=updated&direction=desc&per_page=100";
-  const CACHE_KEY = "makakaiglitch.global-search.v3";
+  const CACHE_KEY = "makakaiglitch.global-search.v4";
   const CACHE_TTL = 5 * 60 * 1000;
   const MAX_RESULTS = 12;
   const topbar = document.querySelector(".topbar");
