@@ -109,5 +109,66 @@ $("warp-mode").addEventListener("change",syncMode);
 $("warp-generate").addEventListener("click",generate);
 $("warp-copy").addEventListener("click",copy);
 $("warp-download").addEventListener("click",download);
+
+function buildAutomaticGeneratorUrl(){
+  const profile=$("warp-auto-profile").value;
+  const dns=$("warp-auto-dns").value;
+  const port=$("warp-auto-port").value;
+  const device=$("warp-auto-device").value;
+  const endpoint=$("warp-auto-endpoint").value;
+  const cps=$("warp-auto-cps").value;
+  const params=new URLSearchParams();
+  params.set("profile",profile);
+  params.set("dns",dns);
+  params.set("port",port);
+  params.set("device",device);
+  params.set("endpoint",endpoint);
+  params.set("cps",cps);
+  if($("warp-auto-ipv6").checked && !device.startsWith("mobile"))params.set("ipv6","1");
+  if($("warp-auto-cps5").checked && profile!=="legacy")params.set("cps5","1");
+  return "https://awgconfig.com/?"+params.toString();
+}
+function syncAutomaticSettings(){
+  const profile=$("warp-auto-profile"),device=$("warp-auto-device");
+  const mobile=device.value.startsWith("mobile");
+  const legacy=profile.value==="legacy";
+  const ipv6=$("warp-auto-ipv6"),cps5=$("warp-auto-cps5");
+  ipv6.disabled=mobile;
+  if(mobile)ipv6.checked=false;
+  cps5.disabled=legacy;
+  if(legacy)cps5.checked=false;
+  const profileHelp=$("warp-profile-help");
+  profileHelp.textContent=profile.value==="legacy"
+    ?"Совместимость со старыми клиентами AmneziaWG 1.5."
+    :profile.value==="awg3"
+      ?"Для AmneziaWG 3.0 нужен клиент с поддержкой AWG 3.0."
+      :profile.value==="awg31"
+        ?"Для AmneziaWG 3.1 нужен актуальный клиент с поддержкой AWG 3.1."
+        :"WARP-safe профиль для актуальных AmneziaWG 2.0. Хороший вариант по умолчанию.";
+  const cps=$("warp-auto-cps");
+  const experimental=["quic","dns","dtls"].includes(cps.value);
+  $("warp-auto-warning").hidden=!experimental;
+  $("warp-auto-warning").textContent=experimental
+    ?"Выбран экспериментальный CPS-режим. Совместимость и проходимость зависят от сети; при проблемах верни Auto."
+    :"";
+  $("warp-cps-help").textContent=experimental
+    ?"Экспериментальный режим. Для начала лучше Auto или стабильные варианты."
+    :"Auto выбирает стабильный вариант. Экспериментальные режимы могут хуже работать в отдельных сетях.";
+  $("warp-auto-fallback").href=buildAutomaticGeneratorUrl();
+}
+function launchAutomaticGenerator(){
+  const url=buildAutomaticGeneratorUrl();
+  const fallback=$("warp-auto-fallback");
+  fallback.href=url;
+  fallback.hidden=false;
+  $("warp-auto-status").textContent="Настройки подготовлены. Открывается внешний генератор; на его странице нажми Generate, затем скачай .conf.";
+  window.open(url,"_blank","noopener,noreferrer");
+}
+
+$("warp-auto-generate").addEventListener("click",launchAutomaticGenerator);
+for(const id of ["warp-auto-profile","warp-auto-dns","warp-auto-port","warp-auto-device","warp-auto-endpoint","warp-auto-cps","warp-auto-ipv6","warp-auto-cps5"]){
+  $(id).addEventListener("change",syncAutomaticSettings);
+}
+syncAutomaticSettings();
 syncMode();
 })();
