@@ -1,7 +1,7 @@
 (() => {
 "use strict";
-const OWNER="MAKAKAIglitch", API="https://api.github.com/users/"+OWNER+"/repos?type=owner&sort=updated&direction=desc&per_page=100";
-const CACHE="makakaiglitch.repositories.v2",TTL=300000,$=id=>document.getElementById(id);
+const OWNER="MAKAKAIglitch", API="https://api.github.com/users/"+OWNER+"/repos?type=all&sort=updated&direction=desc&per_page=100";
+const CACHE="makakaiglitch.repositories.v3",TTL=300000,$=id=>document.getElementById(id);
 const grid=$("repository-grid"),count=$("repository-count"),search=$("repository-search"),sort=$("repository-sort"),empty=$("empty-state"),err=$("error-state"),errText=$("error-message"),retry=$("retry-button"),updated=$("last-updated"),overlay=$("repo-detail-overlay"),close=$("repo-modal-close");
 if(!grid||!overlay)return;
 let repos=[],controller=null,detailController=null,activeRepo=null;
@@ -15,7 +15,7 @@ function valid(r){return r&&r.owner?.login?.toLowerCase()===OWNER.toLowerCase()&
 function card(r){
  const article=node("article","repo-card"),open=node("button","repo-card-open");open.type="button";
  const top=node("div","repo-card-top"),wrap=node("div","repo-title-wrap");wrap.appendChild(node("strong","repo-name",r.name));
- if(r.fork||r.archived){const flags=node("div","repo-labels");if(r.fork)flags.appendChild(node("span","repo-label","FORK"));if(r.archived)flags.appendChild(node("span","repo-label","ARCHIVED"));wrap.appendChild(flags);}
+ if(r.fork||r.archived){const flags=node("div","repo-labels");if(r.fork)flags.appendChild(node("span","repo-label",t("Форк")));if(r.archived)flags.appendChild(node("span","repo-label",t("Архив")));wrap.appendChild(flags);}
  top.appendChild(wrap);
  const desc=node("p","repo-description"+(r.description?"":" is-empty"),r.description||t("Описание пока не добавлено."));
  const meta=node("div","repo-meta");if(r.language){const l=node("span","meta-item");l.appendChild(node("span","language-dot"));l.appendChild(document.createTextNode(r.language));meta.appendChild(l);}
@@ -27,9 +27,9 @@ function card(r){
  actions.append(releases,external);article.append(open,actions);return article;
 }
 function render(){
- const q=search.value.trim().toLocaleLowerCase(loc()),items=repos.filter(r=>[r.name,r.description||"",r.language||"",(r.topics||[]).join(" ")].join(" ").toLocaleLowerCase(loc()).includes(q));
- items.sort((a,b)=>sort.value==="stars"?(b.stargazers_count||0)-(a.stargazers_count||0):sort.value==="name"?a.name.localeCompare(b.name,loc()):new Date(b.updated_at||0)-new Date(a.updated_at||0));
- grid.replaceChildren(...items.map(card));count.textContent=number(items.length)+(q?" / "+number(repos.length):"")+" "+t("репозиториев");empty.hidden=items.length>0;grid.hidden=items.length===0;
+ const q=search.value.trim().toLocaleLowerCase(loc()),items=repos.filter(r=>[r.name,r.description||"",r.language||"",(r.topics||[]).join(" "),r.fork?"fork":"",r.parent?.full_name||""].join(" ").toLocaleLowerCase(loc()).includes(q));
+ items.sort((a,b)=>sort.value==="stars"?(b.stargazers_count||0)-(a.stargazers_count||0):sort.value==="forks"?(b.forks_count||0)-(a.forks_count||0):sort.value==="name"?a.name.localeCompare(b.name,loc()):new Date(b.updated_at||0)-new Date(a.updated_at||0));
+ grid.replaceChildren(...items.map(card));const visibleForks=items.filter(r=>r.fork).length;count.textContent=number(items.length)+(q?" / "+number(repos.length):"")+" "+t("репозиториев")+" · "+number(visibleForks)+" "+t("форков");empty.hidden=items.length>0;grid.hidden=items.length===0;
 }
 function cacheRead(){try{const c=JSON.parse(sessionStorage.getItem(CACHE)||"null");if(c&&Array.isArray(c.items)){repos=c.items.filter(valid);render();updated.textContent=t("Кэш обновлён")+" "+date(c.savedAt);return Date.now()-c.time<TTL;}}catch{try{sessionStorage.removeItem(CACHE);}catch{}}return false;}
 async function load(force=false){
@@ -44,20 +44,64 @@ function row(parent,name,value){const d=node("div","repo-detail-row");d.append(n
 function link(name,url){const a=node("a","repo-detail-link",name);a.href=url;a.target="_blank";a.rel="noopener noreferrer";return a;}
 function lastPage(header){const x=header?.match(/<[^>]*[?&]page=(\d+)[^>]*>; rel="last"/);return x?Number(x[1]):null;}
 async function github(path,signal){const r=await fetch("https://api.github.com/repos/"+OWNER+"/"+encodeURIComponent(activeRepo.name)+path,{signal,headers:{Accept:"application/vnd.github+json"}});if(!r.ok)throw Error("HTTP "+r.status);return r;}
+async function fetchReleaseData(signal){
+ const first=await github("/releases?per_page=100",signal);
+ const firstItems=await first.json().catch(()=>[]);
+ const pages=lastPage(first.headers.get("Link"))||1;
+ const maxPages=Math.min(pages,10),extra=[];
+ if(maxPages>1){
+  const results=await Promise.allSettled(Array.from({length:maxPages-1},(_,i)=>github("/releases?per_page=100&page="+(i+2),signal)));
+  for(const result of results)if(result.status==="fulfilled")extra.push(...await result.value.json().catch(()=>[]));
+ }
+ let totalCount;
+ if(pages<=10)totalCount=firstItems.length+extra.length;
+ else{
+  const last=await github("/releases?per_page=100&page="+pages,signal);
+  const lastItems=await last.json().catch(()=>[]);
+  totalCount=(pages-1)*100+lastItems.length;
+ }
+ return {items:[...firstItems,...extra],totalCount,pages,complete:pages<=10};
+}
 async function showDetails(r){
  activeRepo=r;detailController?.abort();detailController=new AbortController();const signal=detailController.signal;
  $("repo-modal-title").textContent=r.name;$("repo-modal-description").textContent=r.description||t("Описание пока не добавлено.");
  $("repo-modal-loading").hidden=false;$("repo-modal-loading").textContent=t("Загрузка статистики…");$("repo-modal-content").replaceChildren();$("repo-modal-content").hidden=true;
  overlay.hidden=false;overlay.setAttribute("aria-hidden","false");document.body.classList.add("modal-open");close.focus();
- const [langsRel,releasesRel,contributorsRel]=await Promise.allSettled([github("/languages",signal),github("/releases?per_page=100",signal),github("/contributors?per_page=1",signal)]);
+ const [langsRel,releasesRel,contributorsRel,commitsRel,branchesRel]=await Promise.allSettled([
+  github("/languages",signal),
+  fetchReleaseData(signal),
+  github("/contributors?per_page=1",signal),
+  github("/commits?per_page=1",signal),
+  github("/branches?per_page=1",signal)
+ ]);
  if(signal.aborted)return;
  const content=$("repo-modal-content"),stats=node("div","repo-detail-stats");
- const releases=releasesRel.status==="fulfilled"?await releasesRel.value.json().catch(()=>[]):[];
- let downloads=0;for(const rel of releases||[])for(const asset of rel.assets||[])downloads+=asset.download_count||0;
- const releasePages=releasesRel.status==="fulfilled"?lastPage(releasesRel.value.headers.get("Link")):null;
+ const releaseData=releasesRel.status==="fulfilled"?releasesRel.value:{items:[],totalCount:null,pages:0,complete:false};
+ const releases=releaseData.items||[];
+ let downloads=0;for(const rel of releases)for(const asset of rel.assets||[])downloads+=asset.download_count||0;
  const contributorCount=contributorsRel.status==="fulfilled"?(lastPage(contributorsRel.value.headers.get("Link"))||1):null;
- stat(stats,t("Звёзды"),number(r.stargazers_count));stat(stats,t("Форки"),number(r.forks_count));stat(stats,t("Наблюдатели"),number(r.subscribers_count??r.watchers_count));stat(stats,t("Открытые issues"),number(r.open_issues_count));stat(stats,t("Скачивания релизов"),number(downloads));stat(stats,t("Количество релизов"),number(releasePages||releases.length));if(contributorCount!==null)stat(stats,t("Вклад"),number(contributorCount));content.appendChild(stats);
- const details=node("dl","repo-detail-list");row(details,t("Основной язык"),r.language);row(details,t("Лицензия"),r.license?.spdx_id||r.license?.name||t("Недоступно"));row(details,t("Создан"),date(r.created_at));row(details,t("Последнее обновление"),date(r.updated_at));row(details,t("Последний push"),date(r.pushed_at));row(details,t("Ветка по умолчанию"),r.default_branch);row(details,t("Размер репозитория"),(r.size/1024).toFixed(2)+" MB");content.appendChild(details);
+ const commitCount=commitsRel.status==="fulfilled"?(lastPage(commitsRel.value.headers.get("Link"))||1):null;
+ const branchCount=branchesRel.status==="fulfilled"?(lastPage(branchesRel.value.headers.get("Link"))||1):null;
+ stat(stats,t("Звёзды"),number(r.stargazers_count));
+ stat(stats,t("Форки"),number(r.forks_count));
+ stat(stats,t("Наблюдатели"),number(r.subscribers_count??r.watchers_count));
+ stat(stats,t("Открытые issues"),number(r.open_issues_count));
+ stat(stats,releaseData.pages>10?t("Скачивания последних 1000 релизов"):t("Скачивания релизов"),number(downloads));
+ stat(stats,t("Количество релизов"),releaseData.totalCount===null?t("Недоступно"):number(releaseData.totalCount));
+ stat(stats,t("Коммиты"),commitCount===null?t("Недоступно"):number(commitCount));
+ stat(stats,t("Ветки"),branchCount===null?t("Недоступно"):number(branchCount));
+ stat(stats,t("Контрибьюторы"),contributorCount===null?t("Недоступно"):number(contributorCount));
+ content.appendChild(stats);
+ const details=node("dl","repo-detail-list");
+ row(details,t("Основной язык"),r.language);
+ row(details,t("Лицензия"),r.license?.spdx_id||r.license?.name||t("Недоступно"));
+ row(details,t("Создан"),date(r.created_at));
+ row(details,t("Последнее обновление"),date(r.updated_at));
+ row(details,t("Последний push"),date(r.pushed_at));
+ row(details,t("Ветка по умолчанию"),r.default_branch);
+ row(details,t("Размер репозитория"),(r.size/1024).toFixed(2)+" MB");
+ if(r.fork&&r.parent?.full_name)row(details,t("Источник форка"),r.parent.full_name);
+ content.appendChild(details);
  const languages=langsRel.status==="fulfilled"?await langsRel.value.json().catch(()=>({})):null;
  const languageSection=node("section","repo-detail-section");languageSection.appendChild(node("h3","",t("Языки")));
  if(languages&&Object.keys(languages).length){const total=Object.values(languages).reduce((a,b)=>a+b,0)||1;for(const [name,bytes] of Object.entries(languages).sort((a,b)=>b[1]-a[1])){const line=node("div","repo-language-row"),head=node("div","repo-language-top");head.append(node("strong","",name),node("span","",Math.round(bytes/total*100)+"%"));const bar=node("div","repo-language-bar"),fill=node("span");fill.style.width=(bytes/total*100)+"%";bar.appendChild(fill);line.append(head,bar);languageSection.appendChild(line);}}
