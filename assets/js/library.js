@@ -1,42 +1,19 @@
 (() => {
   "use strict";
 
-  const search = document.getElementById("library-search");
-  const grid = document.getElementById("library-grid");
-  const empty = document.getElementById("library-empty");
-  const count = document.getElementById("library-count");
-  const sectionTitle = document.getElementById("library-section-title");
-  const torrentDropdown = document.getElementById("library-torrent-dropdown");
-  const torrentToggle = document.getElementById("library-torrent-toggle");
-  const torrentMenu = document.getElementById("library-torrent-menu");
+  const launcher = document.getElementById("torrent-launcher");
+  const workspace = document.getElementById("torrent-workspace");
+  const viewTabs = Array.from(document.querySelectorAll("[data-torrent-view]"));
+  const viewPanels = Array.from(document.querySelectorAll("[data-torrent-panel]"));
+  const placeholder = document.getElementById("torrent-placeholder");
 
-  if (!search || !grid || !empty || !count || !sectionTitle || !torrentDropdown || !torrentToggle || !torrentMenu) return;
+  if (!launcher || !workspace || !placeholder) return;
 
-  const cards = Array.from(grid.querySelectorAll(".library-card"));
-  const mainTabs = Array.from(document.querySelectorAll("button[data-library-section]:not([data-torrent-view])"));
-  const torrentTabs = Array.from(document.querySelectorAll("button[data-torrent-view]"));
   const params = new URLSearchParams(window.location.search);
   const requestedView = params.get("torrent");
   const validView = requestedView === "shares" || requestedView === "client";
-
-  let activeSection = validView ? "torrents" : "all";
-  let activeTorrentView = validView ? requestedView : "shares";
+  let activeView = null;
   let trackerText = "";
-
-  function activateTabs(tabs, selected) {
-    for (const tab of tabs) {
-      const active = tab === selected;
-      tab.classList.toggle("is-active", active);
-      tab.setAttribute("aria-pressed", String(active));
-    }
-  }
-
-  function setTorrentMenu(open) {
-    torrentMenu.hidden = !open;
-    torrentToggle.setAttribute("aria-expanded", String(open));
-    torrentToggle.classList.toggle("is-active", open || activeSection === "torrents");
-    torrentToggle.setAttribute("aria-pressed", String(activeSection === "torrents"));
-  }
 
   function updateTorrentUrl(view) {
     const nextUrl = new URL(window.location.href);
@@ -45,72 +22,46 @@
     window.history.replaceState(null, "", nextUrl.pathname + nextUrl.search + nextUrl.hash);
   }
 
-  function renderLibrary() {
-    const query = search.value.trim().toLocaleLowerCase("ru");
-    let visible = 0;
-
-    for (const card of cards) {
-      const sectionMatches = activeSection === "all" ||
-        (activeSection === "torrents"
-          ? card.dataset.section === "torrents" && card.dataset.torrentView === activeTorrentView
-          : card.dataset.section === activeSection);
-      const haystack = (card.dataset.search + " " + card.textContent).toLocaleLowerCase("ru");
-      const matches = sectionMatches && haystack.includes(query);
-      card.hidden = !matches;
-      if (matches) visible += 1;
-    }
-
-    grid.hidden = visible === 0;
-    empty.hidden = visible !== 0;
-    count.textContent = visible + " / " + cards.length + " MATERIALS";
-
-    const titles = {
-      all: "ALL MATERIALS",
-      torrents: activeTorrentView === "shares" ? "TORRENT / SHARES" : "TORRENT / CLIENT SETTINGS",
-      guides: "GUIDES",
-      notes: "NOTES"
-    };
-    sectionTitle.textContent = titles[activeSection] || "LIBRARY";
-    torrentToggle.classList.toggle("is-active", !torrentMenu.hidden || activeSection === "torrents");
-    torrentToggle.setAttribute("aria-pressed", String(activeSection === "torrents"));
-  }
-
-  for (const tab of mainTabs) {
-    tab.addEventListener("click", () => {
-      activeSection = tab.dataset.librarySection || "all";
-      activateTabs(mainTabs, tab);
-      setTorrentMenu(false);
+  function setExpanded(expanded) {
+    workspace.hidden = !expanded;
+    launcher.setAttribute("aria-expanded", String(expanded));
+    launcher.classList.toggle("is-expanded", expanded);
+    if (!expanded) {
+      selectView(null);
       updateTorrentUrl(null);
-      renderLibrary();
-    });
-  }
-
-  for (const tab of torrentTabs) {
-    tab.addEventListener("click", () => {
-      activeSection = "torrents";
-      activeTorrentView = tab.dataset.torrentView || "shares";
-      activateTabs(torrentTabs, tab);
-      activateTabs(mainTabs, null);
-      setTorrentMenu(false);
-      updateTorrentUrl(activeTorrentView);
-      renderLibrary();
-    });
-  }
-
-  torrentToggle.addEventListener("click", () => {
-    setTorrentMenu(torrentMenu.hidden);
-  });
-
-  document.addEventListener("click", event => {
-    if (!torrentMenu.hidden && !torrentDropdown.contains(event.target)) {
-      setTorrentMenu(false);
     }
+  }
+
+  function selectView(view) {
+    activeView = view;
+    for (const tab of viewTabs) {
+      const active = tab.dataset.torrentView === view;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-pressed", String(active));
+    }
+    for (const panel of viewPanels) {
+      panel.hidden = panel.dataset.torrentPanel !== view;
+    }
+    placeholder.hidden = Boolean(view);
+  }
+
+  launcher.addEventListener("click", () => {
+    setExpanded(workspace.hidden);
   });
+
+  for (const tab of viewTabs) {
+    tab.addEventListener("click", () => {
+      const view = tab.dataset.torrentView;
+      if (view !== "shares" && view !== "client") return;
+      selectView(view);
+      updateTorrentUrl(view);
+    });
+  }
 
   document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && !torrentMenu.hidden) {
-      setTorrentMenu(false);
-      torrentToggle.focus();
+    if (event.key === "Escape" && !workspace.hidden) {
+      setExpanded(false);
+      launcher.focus();
     }
   });
 
@@ -126,6 +77,7 @@
   const trackerStatus = document.getElementById("tracker-status");
   const copyButton = document.getElementById("tracker-copy");
   const rawLink = document.getElementById("tracker-raw-link");
+  const trackerButtons = Array.from(document.querySelectorAll("[data-trackers-list]"));
 
   function setTrackerStatus(message, isError = false) {
     if (!trackerStatus) return;
@@ -133,22 +85,25 @@
     trackerStatus.dataset.state = isError ? "error" : "success";
   }
 
-  for (const button of document.querySelectorAll("[data-trackers-list]")) {
+  for (const button of trackerButtons) {
     button.addEventListener("click", async () => {
       const file = trackerFiles[button.dataset.trackersList];
       if (!file || !preview || !copyButton || !rawLink) return;
-      for (const filterButton of document.querySelectorAll("[data-trackers-list]")) {
+
+      for (const filterButton of trackerButtons) {
         const active = filterButton === button;
         filterButton.classList.toggle("is-active", active);
         filterButton.setAttribute("aria-pressed", String(active));
+        filterButton.disabled = true;
       }
-      button.disabled = true;
       setTrackerStatus("Загружаю список с GitHub…");
+
       try {
         const response = await fetch(trackerBase + file, { cache: "no-cache" });
         if (!response.ok) throw new Error("GitHub вернул HTTP " + response.status);
         const result = (await response.text()).trim();
         if (!result) throw new Error("Получен пустой список.");
+
         trackerText = result;
         preview.textContent = trackerText;
         rawLink.href = trackerBase + file;
@@ -156,9 +111,12 @@
         const total = trackerText.split(/\r?\n/).filter(Boolean).length;
         setTrackerStatus("Загружено трекеров: " + total + ". Источник: " + file);
       } catch (error) {
+        trackerText = "";
+        preview.textContent = "";
+        copyButton.disabled = true;
         setTrackerStatus("Не удалось загрузить список: " + error.message + ". Открой raw-ссылку напрямую.", true);
       } finally {
-        button.disabled = false;
+        for (const filterButton of trackerButtons) filterButton.disabled = false;
       }
     });
   }
@@ -180,24 +138,10 @@
     });
   }
 
-  search.addEventListener("input", renderLibrary);
-  document.addEventListener("keydown", event => {
-    const target = event.target;
-    const typing = target instanceof HTMLElement &&
-      (target.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName));
-    if (event.key === "/" && !typing) {
-      event.preventDefault();
-      search.focus();
-    }
-    if (event.key === "Escape" && document.activeElement === search) {
-      search.value = "";
-      renderLibrary();
-      search.blur();
-    }
-  });
-
-  activateTabs(mainTabs, mainTabs.find(tab => tab.dataset.librarySection === activeSection));
-  activateTabs(torrentTabs, activeSection === "torrents" ? torrentTabs.find(tab => tab.dataset.torrentView === activeTorrentView) : null);
-  setTorrentMenu(false);
-  renderLibrary();
+  if (validView) {
+    setExpanded(true);
+    selectView(requestedView);
+  } else {
+    selectView(null);
+  }
 })();
