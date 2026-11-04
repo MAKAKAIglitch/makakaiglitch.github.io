@@ -35,22 +35,22 @@
 </label>
 </div>
 
-<div class="utility-tabs library-tabs" role="group" aria-label="Разделы Library">
-<button class="utility-tab is-active" type="button" data-library-section="all" aria-pressed="true">Все <span>04</span></button>
-<button class="utility-tab" type="button" data-library-section="torrents" aria-pressed="false">Торренты <span>02</span></button>
-<button class="utility-tab" type="button" data-library-section="guides" aria-pressed="false">Инструкции <span>01</span></button>
-<button class="utility-tab" type="button" data-library-section="notes" aria-pressed="false">Заметки <span>01</span></button>
+<nav class="library-primary-tabs" role="tablist" aria-label="Разделы Library">
+<button class="library-section-tab" type="button" role="tab" data-library-section="all" aria-pressed="false">Все материалы <span class="tab-count">04</span></button>
+<button class="library-section-tab is-active" type="button" role="tab" data-library-section="torrents" aria-pressed="true">Торренты <span class="tab-count">02</span></button>
+<button class="library-section-tab" type="button" role="tab" data-library-section="guides" aria-pressed="false">Инструкции <span class="tab-count">01</span></button>
+<button class="library-section-tab" type="button" role="tab" data-library-section="notes" aria-pressed="false">Заметки <span class="tab-count">01</span></button>
+</nav>
+
+<div id="torrent-subtabs-wrap" class="library-subtabs-wrap">
+<div class="library-subtabs-label">TORRENTS <span class="library-subtabs-separator">/</span> КАТЕГОРИЯ</div>
+<div class="library-secondary-tabs" role="tablist" aria-label="Категории торрентов">
+<button class="library-subtab is-active" type="button" role="tab" data-torrent-view="shares" aria-pressed="true">Раздачи <span class="tab-count">01</span></button>
+<button class="library-subtab" type="button" role="tab" data-torrent-view="trackers" aria-pressed="false">Трекеры <span class="tab-count">01</span></button>
+</div>
 </div>
 
-<div id="torrent-subtabs-wrap" class="library-subtabs-wrap" hidden>
-<div class="library-subtabs-label">TORRENTS / ВНУТРЕННИЕ РАЗДЕЛЫ</div>
-<div class="utility-tabs library-subtabs" role="group" aria-label="Разделы торрентов">
-<button class="utility-tab is-active" type="button" data-torrent-view="shares" aria-pressed="true">Раздачи <span>01</span></button>
-<button class="utility-tab" type="button" data-torrent-view="trackers" aria-pressed="false">Трекеры <span>01</span></button>
-</div>
-</div>
-
-<div class="utility-section-label"><span id="library-section-title">ALL MATERIALS</span><span id="library-count">04 ITEMS</span></div>
+<div class="utility-section-label"><span id="library-section-title">TORRENTS / SHARES</span><span id="library-count">01 / 04 ITEMS</span></div>
 <section id="library-grid" class="library-grid" aria-live="polite">
 
 <article class="library-card" data-section="torrents" data-torrent-view="shares" data-search="war thunder вартандер gaijin torrent раздача игра торрент файл">
