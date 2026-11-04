@@ -137,6 +137,11 @@
     button.addEventListener("click", async () => {
       const file = trackerFiles[button.dataset.trackersList];
       if (!file || !preview || !copyButton || !rawLink) return;
+      for (const filterButton of document.querySelectorAll("[data-trackers-list]")) {
+        const active = filterButton === button;
+        filterButton.classList.toggle("is-active", active);
+        filterButton.setAttribute("aria-pressed", String(active));
+      }
       button.disabled = true;
       setTrackerStatus("Загружаю список с GitHub…");
       try {
