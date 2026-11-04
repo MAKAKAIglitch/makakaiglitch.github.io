@@ -83,7 +83,17 @@ const map={
 "Дата неизвестна":"Date unknown","Нет данных":"No data","Недоступно":"Unavailable",
 "Данные из кэша":"Cached data","Обновлено":"Updated","Показаны сохранённые данные; обновить не удалось":"Showing saved data; refresh failed",
 "Репозитории недоступны":"Repositories unavailable","Повторить":"Retry",
-"GitHub временно ограничил количество запросов. Попробуй немного позже.":"GitHub temporarily rate-limited requests. Try again later."
+"GitHub временно ограничил количество запросов. Попробуй немного позже.":"GitHub temporarily rate-limited requests. Try again later.",
+"Утилита":"Tool","Репозиторий":"Repository","Материал":"Page",
+"IP-адрес скопирован.":"IP address copied.","Буфер обмена недоступен в этом контексте.":"Clipboard access is unavailable in this context.",
+"Определён один адрес. Второй протокол может быть недоступен в этой сети.":"One address was detected. The other protocol may be unavailable on this network.",
+"Отправляем DNS-запрос через Cloudflare…":"Sending DNS query through Cloudflare…",
+"Запрос завершён":"Query finished","DNS-ответы скопированы.":"DNS answers copied.","Не удалось скопировать ответы.":"Could not copy the answers.",
+"Введите корректное доменное имя.":"Enter a valid domain name.",
+"Сетевая диагностика":"Network diagnostics","Локальный сборщик конфигураций":"Local configuration builder",
+"Personal library":"Personal library","Experimental browser tool":"Experimental browser tool",
+"Network diagnostics":"Network diagnostics","Local config builder":"Local config builder",
+"Статистика раздачи":"Torrent swarm statistics","Скачивание идёт в фоне":"Download runs in the background","Официальный торрент":"Official torrent"
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
@@ -96,7 +106,8 @@ const titleMap={
 function detect(){
  try{const saved=localStorage.getItem(KEY);if(saved==="ru"||saved==="en")return saved;}catch{}
  const langs=navigator.languages?.length?navigator.languages:[navigator.language||"en"];
- return langs.some(x=>String(x).toLowerCase().startsWith("ru"))?RU:EN;
+ for(const item of langs){const code=String(item).toLowerCase().split("-")[0];if(code==="ru")return RU;if(code==="en")return EN;}
+ return EN;
 }
 let lang=detect();
 function t(ru){return lang===EN?(map[ru]||ru):(reverse[ru]||ru);}
