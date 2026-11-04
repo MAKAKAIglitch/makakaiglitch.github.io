@@ -2,10 +2,10 @@
   "use strict";
   const PAGE_PATHS = [
     "/", "/tools/", "/tools/warp-generator/", "/tools/magnet-to-torrent/",
-    "/tools/ip-check/", "/tools/dns-lookup/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
+    "/tools/ip-check/", "/tools/dns-lookup/", "/tools/dns-tester/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
   ];
-  const REPOSITORY_API = "https://api.github.com/users/MAKAKAIglitch/repos?type=all&sort=updated&direction=desc&per_page=100";
-  const CACHE_KEY = "makakaiglitch.global-search.v5";
+  const REPOSITORY_SNAPSHOT = "/data/repositories.json";
+  const CACHE_KEY = "makakaiglitch.global-search.v6";
   const CACHE_TTL = 5 * 60 * 1000;
   const MAX_RESULTS = 12;
   const topbar = document.querySelector(".topbar");
@@ -90,11 +90,10 @@
   }
   async function fetchRepositories() {
     try {
-      const response = await fetch(REPOSITORY_API, {
-        headers: { Accept: "application/vnd.github+json" }, cache: "default"
-      });
+      const response = await fetch(REPOSITORY_SNAPSHOT, { cache: "force-cache" });
       if (!response.ok) return;
-      const repos = await response.json();
+      const payload = await response.json();
+      const repos = Array.isArray(payload) ? payload : payload.items;
       if (!Array.isArray(repos)) return;
       for (const repo of repos) {
         if (!repo || repo.owner?.login?.toLowerCase() !== "makakaiglitch") continue;
@@ -104,7 +103,7 @@
           repo.html_url, "GitHub", "repository repositories репозиторий проект исходный код releases релизы fork forks форк форки"
         ));
       }
-    } catch { /* Static content remains searchable. */ }
+    } catch { /* Static page records remain searchable. */ }
   }
   function emptyResult(message) {
     const node = document.createElement("div");
