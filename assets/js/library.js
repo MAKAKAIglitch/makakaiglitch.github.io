@@ -1,19 +1,26 @@
 (() => {
   "use strict";
+
   const search = document.getElementById("library-search");
   const grid = document.getElementById("library-grid");
   const empty = document.getElementById("library-empty");
   const count = document.getElementById("library-count");
   const sectionTitle = document.getElementById("library-section-title");
-  if (!search || !grid || !empty || !count || !sectionTitle) return;
+  const torrentDropdown = document.getElementById("library-torrent-dropdown");
+  const torrentToggle = document.getElementById("library-torrent-toggle");
+  const torrentMenu = document.getElementById("library-torrent-menu");
+
+  if (!search || !grid || !empty || !count || !sectionTitle || !torrentDropdown || !torrentToggle || !torrentMenu) return;
 
   const cards = Array.from(grid.querySelectorAll(".library-card"));
-  const sectionTabs = Array.from(document.querySelectorAll("[data-library-section]"));
+  const mainTabs = Array.from(document.querySelectorAll("button[data-library-section]:not([data-torrent-view])"));
+  const torrentTabs = Array.from(document.querySelectorAll("button[data-torrent-view]"));
   const params = new URLSearchParams(window.location.search);
-  const requestedTorrentView = params.get("torrent");
-  const validTorrentView = requestedTorrentView === "shares" || requestedTorrentView === "client";
-  let activeSection = validTorrentView ? "torrents" : "all";
-  let activeTorrentView = validTorrentView ? requestedTorrentView : "shares";
+  const requestedView = params.get("torrent");
+  const validView = requestedView === "shares" || requestedView === "client";
+
+  let activeSection = validView ? "torrents" : "all";
+  let activeTorrentView = validView ? requestedView : "shares";
   let trackerText = "";
 
   function activateTabs(tabs, selected) {
@@ -24,9 +31,24 @@
     }
   }
 
+  function setTorrentMenu(open) {
+    torrentMenu.hidden = !open;
+    torrentToggle.setAttribute("aria-expanded", String(open));
+    torrentToggle.classList.toggle("is-active", open || activeSection === "torrents");
+    torrentToggle.setAttribute("aria-pressed", String(activeSection === "torrents"));
+  }
+
+  function updateTorrentUrl(view) {
+    const nextUrl = new URL(window.location.href);
+    if (view) nextUrl.searchParams.set("torrent", view);
+    else nextUrl.searchParams.delete("torrent");
+    window.history.replaceState(null, "", nextUrl.pathname + nextUrl.search + nextUrl.hash);
+  }
+
   function renderLibrary() {
     const query = search.value.trim().toLocaleLowerCase("ru");
     let visible = 0;
+
     for (const card of cards) {
       const sectionMatches = activeSection === "all" ||
         (activeSection === "torrents"
@@ -37,9 +59,11 @@
       card.hidden = !matches;
       if (matches) visible += 1;
     }
+
     grid.hidden = visible === 0;
     empty.hidden = visible !== 0;
     count.textContent = visible + " / " + cards.length + " MATERIALS";
+
     const titles = {
       all: "ALL MATERIALS",
       torrents: activeTorrentView === "shares" ? "TORRENT / SHARES" : "TORRENT / CLIENT SETTINGS",
@@ -47,18 +71,48 @@
       notes: "NOTES"
     };
     sectionTitle.textContent = titles[activeSection] || "LIBRARY";
+    torrentToggle.classList.toggle("is-active", !torrentMenu.hidden || activeSection === "torrents");
+    torrentToggle.setAttribute("aria-pressed", String(activeSection === "torrents"));
   }
 
-  for (const tab of sectionTabs) {
+  for (const tab of mainTabs) {
     tab.addEventListener("click", () => {
       activeSection = tab.dataset.librarySection || "all";
-      const nextUrl = new URL(window.location.href);
-      nextUrl.searchParams.delete("torrent");
-      window.history.replaceState(null, "", nextUrl.pathname + nextUrl.search + nextUrl.hash);
-      activateTabs(sectionTabs, tab);
+      activateTabs(mainTabs, tab);
+      setTorrentMenu(false);
+      updateTorrentUrl(null);
       renderLibrary();
     });
   }
+
+  for (const tab of torrentTabs) {
+    tab.addEventListener("click", () => {
+      activeSection = "torrents";
+      activeTorrentView = tab.dataset.torrentView || "shares";
+      activateTabs(torrentTabs, tab);
+      activateTabs(mainTabs, null);
+      setTorrentMenu(false);
+      updateTorrentUrl(activeTorrentView);
+      renderLibrary();
+    });
+  }
+
+  torrentToggle.addEventListener("click", () => {
+    setTorrentMenu(torrentMenu.hidden);
+  });
+
+  document.addEventListener("click", event => {
+    if (!torrentMenu.hidden && !torrentDropdown.contains(event.target)) {
+      setTorrentMenu(false);
+    }
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !torrentMenu.hidden) {
+      setTorrentMenu(false);
+      torrentToggle.focus();
+    }
+  });
 
   const trackerFiles = {
     best: "trackers_best.txt",
@@ -78,6 +132,7 @@
     trackerStatus.textContent = message;
     trackerStatus.dataset.state = isError ? "error" : "success";
   }
+
   for (const button of document.querySelectorAll("[data-trackers-list]")) {
     button.addEventListener("click", async () => {
       const file = trackerFiles[button.dataset.trackersList];
@@ -102,6 +157,7 @@
       }
     });
   }
+
   if (copyButton && preview) {
     copyButton.addEventListener("click", async () => {
       if (!trackerText) return;
@@ -134,7 +190,9 @@
       search.blur();
     }
   });
-  const defaultTab = sectionTabs.find(tab => tab.dataset.librarySection === "all");
-  activateTabs(sectionTabs, activeSection === "all" ? defaultTab : null);
+
+  activateTabs(mainTabs, mainTabs.find(tab => tab.dataset.librarySection === activeSection));
+  activateTabs(torrentTabs, torrentTabs.find(tab => tab.dataset.torrentView === activeTorrentView));
+  setTorrentMenu(false);
   renderLibrary();
 })();

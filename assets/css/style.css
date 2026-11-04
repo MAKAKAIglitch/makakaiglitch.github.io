@@ -1154,106 +1154,70 @@ kbd {
 
 
 
-/* Library navigation: Library > Torrent > Shares / Client settings */
-.nav-dropdown {
+
+
+/* Library torrent submenu, matching the Utilities category pills */
+.library-tabs {
+  position: relative;
+  margin-bottom: 22px;
+}
+.library-torrent-dropdown {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
-.library-nav-toggle {
+.library-torrent-toggle {
   font-family: inherit;
-  cursor: pointer;
-  background: transparent;
-  appearance: none;
-  -webkit-appearance: none;
 }
-.nav-chevron,
-.nav-menu-chevron {
-  flex: 0 0 auto;
-  width: 12px !important;
-  height: 12px !important;
-  transition: transform 160ms ease;
+.library-torrent-toggle svg {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 150ms ease;
 }
-.library-nav-toggle[aria-expanded="true"] .nav-chevron {
+.library-torrent-toggle[aria-expanded="true"] svg {
   transform: rotate(180deg);
 }
-.nav-dropdown-panel {
+.library-torrent-menu {
   position: absolute;
-  z-index: 100;
-  top: calc(100% + 10px);
-  right: 0;
-  display: grid;
+  z-index: 60;
+  top: calc(100% + 7px);
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: 4px;
-  width: 224px;
-  padding: 7px;
-  border: 1px solid rgba(220, 230, 255, 0.12);
-  border-radius: 13px;
-  background: rgba(12, 17, 27, 0.97);
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(24px) saturate(145%);
-  -webkit-backdrop-filter: blur(24px) saturate(145%);
+  width: max-content;
+  min-width: 190px;
+  max-width: min(92vw, 260px);
+  margin: 0;
+  padding: 4px;
+  border-color: rgba(220, 230, 255, 0.12);
+  border-radius: 12px;
+  background: rgba(11, 15, 23, 0.97);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
-.nav-dropdown-panel[hidden],
-.nav-submenu-panel[hidden] {
+.library-torrent-menu[hidden] {
   display: none !important;
 }
-.nav-menu-link,
-.nav-submenu-link {
-  display: flex;
+.library-torrent-menu .utility-tab {
   width: 100%;
-  min-height: 36px;
-  box-sizing: border-box;
-  align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 0 10px;
-  border: 1px solid transparent;
-  border-radius: 9px;
-  color: #aab6c9;
-  background: transparent;
-  text-align: left;
-  text-decoration: none;
-  font-family: inherit;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: color 150ms ease, background 150ms ease, border-color 150ms ease;
-}
-.nav-menu-link:hover,
-.nav-submenu-link:hover,
-.nav-menu-link[aria-expanded="true"] {
-  color: #eef1ff;
-  border-color: rgba(185, 198, 255, 0.11);
-  background: rgba(152, 169, 255, 0.095);
-}
-.nav-submenu-panel {
-  display: grid;
-  gap: 3px;
-  margin: 3px 0 4px 10px;
-  padding: 4px 0 4px 10px;
-  border-left: 1px solid rgba(177, 190, 255, 0.2);
-}
-.nav-submenu-link {
-  min-height: 33px;
-  padding-left: 11px;
-  color: #929fb4;
-  font-size: 10px;
-}
-.nav-menu-chevron {
-  color: #8794aa;
-}
-.nav-submenu-toggle[aria-expanded="true"] .nav-menu-chevron {
-  transform: rotate(90deg);
-}
-.library-tabs {
-  margin-bottom: 13px;
+  white-space: nowrap;
 }
 @media (max-width: 680px) {
-  .nav-dropdown-panel {
-    right: 0;
-    width: min(224px, calc(100vw - 42px));
+  .library-tabs {
+    width: 100%;
+    flex-wrap: wrap;
+    overflow: visible;
   }
-  .library-nav-toggle {
-    gap: 5px;
+  .library-torrent-menu {
+    max-width: calc(100vw - 48px);
   }
 }
