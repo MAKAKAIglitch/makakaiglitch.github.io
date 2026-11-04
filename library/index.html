@@ -5,8 +5,9 @@
 <meta name="theme-color" content="#0b0e13">
 <meta name="description" content="Технические заметки, торрент-раздачи, публичные трекеры и полезные ссылки.">
 <title>Library — MAKAKAIglitch</title>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261105-torrent-dropdown">
-<script src="/assets/js/library.js?v=20261105-torrent-dropdown" defer></script>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-library-nav">
+<script src="/assets/js/library.js?v=20261105-library-nav" defer></script>
+<script src="/assets/js/library-navigation.js?v=20261105-library-nav" defer></script>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
@@ -14,10 +15,18 @@
 <header class="topbar">
 <a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
 <nav class="main-nav" aria-label="Основная навигация">
-<a class="nav-link" href="/"><span>Repositories</span></a>
-<a class="nav-link" href="/tools/"><span>Utilities</span></a>
-<a class="nav-link is-active" href="/library/" aria-current="page"><span>Library</span></a>
-</nav>
+<a class="nav-link" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/></svg><span>Repositories</span></a>
+<a class="nav-link" href="/tools/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/></svg><span>Utilities</span></a>
+<div class="nav-dropdown" id="library-nav-dropdown">
+<button class="nav-link library-nav-toggle is-active" id="library-nav-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="library-nav-menu" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/></svg><span>Library</span><svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5"/></svg></button>
+<div class="nav-dropdown-panel" id="library-nav-menu" hidden>
+<a class="nav-menu-link" href="/library/">Все материалы</a>
+<div class="nav-submenu">
+<button class="nav-menu-link nav-submenu-toggle" id="torrent-nav-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="torrent-nav-menu"><span>Торрент</span><svg class="nav-menu-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg></button>
+<div class="nav-submenu-panel" id="torrent-nav-menu" hidden>
+<a class="nav-submenu-link" href="/library/?torrent=shares">Раздачи</a>
+<a class="nav-submenu-link" href="/library/?torrent=client">Настройки клиента</a>
+</div></div></div></div></nav>
 <a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
 </header>
 
@@ -36,21 +45,10 @@
 </div>
 
 <div class="utility-tabs library-tabs" role="group" aria-label="Разделы Library">
-<button class="utility-tab is-active" type="button" data-library-section="all" aria-pressed="true">Все <span>04</span></button>
-<div class="library-dropdown" id="torrent-dropdown">
-<button class="utility-tab" id="torrent-menu-toggle" type="button" data-library-section="torrents" aria-pressed="false" aria-expanded="false" aria-haspopup="true" aria-controls="torrent-menu">Торрент <span>02</span></button>
-<div class="library-dropdown-menu" id="torrent-menu" hidden>
-<div class="utility-tabs library-dropdown-tabs" role="group" aria-label="Разделы торрента">
-<button class="utility-tab is-active" type="button" data-torrent-view="shares" aria-pressed="true">Раздачи <span>01</span></button>
-<button class="utility-tab" type="button" data-torrent-view="client" aria-pressed="false">Настройки клиента <span>01</span></button>
-</div>
-</div>
-</div>
+<button class="utility-tab is-active" type="button" data-library-section="all" aria-pressed="true">Все материалы <span>04</span></button>
 <button class="utility-tab" type="button" data-library-section="guides" aria-pressed="false">Инструкции <span>01</span></button>
 <button class="utility-tab" type="button" data-library-section="notes" aria-pressed="false">Заметки <span>01</span></button>
 </div>
-
-<div class="library-menu-backdrop" id="torrent-menu-backdrop" hidden></div>
 
 <div class="utility-section-label"><span id="library-section-title">TORRENTS / SHARES</span><span id="library-count">01 / 04 ITEMS</span></div>
 <section id="library-grid" class="library-grid" aria-live="polite">

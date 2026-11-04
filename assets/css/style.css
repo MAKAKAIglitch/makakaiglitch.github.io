@@ -981,55 +981,6 @@ kbd {
 }
 
 
-/* Library primary sections and nested torrent navigation */
-.library-tabs {
-  margin-bottom: 13px;
-}
-.library-subtabs-wrap {
-  margin: 0 0 22px 12px;
-  padding-left: 14px;
-  border-left: 1px solid rgba(177, 190, 255, 0.16);
-}
-.library-subtabs-wrap[hidden] { display: none !important; }
-.library-subtabs-label {
-  margin: 0 0 8px 2px;
-  color: #718096;
-  font-family: var(--mono);
-  font-size: 8px;
-  letter-spacing: 0.12em;
-}
-.library-subtabs {
-  margin: 0;
-  background: rgba(11, 15, 23, 0.34);
-}
-.library-subtabs .utility-tab {
-  min-height: 29px;
-  padding: 0 12px;
-  font-size: 9px;
-}
-.library-subtabs .utility-tab span {
-  font-size: 8px;
-}
-@media (max-width: 680px) {
-  .library-subtabs-wrap {
-    margin-left: 5px;
-    padding-left: 10px;
-  }
-  .library-subtabs {
-    width: fit-content;
-    max-width: 100%;
-  }
-}
-
-
-
-
-
-/* Library uses only the native Utilities tab styles. */
-.library-subtabs-wrap { margin: 0 0 22px 12px; }
-@media (max-width: 680px) { .library-subtabs-wrap { margin-left: 5px; } }
-
-
 /* Global site search */
 .topbar-actions {
   display: flex;
@@ -1201,55 +1152,105 @@ kbd {
 }
 
 
-/* Library torrent category: click the Utilities-style pill to reveal a menu */
-.library-tabs { position: relative; }
-.library-dropdown {
+
+
+/* Library navigation: Library > Torrent > Shares / Client settings */
+.nav-dropdown {
   position: relative;
   display: inline-flex;
   align-items: center;
 }
-.library-dropdown-menu {
+.library-nav-toggle {
+  font-family: inherit;
+  cursor: pointer;
+}
+.nav-chevron,
+.nav-menu-chevron {
+  flex: 0 0 auto;
+  width: 12px !important;
+  height: 12px !important;
+  transition: transform 160ms ease;
+}
+.library-nav-toggle[aria-expanded="true"] .nav-chevron {
+  transform: rotate(180deg);
+}
+.nav-dropdown-panel {
   position: absolute;
-  z-index: 40;
-  top: calc(100% + 8px);
-  left: 0;
-  min-width: max-content;
-  max-width: min(92vw, 370px);
-  padding: 0;
-  border: 0;
-  border-radius: 12px;
+  z-index: 100;
+  top: calc(100% + 10px);
+  right: 0;
+  display: grid;
+  gap: 4px;
+  width: 224px;
+  padding: 7px;
+  border: 1px solid rgba(220, 230, 255, 0.12);
+  border-radius: 13px;
+  background: rgba(12, 17, 27, 0.97);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(24px) saturate(145%);
+  -webkit-backdrop-filter: blur(24px) saturate(145%);
+}
+.nav-dropdown-panel[hidden],
+.nav-submenu-panel[hidden] {
+  display: none !important;
+}
+.nav-menu-link,
+.nav-submenu-link {
+  display: flex;
+  width: 100%;
+  min-height: 36px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 10px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: #aab6c9;
   background: transparent;
-  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.30);
+  text-align: left;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: color 150ms ease, background 150ms ease, border-color 150ms ease;
 }
-.library-dropdown-menu[hidden],
-.library-menu-backdrop[hidden] { display: none !important; }
-.library-dropdown-tabs {
-  width: fit-content;
-  max-width: min(92vw, 370px);
-  margin: 0;
-  flex-wrap: wrap;
-  border-color: rgba(220, 230, 255, 0.12);
-  background: rgba(11, 15, 23, 0.97);
-  backdrop-filter: blur(22px) saturate(145%);
-  -webkit-backdrop-filter: blur(22px) saturate(145%);
+.nav-menu-link:hover,
+.nav-submenu-link:hover,
+.nav-menu-link[aria-expanded="true"] {
+  color: #eef1ff;
+  border-color: rgba(185, 198, 255, 0.11);
+  background: rgba(152, 169, 255, 0.095);
 }
-.library-dropdown-tabs .utility-tab {
-  white-space: nowrap;
+.nav-submenu-panel {
+  display: grid;
+  gap: 3px;
+  margin: 3px 0 4px 10px;
+  padding: 4px 0 4px 10px;
+  border-left: 1px solid rgba(177, 190, 255, 0.2);
+}
+.nav-submenu-link {
+  min-height: 33px;
+  padding-left: 11px;
+  color: #929fb4;
+  font-size: 10px;
+}
+.nav-menu-chevron {
+  color: #8794aa;
+}
+.nav-submenu-toggle[aria-expanded="true"] .nav-menu-chevron {
+  transform: rotate(90deg);
+}
+.library-tabs {
+  margin-bottom: 13px;
 }
 @media (max-width: 680px) {
-  .library-tabs {
-    width: 100%;
-    flex-wrap: wrap;
-    overflow: visible;
+  .nav-dropdown-panel {
+    right: 0;
+    width: min(224px, calc(100vw - 42px));
   }
-  .library-dropdown-menu {
-    max-width: calc(100vw - 48px);
-  }
-  .library-dropdown-tabs {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .library-dropdown-tabs .utility-tab {
-    justify-content: flex-start;
+  .library-nav-toggle {
+    gap: 5px;
   }
 }
