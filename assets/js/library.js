@@ -4,7 +4,7 @@
   const grid = document.getElementById("library-grid");
   const cards = Array.from(grid.querySelectorAll(".library-card"));
   const sectionTabs = Array.from(document.querySelectorAll("[data-library-section]"));
-  const torrentTabs = Array.from(document.querySelectorAll("[data-torrent-view]"));
+  const torrentTabs = Array.from(document.querySelectorAll("button[data-torrent-view]"));
   const torrentTabsWrap = document.getElementById("torrent-subtabs-wrap");
   const empty = document.getElementById("library-empty");
   const count = document.getElementById("library-count");
@@ -139,5 +139,7 @@
       search.blur();
     }
   });
+  activateTab(sectionTabs, sectionTabs.find(item => item.dataset.librarySection === activeSection));
+  activateTab(torrentTabs, torrentTabs.find(item => item.dataset.torrentView === activeTorrentView));
   renderLibrary();
 })();

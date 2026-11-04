@@ -1024,17 +1024,11 @@ kbd {
 
 
 
-/* Library uses the exact Utilities tab components */
-.library-tabs { margin-bottom: 12px; }
-.library-torrent-tabs {
-  margin: 0 0 22px 12px;
-  width: fit-content;
-  border-color: rgba(220, 230, 255, 0.075);
-  background: rgba(11, 15, 23, 0.34);
-}
-@media (max-width: 680px) {
-  .library-torrent-tabs { width: 100%; margin-left: 5px; }
-}
+
+/* Library uses only the native Utilities tab styles. */
+.library-subtabs-wrap { margin: 0 0 22px 12px; }
+@media (max-width: 680px) { .library-subtabs-wrap { margin-left: 5px; } }
+
 
 /* Global site search */
 .topbar-actions {
