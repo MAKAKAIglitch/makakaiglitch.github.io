@@ -52,6 +52,9 @@
   for (const tab of sectionTabs) {
     tab.addEventListener("click", () => {
       activeSection = tab.dataset.librarySection || "all";
+      const nextUrl = new URL(window.location.href);
+      nextUrl.searchParams.delete("torrent");
+      window.history.replaceState(null, "", nextUrl.pathname + nextUrl.search + nextUrl.hash);
       activateTabs(sectionTabs, tab);
       renderLibrary();
     });

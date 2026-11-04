@@ -1163,6 +1163,9 @@ kbd {
 .library-nav-toggle {
   font-family: inherit;
   cursor: pointer;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
 }
 .nav-chevron,
 .nav-menu-chevron {
