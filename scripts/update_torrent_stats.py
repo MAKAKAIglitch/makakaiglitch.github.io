@@ -385,6 +385,12 @@ def run(output_path: Path):
         games[game["id"]] = result
         if result["seeders"] is None or result["leechers"] is None:
             print(f'{game["name"]}: swarm stats unavailable ({result["error"]})')
+            print(
+                f'  info hash: {result.get("info_hash") or "unknown"}; '
+                f'trackers: {result["trackers_responded"]}/{result["trackers_total"]}'
+            )
+            for tracker_error in result.get("tracker_errors", [])[:6]:
+                print(f"  tracker error: {tracker_error}")
         else:
             print(
                 f'{game["name"]}: {result["seeders"]} seeders / '
