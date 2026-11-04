@@ -11,7 +11,7 @@ const empty = document.getElementById("library-empty");
 const count = document.getElementById("library-count");
 const sectionTitle = document.getElementById("library-section-title");
 
-let activeSection = "all";
+let activeSection = "torrents";
 let activeTorrentView = "shares";
 let trackerText = "";
 
