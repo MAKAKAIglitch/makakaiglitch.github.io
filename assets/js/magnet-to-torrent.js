@@ -96,7 +96,7 @@
     if (!topics.some(topic => /^urn:btih:[a-f0-9]{40}$/i.test(topic) ||
       /^urn:btih:[a-z2-7]{32}$/i.test(topic) ||
       /^urn:btmh:1220[a-f0-9]{64}$/i.test(topic))) {
-      throw new Error("В ссылке не найден поддерживаемый infohash (xt=urn:btih или bt mh).");
+      throw new Error("В ссылке не найден поддерживаемый infohash (xt=urn:btih или btmh).");
     }
     return parsed;
   }
