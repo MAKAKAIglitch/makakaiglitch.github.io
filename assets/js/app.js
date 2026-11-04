@@ -74,7 +74,7 @@
     const actions = element("div", "repo-card-actions");
 
     const releases = element("a", "repo-release-link", "Releases");
-    releases.href = repo.html_url.replace(/\\/$/, "") + "/releases";
+    releases.href = repo.html_url + "/releases";
     releases.target = "_blank";
     releases.rel = "noopener noreferrer";
     releases.setAttribute("aria-label", "Открыть релизы " + repo.name);
