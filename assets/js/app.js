@@ -2,7 +2,8 @@
   "use strict";
 
   const OWNER = "MAKAKAIglitch";
-  const API_URL = \`https://api.github.com/users/\${OWNER}/repos?type=owner&sort=updated&direction=desc&per_page=100\`;
+  const API_URL = "https://api.github.com/users/" + OWNER +
+    "/repos?type=owner&sort=updated&direction=desc&per_page=100";
   const CACHE_KEY = "makakaiglitch.repositories.v1";
   const CACHE_TTL = 5 * 60 * 1000;
 
@@ -124,8 +125,8 @@
     grid.appendChild(fragment);
 
     count.textContent = query
-      ? \`\${formatNumber(filtered.length)} из \${formatNumber(repositories.length)} репозиториев\`
-      : \`\${formatNumber(repositories.length)} репозиториев\`;
+      ? formatNumber(filtered.length) + " из " + formatNumber(repositories.length) + " репозиториев"
+      : formatNumber(repositories.length) + " репозиториев";
 
     emptyState.hidden = filtered.length !== 0;
     grid.hidden = filtered.length === 0;
@@ -143,7 +144,7 @@
         return Date.now() - cached.timestamp < CACHE_TTL;
       }
     } catch {
-      sessionStorage.removeItem(CACHE_KEY);
+      try { sessionStorage.removeItem(CACHE_KEY); } catch { /* Storage may be disabled. */ }
     }
     return false;
   }
@@ -231,7 +232,6 @@
     }
   });
 
-  const freshCache = readCache();
-  if (!freshCache) loadRepositories();
-  else loadRepositories();
+  readCache();
+  loadRepositories();
 })();
