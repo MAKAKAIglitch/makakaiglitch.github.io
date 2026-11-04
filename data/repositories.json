@@ -1,0 +1,632 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-11-04T22:56:51Z",
+  "source": "GitHub REST API via GitHub Actions",
+  "repository_count": 10,
+  "fork_count": 3,
+  "rate_limit_remaining": "4952",
+  "items": [
+    {
+      "id": 1446153613,
+      "name": "makakaiglitch.github.io",
+      "full_name": "MAKAKAIglitch/makakaiglitch.github.io",
+      "html_url": "https://github.com/MAKAKAIglitch/makakaiglitch.github.io",
+      "description": "Personal knowledge hub, projects, tools and technical wiki.",
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-11-04T20:16:37Z",
+      "updated_at": "2026-11-04T22:56:45Z",
+      "pushed_at": "2026-11-04T22:56:41Z",
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "HTML",
+      "default_branch": "main",
+      "size": 491,
+      "topics": [],
+      "homepage": null,
+      "clone_url": "https://github.com/MAKAKAIglitch/makakaiglitch.github.io.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": null,
+      "parent": null,
+      "details": {
+        "languages": {
+          "HTML": 68536,
+          "JavaScript": 68424,
+          "CSS": 44106,
+          "Python": 30283
+        },
+        "releases": [],
+        "releases_count": 0,
+        "release_downloads": 0,
+        "release_downloads_scope": "all",
+        "contributors_count": 2,
+        "commits_count": 166,
+        "branches_count": 1,
+        "generated_at": "2026-11-04T22:56:49Z"
+      }
+    },
+    {
+      "id": 1445722443,
+      "name": "SwarmAtlas",
+      "full_name": "MAKAKAIglitch/SwarmAtlas",
+      "html_url": "https://github.com/MAKAKAIglitch/SwarmAtlas",
+      "description": null,
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-11-04T13:49:19Z",
+      "updated_at": "2026-11-04T22:30:08Z",
+      "pushed_at": "2026-11-04T21:14:14Z",
+      "stargazers_count": 1,
+      "watchers_count": 1,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "Python",
+      "default_branch": "main",
+      "size": 274,
+      "topics": [],
+      "homepage": null,
+      "clone_url": "https://github.com/MAKAKAIglitch/SwarmAtlas.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Python": 356225,
+          "Rust": 33541,
+          "Batchfile": 4821
+        },
+        "releases": [
+          {
+            "name": "SwarmAtlas native core (latest)",
+            "tag_name": "native-latest",
+            "published_at": "2026-11-04T15:54:06Z",
+            "html_url": "https://github.com/MAKAKAIglitch/SwarmAtlas/releases/tag/native-latest",
+            "assets": [
+              {
+                "name": "swarmatlas_native-0.1.0-cp311-abi3-win_amd64.whl",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/SwarmAtlas/releases/download/native-latest/swarmatlas_native-0.1.0-cp311-abi3-win_amd64.whl",
+                "download_count": 2,
+                "size": 134485
+              },
+              {
+                "name": "wheel.sha256",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/SwarmAtlas/releases/download/native-latest/wheel.sha256",
+                "download_count": 2,
+                "size": 120
+              }
+            ]
+          }
+        ],
+        "releases_count": 1,
+        "release_downloads": 4,
+        "release_downloads_scope": "all",
+        "contributors_count": 1,
+        "commits_count": 251,
+        "branches_count": 5,
+        "generated_at": "2026-11-04T22:56:49Z"
+      }
+    },
+    {
+      "id": 1436389645,
+      "name": "zapret-discord-youtube-warp",
+      "full_name": "MAKAKAIglitch/zapret-discord-youtube-warp",
+      "html_url": "https://github.com/MAKAKAIglitch/zapret-discord-youtube-warp",
+      "description": null,
+      "fork": true,
+      "archived": false,
+      "created_at": "2026-10-27T23:31:48Z",
+      "updated_at": "2026-11-04T21:38:59Z",
+      "pushed_at": "2026-11-02T15:12:01Z",
+      "stargazers_count": 2,
+      "watchers_count": 2,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "Batchfile",
+      "default_branch": "main",
+      "size": 5773,
+      "topics": [],
+      "homepage": "",
+      "clone_url": "https://github.com/MAKAKAIglitch/zapret-discord-youtube-warp.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "other",
+        "name": "Other",
+        "spdx_id": "NOASSERTION"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Batchfile": 177989,
+          "PowerShell": 63234
+        },
+        "releases": [
+          {
+            "name": "zapret-discord-youtube-warp",
+            "tag_name": "v1.0-warp",
+            "published_at": "2026-10-30T18:10:40Z",
+            "html_url": "https://github.com/MAKAKAIglitch/zapret-discord-youtube-warp/releases/tag/v1.0-warp",
+            "assets": [
+              {
+                "name": "zapret-discord-youtube-warp.zip",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/zapret-discord-youtube-warp/releases/download/v1.0-warp/zapret-discord-youtube-warp.zip",
+                "download_count": 26,
+                "size": 1333463
+              }
+            ]
+          }
+        ],
+        "releases_count": 1,
+        "release_downloads": 26,
+        "release_downloads_scope": "all",
+        "contributors_count": 55,
+        "commits_count": 550,
+        "branches_count": 1,
+        "generated_at": "2026-11-04T22:56:49Z"
+      }
+    },
+    {
+      "id": 1437020348,
+      "name": "tabby",
+      "full_name": "MAKAKAIglitch/tabby",
+      "html_url": "https://github.com/MAKAKAIglitch/tabby",
+      "description": "Мод на вкладки как в браузере ",
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-10-28T11:57:09Z",
+      "updated_at": "2026-11-04T20:39:52Z",
+      "pushed_at": "2026-11-04T18:13:29Z",
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "Java",
+      "default_branch": "main",
+      "size": 1502,
+      "topics": [],
+      "homepage": "",
+      "clone_url": "https://github.com/MAKAKAIglitch/tabby.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Java": 319396,
+          "PowerShell": 9628,
+          "Shell": 5726,
+          "Batchfile": 1021
+        },
+        "releases": [],
+        "releases_count": 0,
+        "release_downloads": 0,
+        "release_downloads_scope": "all",
+        "contributors_count": 1,
+        "commits_count": 133,
+        "branches_count": 1,
+        "generated_at": "2026-11-04T22:56:49Z"
+      }
+    },
+    {
+      "id": 1445805108,
+      "name": "meetube",
+      "full_name": "MAKAKAIglitch/meetube",
+      "html_url": "https://github.com/MAKAKAIglitch/meetube",
+      "description": "MeeTube: a modern YouTube client for Android phones and TVs with a frosted liquid glass UI. Background play, picture-in-picture, downloads up to 4K, Shorts, SponsorBlock, no ads. MeeTube TV brings the glass to Android TV. Fork of NewTube / SmartTube.",
+      "fork": true,
+      "archived": false,
+      "created_at": "2026-11-04T14:57:09Z",
+      "updated_at": "2026-11-04T14:57:09Z",
+      "pushed_at": "2026-11-04T15:08:53Z",
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": null,
+      "default_branch": "main",
+      "size": 67724,
+      "topics": [],
+      "homepage": "https://github.com/yashoncode/meetube/releases/latest",
+      "clone_url": "https://github.com/MAKAKAIglitch/meetube.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Java": 7200494,
+          "Python": 549169,
+          "Kotlin": 62653,
+          "Shell": 26767,
+          "Go": 6227
+        },
+        "releases": [],
+        "releases_count": 0,
+        "release_downloads": 0,
+        "release_downloads_scope": "all",
+        "contributors_count": 2,
+        "commits_count": 270,
+        "branches_count": 2,
+        "generated_at": "2026-11-04T22:56:49Z"
+      }
+    },
+    {
+      "id": 1442976047,
+      "name": "Wemaps",
+      "full_name": "MAKAKAIglitch/Wemaps",
+      "html_url": "https://github.com/MAKAKAIglitch/Wemaps",
+      "description": null,
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-11-02T13:05:46Z",
+      "updated_at": "2026-11-03T06:50:42Z",
+      "pushed_at": "2026-11-03T06:50:38Z",
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "Kotlin",
+      "default_branch": "main",
+      "size": 353,
+      "topics": [],
+      "homepage": null,
+      "clone_url": "https://github.com/MAKAKAIglitch/Wemaps.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "gpl-3.0",
+        "name": "GNU General Public License v3.0",
+        "spdx_id": "GPL-3.0"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Kotlin": 61901,
+          "PowerShell": 54362,
+          "Batchfile": 431
+        },
+        "releases": [],
+        "releases_count": 0,
+        "release_downloads": 0,
+        "release_downloads_scope": "all",
+        "contributors_count": 1,
+        "commits_count": 197,
+        "branches_count": 2,
+        "generated_at": "2026-11-04T22:56:49Z"
+      }
+    },
+    {
+      "id": 1443372138,
+      "name": "ggns-drift-atlas",
+      "full_name": "MAKAKAIglitch/ggns-drift-atlas",
+      "html_url": "https://github.com/MAKAKAIglitch/ggns-drift-atlas",
+      "description": null,
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-11-02T19:05:23Z",
+      "updated_at": "2026-11-02T19:45:58Z",
+      "pushed_at": "2026-11-02T19:45:51Z",
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": null,
+      "default_branch": "main",
+      "size": 58,
+      "topics": [],
+      "homepage": null,
+      "clone_url": "https://github.com/MAKAKAIglitch/ggns-drift-atlas.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "other",
+        "name": "Other",
+        "spdx_id": "NOASSERTION"
+      },
+      "parent": null,
+      "details": {
+        "languages": {},
+        "releases": [],
+        "releases_count": 0,
+        "release_downloads": 0,
+        "release_downloads_scope": "all",
+        "contributors_count": 1,
+        "commits_count": 10,
+        "branches_count": 2,
+        "generated_at": "2026-11-04T22:56:51Z"
+      }
+    },
+    {
+      "id": 1431559959,
+      "name": "BeamNG.Earth",
+      "full_name": "MAKAKAIglitch/BeamNG.Earth",
+      "html_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth",
+      "description": "A 1:1 scale streamed Earth for BeamNG.drive: real elevation and satellite imagery, floating origin, LOD streaming from a companion server",
+      "fork": true,
+      "archived": false,
+      "created_at": "2026-10-23T21:20:06Z",
+      "updated_at": "2026-10-29T10:38:02Z",
+      "pushed_at": "2026-10-29T10:42:55Z",
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "Python",
+      "default_branch": "main",
+      "size": 96671,
+      "topics": [],
+      "homepage": null,
+      "clone_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Python": 6008672,
+          "Lua": 1910890,
+          "Rust": 529068,
+          "Vue": 90122,
+          "JavaScript": 83326,
+          "C": 9382,
+          "Shell": 5149,
+          "Batchfile": 758,
+          "HTML": 435,
+          "CSS": 257
+        },
+        "releases": [
+          {
+            "name": "BeamNG.Earth 1.7.1-beta",
+            "tag_name": "v1.7.1-beta",
+            "published_at": "2026-10-29T10:42:56Z",
+            "html_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth/releases/tag/v1.7.1-beta",
+            "assets": [
+              {
+                "name": "BeamNG.Earth-1.7.1-beta-x86_64.AppImage",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth/releases/download/v1.7.1-beta/BeamNG.Earth-1.7.1-beta-x86_64.AppImage",
+                "download_count": 1,
+                "size": 75327992
+              },
+              {
+                "name": "BeamNG.Earth-1.7.1-beta.exe",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth/releases/download/v1.7.1-beta/BeamNG.Earth-1.7.1-beta.exe",
+                "download_count": 1,
+                "size": 54673453
+              }
+            ]
+          },
+          {
+            "name": "BeamNG.Earth 1.6.3-beta",
+            "tag_name": "v1.6.3-beta",
+            "published_at": "2026-10-28T03:28:39Z",
+            "html_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth/releases/tag/v1.6.3-beta",
+            "assets": [
+              {
+                "name": "BeamNG.Earth-1.6.3-beta-x86_64.AppImage",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth/releases/download/v1.6.3-beta/BeamNG.Earth-1.6.3-beta-x86_64.AppImage",
+                "download_count": 1,
+                "size": 71019000
+              },
+              {
+                "name": "BeamNG.Earth-1.6.3-beta.exe",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/BeamNG.Earth/releases/download/v1.6.3-beta/BeamNG.Earth-1.6.3-beta.exe",
+                "download_count": 1,
+                "size": 50184136
+              }
+            ]
+          }
+        ],
+        "releases_count": 2,
+        "release_downloads": 4,
+        "release_downloads_scope": "all",
+        "contributors_count": 24,
+        "commits_count": 1601,
+        "branches_count": 3,
+        "generated_at": "2026-11-04T22:56:50Z"
+      }
+    },
+    {
+      "id": 1432613170,
+      "name": "clear-gps",
+      "full_name": "MAKAKAIglitch/clear-gps",
+      "html_url": "https://github.com/MAKAKAIglitch/clear-gps",
+      "description": null,
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-10-24T21:34:20Z",
+      "updated_at": "2026-10-29T05:38:12Z",
+      "pushed_at": "2026-11-02T18:15:58Z",
+      "stargazers_count": 1,
+      "watchers_count": 1,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "Kotlin",
+      "default_branch": "main",
+      "size": 4573,
+      "topics": [],
+      "homepage": null,
+      "clone_url": "https://github.com/MAKAKAIglitch/clear-gps.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "other",
+        "name": "Other",
+        "spdx_id": "NOASSERTION"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Kotlin": 636025,
+          "PowerShell": 42372,
+          "Batchfile": 310
+        },
+        "releases": [
+          {
+            "name": "Clear GPS v0.2.0-alpha",
+            "tag_name": "v0.2.0-alpha",
+            "published_at": "2026-11-01T10:11:39Z",
+            "html_url": "https://github.com/MAKAKAIglitch/clear-gps/releases/tag/v0.2.0-alpha",
+            "assets": [
+              {
+                "name": "clear-gps-v0.2.0-alpha.apk",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/clear-gps/releases/download/v0.2.0-alpha/clear-gps-v0.2.0-alpha.apk",
+                "download_count": 0,
+                "size": 73159848
+              }
+            ]
+          },
+          {
+            "name": "Clear GPS v0.1.0-alpha",
+            "tag_name": "v0.1.0-alpha",
+            "published_at": "2026-10-30T10:02:45Z",
+            "html_url": "https://github.com/MAKAKAIglitch/clear-gps/releases/tag/v0.1.0-alpha",
+            "assets": [
+              {
+                "name": "app-debug.apk",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/clear-gps/releases/download/v0.1.0-alpha/app-debug.apk",
+                "download_count": 1,
+                "size": 72036143
+              }
+            ]
+          }
+        ],
+        "releases_count": 2,
+        "release_downloads": 1,
+        "release_downloads_scope": "all",
+        "contributors_count": 1,
+        "commits_count": 348,
+        "branches_count": 2,
+        "generated_at": "2026-11-04T22:56:51Z"
+      }
+    },
+    {
+      "id": 1131929855,
+      "name": "Zipper",
+      "full_name": "MAKAKAIglitch/Zipper",
+      "html_url": "https://github.com/MAKAKAIglitch/Zipper",
+      "description": null,
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-01-11T01:03:53Z",
+      "updated_at": "2026-10-24T21:03:05Z",
+      "pushed_at": "2026-10-26T22:48:36Z",
+      "stargazers_count": 2,
+      "watchers_count": 2,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "PowerShell",
+      "default_branch": "main",
+      "size": 189,
+      "topics": [],
+      "homepage": null,
+      "clone_url": "https://github.com/MAKAKAIglitch/Zipper.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": null,
+      "parent": null,
+      "details": {
+        "languages": {
+          "PowerShell": 72720,
+          "Batchfile": 670
+        },
+        "releases": [
+          {
+            "name": "Zipper v 1.2",
+            "tag_name": "1.2",
+            "published_at": "2026-10-24T20:49:15Z",
+            "html_url": "https://github.com/MAKAKAIglitch/Zipper/releases/tag/1.2",
+            "assets": [
+              {
+                "name": "Zipper.exe",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/Zipper/releases/download/1.2/Zipper.exe",
+                "download_count": 2,
+                "size": 84992
+              },
+              {
+                "name": "Zipper.exe.sha256",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/Zipper/releases/download/1.2/Zipper.exe.sha256",
+                "download_count": 0,
+                "size": 78
+              }
+            ]
+          },
+          {
+            "name": "Zipper v 1.1",
+            "tag_name": "V1.1",
+            "published_at": "2026-01-11T01:55:23Z",
+            "html_url": "https://github.com/MAKAKAIglitch/Zipper/releases/tag/V1.1",
+            "assets": [
+              {
+                "name": "Zipper-v1.1.bat",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/Zipper/releases/download/V1.1/Zipper-v1.1.bat",
+                "download_count": 9,
+                "size": 5089
+              }
+            ]
+          },
+          {
+            "name": "Zipper V1.0",
+            "tag_name": "V1.0.0",
+            "published_at": "2026-01-11T01:20:33Z",
+            "html_url": "https://github.com/MAKAKAIglitch/Zipper/releases/tag/V1.0.0",
+            "assets": [
+              {
+                "name": "Zipper.bat",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/Zipper/releases/download/V1.0.0/Zipper.bat",
+                "download_count": 5,
+                "size": 4927
+              }
+            ]
+          }
+        ],
+        "releases_count": 3,
+        "release_downloads": 16,
+        "release_downloads_scope": "all",
+        "contributors_count": 1,
+        "commits_count": 18,
+        "branches_count": 2,
+        "generated_at": "2026-11-04T22:56:51Z"
+      }
+    }
+  ]
+}
