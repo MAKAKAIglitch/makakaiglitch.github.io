@@ -1112,31 +1112,26 @@ kbd {
   width: min(100%, 650px);
 }
 .library-torrent-card {
-  display: block;
-  min-width: 0;
-  padding: 17px;
-}
-.library-torrent-launcher {
-  display: flex;
   width: 100%;
   min-width: 0;
+  min-height: 76px;
   align-items: center;
-  gap: 13px;
-  padding: 0;
-  border: 0;
+  padding: 17px;
   color: inherit;
-  background: transparent;
-  font: inherit;
   text-align: left;
   cursor: pointer;
 }
-.library-torrent-launcher:focus-visible {
-  outline: 2px solid rgba(177, 190, 255, 0.55);
-  outline-offset: 5px;
-  border-radius: 8px;
+.library-torrent-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(170, 187, 255, 0.23);
+  background: linear-gradient(135deg, rgba(37, 46, 64, 0.76), rgba(19, 25, 36, 0.69));
 }
-.library-torrent-launcher .utility-icon { flex: 0 0 auto; }
-.library-torrent-launcher .utility-card-main { flex: 1; min-width: 0; }
+.library-torrent-card:focus-visible {
+  outline: 2px solid rgba(177, 190, 255, 0.55);
+  outline-offset: 3px;
+}
+.library-torrent-card .utility-icon { flex: 0 0 auto; }
+.library-torrent-card .utility-card-main { flex: 1; min-width: 0; }
 .library-torrent-chevron {
   color: #8997b2;
   font-size: 20px;
