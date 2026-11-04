@@ -110,65 +110,134 @@ $("warp-generate").addEventListener("click",generate);
 $("warp-copy").addEventListener("click",copy);
 $("warp-download").addEventListener("click",download);
 
-function buildAutomaticGeneratorUrl(){
-  const profile=$("warp-auto-profile").value;
-  const dns=$("warp-auto-dns").value;
-  const port=$("warp-auto-port").value;
-  const device=$("warp-auto-device").value;
-  const endpoint=$("warp-auto-endpoint").value;
-  const cps=$("warp-auto-cps").value;
-  const params=new URLSearchParams();
-  params.set("profile",profile);
-  params.set("dns",dns);
-  params.set("port",port);
-  params.set("device",device);
-  params.set("endpoint",endpoint);
-  params.set("cps",cps);
-  if($("warp-auto-ipv6").checked && !device.startsWith("mobile"))params.set("ipv6","1");
-  if($("warp-auto-cps5").checked && profile!=="legacy")params.set("cps5","1");
-  return "https://awgconfig.com/?"+params.toString();
+const WARP_API_ENDPOINTS=[
+ "https://warp-workers.warp-api.cfd","https://warp-sub.warp-api.cfd",
+ "https://warp-vercel-chi.warp-api.cfd","https://warp-vercel-murex.warp-api.cfd",
+ "https://warp-netlify.warp-api.cfd"
+];
+const WARP_DNS={
+ cloudflare:"1.1.1.1, 1.0.0.1, 2606:4700:4700::1111, 2606:4700:4700::1001",
+ google:"8.8.8.8, 8.8.4.4, 2001:4860:4860::8888, 2001:4860:4860::8844",
+ yandex:"77.88.8.8, 2a02:6b8::feed:0ff, 77.88.8.1, 2a02:6b8:0:1::feed:0ff",
+ yandex_safe:"77.88.8.88, 2a02:6b8::feed:bad, 77.88.8.2, 2a02:6b8:0:1::feed:bad",
+ adguard:"94.140.14.14, 2a10:50c0::ad1:ff, 94.140.15.15, 2a10:50c0::ad2:ff",
+ quad9:"9.9.9.9, 2620:fe::fe, 149.112.112.112, 2620:fe::9",
+ comss_one:"83.220.169.155, 212.109.195.93",
+ malw_link:"80.253.249.40, 193.23.209.189, 2a12:bec4:1460:5b7::2, 2a01:ecc0:680:120::2"
+};
+const WARP_STANDARD_ENDPOINTS=["162.159.192.1","162.159.192.8","162.159.193.1","162.159.193.8","162.159.195.1","162.159.195.8","188.114.96.1","188.114.96.8","188.114.97.1","188.114.97.66","188.114.99.1"];
+let lastAutomaticConfig="",lastAutomaticFilename="WARP-AmneziaWG2.conf";
+function autoStatus(message,error=false){const el=$("warp-auto-status");el.textContent=message;el.dataset.state=error?"error":"success";}
+function validBase64Key(value){if(typeof value!=="string"||!/^[A-Za-z0-9+/]+={0,2}$/.test(value))return false;try{return atob(value).length===32;}catch{return false;}}
+function validateWarpResponse(data){
+ if(!data||typeof data!=="object")throw new Error("API вернул пустой ответ.");
+ if(!validBase64Key(data.privKey))throw new Error("API не вернул корректный PrivateKey.");
+ if(!validBase64Key(data.peer_pub))throw new Error("API не вернул корректный публичный ключ WARP.");
+ if(typeof data.client_ipv4!=="string"||!data.client_ipv4.includes("/"))throw new Error("API не вернул IPv4-адрес WARP.");
+ return data;
+}
+async function requestWarpAccount(endpoint){
+ const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),5500);
+ try{
+  const response=await fetch(endpoint,{method:"GET",mode:"cors",credentials:"omit",cache:"no-store",headers:{Accept:"application/json"},signal:controller.signal});
+  if(!response.ok)throw new Error("HTTP "+response.status);
+  const data=await response.json();if(data?.error)throw new Error(String(data.error).slice(0,180));
+  return validateWarpResponse(data);
+ }catch(error){
+  if(error.name==="AbortError")throw new Error("тайм-аут");
+  if(error instanceof TypeError)throw new Error("CORS или сеть не разрешили запрос");
+  throw error;
+ }finally{clearTimeout(timeout);}
+}
+async function fetchWarpAccount(){
+ const failures=[];
+ for(let i=0;i<WARP_API_ENDPOINTS.length;i++){
+  const endpoint=WARP_API_ENDPOINTS[i];
+  autoStatus("Получаю новый WARP-профиль · API "+(i+1)+"/"+WARP_API_ENDPOINTS.length+"…");
+  try{return await requestWarpAccount(endpoint);}
+  catch(error){failures.push(new URL(endpoint).hostname+": "+error.message);}
+ }
+ throw new Error("Не удалось получить WARP-аккаунт ни от одного API. "+failures.join(" · "));
+}
+function readAutoSettings(){
+ const profile=$("warp-auto-profile").value,dnsKey=$("warp-auto-dns").value,port=Number($("warp-auto-port").value);
+ const device=$("warp-auto-device").value,endpointMode=$("warp-auto-endpoint").value;
+ const mtu=Number($("warp-auto-mtu").value),keepalive=Number($("warp-auto-keepalive").value);
+ const junkProfile=$("warp-auto-junk-profile").value;
+ const ipv6=$("warp-auto-ipv6").checked&&device!=="mobile";
+ const junk=$("warp-auto-junk").checked&&profile==="awg2"&&junkProfile!=="off";
+ if(!WARP_DNS[dnsKey])throw new Error("Выбран неизвестный DNS-сервер.");
+ if(![4500,2408,500,1701,880,8854].includes(port))throw new Error("Недопустимый UDP-порт.");
+ if(!Number.isInteger(mtu)||mtu<576||mtu>1500)throw new Error("MTU должен быть в диапазоне 576–1500.");
+ if(![0,15,25,30].includes(keepalive))throw new Error("Недопустимый PersistentKeepalive.");
+ if(!["awg2","wireguard"].includes(profile))throw new Error("Неизвестный формат конфигурации.");
+ if(!["hostname","random-ip"].includes(endpointMode))throw new Error("Неизвестный Endpoint.");
+ return {profile,dns:WARP_DNS[dnsKey],port,device,endpointMode,mtu,keepalive,junkProfile,ipv6,junk};
+}
+function buildAutomaticConfig(account,settings){
+ const addresses=[account.client_ipv4];
+ if(settings.ipv6){
+  if(typeof account.client_ipv6!=="string"||!account.client_ipv6.includes(":"))throw new Error("API не вернул IPv6-адрес; отключи IPv6 или попробуй другой API-узел.");
+  addresses.push(account.client_ipv6);
+ }
+ const dns=settings.dns.split(",").map(x=>x.trim()).filter(Boolean);
+ const activeDns=settings.ipv6?dns:dns.filter(x=>!x.includes(":"));
+ if(!activeDns.length)throw new Error("В выбранном DNS нет IPv4-адресов.");
+ const host=settings.endpointMode==="random-ip"?WARP_STANDARD_ENDPOINTS[Math.floor(Math.random()*WARP_STANDARD_ENDPOINTS.length)]:"engage.cloudflareclient.com";
+ const lines=["# Cloudflare WARP configuration","# Generated by MAKAKAIglitch WARP Generator","[Interface]","PrivateKey = "+account.privKey,"Address = "+addresses.join(", "),"DNS = "+activeDns.join(", "),"MTU = "+settings.mtu];
+ if(settings.profile==="awg2"&&settings.junk){
+  const packet=settings.junkProfile==="light"?{Jc:2,Jmin:40,Jmax:64}:{Jc:4,Jmin:40,Jmax:70};
+  lines.push("Jc = "+packet.Jc,"Jmin = "+packet.Jmin,"Jmax = "+packet.Jmax,"S1 = 0","S2 = 0","S3 = 0","S4 = 0","H1 = 1","H2 = 2","H3 = 3","H4 = 4");
+ }
+ lines.push("","[Peer]","PublicKey = "+account.peer_pub,"AllowedIPs = "+(settings.ipv6?"0.0.0.0/0, ::/0":"0.0.0.0/0"),"Endpoint = "+host+":"+settings.port,"PersistentKeepalive = "+settings.keepalive);
+ return lines.join("\n")+"\n";
+}
+function downloadAutomaticFile(){
+ if(!lastAutomaticConfig)return;
+ const blob=new Blob([lastAutomaticConfig],{type:"application/octet-stream"}),url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download=lastAutomaticFilename;document.body.appendChild(a);a.click();a.remove();
+ setTimeout(()=>URL.revokeObjectURL(url),60000);
+}
+function automaticFilename(){
+ const d=new Date(),p=n=>String(n).padStart(2,"0");
+ return "WARP-"+$("warp-auto-profile").value.toUpperCase()+"-"+d.getFullYear()+p(d.getMonth()+1)+p(d.getDate())+"-"+p(d.getHours())+p(d.getMinutes())+".conf";
+}
+async function generateAutomatic(){
+ const button=$("warp-auto-generate");if(button.disabled)return;
+ let settings;try{settings=readAutoSettings();}catch(error){autoStatus(error.message,true);return;}
+ button.disabled=true;button.classList.add("is-loading");button.querySelector("span").textContent="Получаю ключи и собираю конфиг…";
+ $("warp-auto-warning").hidden=true;
+ try{
+  const account=await fetchWarpAccount();autoStatus("Собираю "+(settings.profile==="awg2"?"AmneziaWG 2.0":"WireGuard")+" конфигурацию…");
+  lastAutomaticConfig=buildAutomaticConfig(account,settings);lastAutomaticFilename=automaticFilename();
+  $("warp-auto-output").value=lastAutomaticConfig;$("warp-auto-filename").textContent=lastAutomaticFilename;
+  $("warp-auto-result").hidden=false;downloadAutomaticFile();
+  autoStatus("Готово. Файл "+lastAutomaticFilename+" скачивается в этой вкладке. Создан новый WARP-профиль.");
+ }catch(error){
+  const detail=String(error.message||"Неизвестная ошибка");autoStatus(detail,true);
+  const warning=$("warp-auto-warning");warning.textContent=detail;warning.hidden=false;
+ }finally{button.disabled=false;button.classList.remove("is-loading");button.querySelector("span").textContent="Сгенерировать и скачать .conf";}
+}
+async function copyAutomatic(){
+ if(!lastAutomaticConfig)return;
+ try{await navigator.clipboard.writeText(lastAutomaticConfig);autoStatus("Конфигурация скопирована.");}
+ catch{$("warp-auto-output").focus();$("warp-auto-output").select();autoStatus("Текст выделен — нажми Ctrl+C.");}
 }
 function syncAutomaticSettings(){
-  const profile=$("warp-auto-profile"),device=$("warp-auto-device");
-  const mobile=device.value.startsWith("mobile");
-  const legacy=profile.value==="legacy";
-  const ipv6=$("warp-auto-ipv6"),cps5=$("warp-auto-cps5");
-  ipv6.disabled=mobile;
-  if(mobile)ipv6.checked=false;
-  cps5.disabled=legacy;
-  if(legacy)cps5.checked=false;
-  const profileHelp=$("warp-profile-help");
-  profileHelp.textContent=profile.value==="legacy"
-    ?"Совместимость со старыми клиентами AmneziaWG 1.5."
-    :profile.value==="awg3"
-      ?"Для AmneziaWG 3.0 нужен клиент с поддержкой AWG 3.0."
-      :profile.value==="awg31"
-        ?"Для AmneziaWG 3.1 нужен актуальный клиент с поддержкой AWG 3.1."
-        :"WARP-safe профиль для актуальных AmneziaWG 2.0. Хороший вариант по умолчанию.";
-  const cps=$("warp-auto-cps");
-  const experimental=["quic","dns","dtls"].includes(cps.value);
-  $("warp-auto-warning").hidden=!experimental;
-  $("warp-auto-warning").textContent=experimental
-    ?"Выбран экспериментальный CPS-режим. Совместимость и проходимость зависят от сети; при проблемах верни Auto."
-    :"";
-  $("warp-cps-help").textContent=experimental
-    ?"Экспериментальный режим. Для начала лучше Auto или стабильные варианты."
-    :"Auto выбирает стабильный вариант. Экспериментальные режимы могут хуже работать в отдельных сетях.";
-  $("warp-auto-fallback").href=buildAutomaticGeneratorUrl();
+ const profile=$("warp-auto-profile").value,device=$("warp-auto-device").value,mobile=device==="mobile";
+ const ipv6=$("warp-auto-ipv6"),junk=$("warp-auto-junk"),junkProfile=$("warp-auto-junk-profile");
+ ipv6.disabled=mobile;if(mobile)ipv6.checked=false;
+ junk.disabled=profile!=="awg2";if(profile==="wireguard")junk.checked=false;
+ junkProfile.disabled=profile!=="awg2"||!junk.checked;
+ $("warp-profile-help").textContent=profile==="awg2"
+  ?"AmneziaWG 2.0 с дополнительными J/S/H параметрами. I1/CPS-подпись здесь не добавляется."
+  :"Обычный WireGuard без параметров AmneziaWG.";
 }
-function launchAutomaticGenerator(){
-  const url=buildAutomaticGeneratorUrl();
-  const fallback=$("warp-auto-fallback");
-  fallback.href=url;
-  fallback.hidden=false;
-  $("warp-auto-status").textContent="Настройки подготовлены. Открывается внешний генератор; на его странице нажми Generate, затем скачай .conf.";
-  window.open(url,"_blank","noopener,noreferrer");
-}
-
-$("warp-auto-generate").addEventListener("click",launchAutomaticGenerator);
-for(const id of ["warp-auto-profile","warp-auto-dns","warp-auto-port","warp-auto-device","warp-auto-endpoint","warp-auto-cps","warp-auto-ipv6","warp-auto-cps5"]){
-  $(id).addEventListener("change",syncAutomaticSettings);
-}
+for(const id of ["warp-auto-profile","warp-auto-device","warp-auto-junk"])$(id).addEventListener("change",syncAutomaticSettings);
+$("warp-auto-generate").addEventListener("click",generateAutomatic);
+$("warp-auto-copy-output").addEventListener("click",copyAutomatic);
+$("warp-auto-download-again").addEventListener("click",downloadAutomaticFile);
 syncAutomaticSettings();
+
 syncMode();
 })();
