@@ -1338,3 +1338,70 @@ kbd {
   .share-refresh-label { text-align: left; }
   .share-stats { gap: 8px 12px; }
 }
+
+
+/* Magnet to Torrent experimental tool */
+.magnet-warning {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 15px;
+  padding: 13px 15px;
+  border: 1px solid rgba(214, 174, 112, 0.18);
+  border-radius: 12px;
+  background: rgba(184, 133, 62, 0.06);
+}
+.magnet-warning strong {
+  color: #d9b87c;
+  font-size: 11px;
+}
+.magnet-warning span {
+  color: #a99b83;
+  font-size: 10px;
+  line-height: 1.65;
+}
+.magnet-heading { align-items: flex-start; }
+.magnet-heading > div { min-width: 0; }
+.magnet-input { min-height: 130px; overflow-wrap: anywhere; }
+.magnet-status {
+  min-height: 17px;
+  margin: 10px 0 0;
+  color: #9aa8bd;
+  font-size: 10px;
+  line-height: 1.55;
+}
+.magnet-status[data-state="error"] { color: #e6a0a0; }
+.magnet-status[data-state="success"] { color: #88c9a9; }
+.magnet-result {
+  display: grid;
+  gap: 11px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid rgba(139, 215, 176, 0.16);
+  border-radius: 11px;
+  background: rgba(139, 215, 176, 0.045);
+}
+.magnet-result[hidden] { display: none !important; }
+.magnet-result-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.magnet-result-heading strong {
+  color: #dce8e2;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.magnet-result-meta {
+  display: grid;
+  gap: 5px;
+  color: #91a69d;
+  font-family: var(--mono);
+  font-size: 9px;
+  overflow-wrap: anywhere;
+}
+.magnet-result .tool-button { justify-self: start; }
+@media (max-width: 680px) {
+  .magnet-result-heading { align-items: flex-start; flex-direction: column; }
+  .magnet-warning { padding: 12px; }
+}
