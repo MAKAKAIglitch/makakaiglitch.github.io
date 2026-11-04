@@ -1,17 +1,19 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0e13">
-<meta name="description" content="Локальный конструктор конфигураций Cloudflare WARP для WireGuard и AmneziaWG 2.0.">
+<meta name="description" content="Создание готового Cloudflare WARP профиля для AmneziaWG: выбор DNS, порта, IPv6 и параметров пакетов.">
 <title>WARP Generator — MAKAKAIglitch</title>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261105-dns-tester">
-<script src="/assets/js/warp-generator.js" defer></script>
-  <script src="/assets/js/global-search.js?v=20261105-search-v6" defer></script>
-<script src="/assets/js/i18n.js?v=20261105-dns-tester" defer></script>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-warp-ui-v1">
+<script src="/assets/js/warp-generator.js?v=20261105-warp-ui-v1" defer></script>
+<script src="/assets/js/global-search.js?v=20261105-search-v6" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-warp-ui-v1" defer></script>
 </head>
 <body>
-<div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
 <div class="site-shell">
 <header class="topbar">
 <a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
@@ -22,17 +24,117 @@
 </nav>
 <a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
 </header>
+
 <main class="main-content warp-page">
 <a class="utility-back" href="/tools/"><span>←</span> Все утилиты</a>
 <section class="intro tools-intro">
 <div class="eyebrow"><span class="status-dot"></span> NETWORKING / VPN</div>
 <h1>WARP Generator</h1>
-<p>Собери конфигурацию WireGuard или AmneziaWG 2.0 на основе параметров своего Cloudflare WARP-аккаунта.</p>
+<p>Выбери важные параметры — готовый WARP-профиль соберётся во внешнем генераторе и будет доступен для скачивания в .conf.</p>
 </section>
-<div class="warp-external-note">
-<p><strong>Важно:</strong> этот инструмент собирает файл из уже существующих ключей и параметров WARP. Он работает локально и не регистрирует новое устройство в Cloudflare. Для регистрации нового WARP-аккаунта есть отдельный внешний сервис.</p>
-<a class="warp-external-link" href="https://awgconfig.com/" target="_blank" rel="noopener noreferrer">Новый WARP-аккаунт ↗</a>
+
+<section class="warp-quick-card">
+<div class="warp-quick-head">
+<div>
+<span class="warp-kicker"><span class="warp-kicker-dot"></span> ONE-CLICK PROFILE</span>
+<h2>Новый WARP-конфиг</h2>
+<p>По умолчанию уже выбраны безопасные настройки: AmneziaWG 2.0, DNS Cloudflare, UDP 4500, обычный профиль устройства и полный туннель.</p>
 </div>
+<div class="warp-quick-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M6 16c6-6 16-6 22 0l5 5c3 3 8 3 11 0M6 32c6-6 16-6 22 0l5 5c3 3 8 3 11 0"/><path d="M15 8 9 16l6 8M33 24l6 8-6 8"/></svg></div>
+</div>
+
+<div class="warp-auto-settings">
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-profile">Формат клиента</label>
+<select class="tool-input" id="warp-auto-profile">
+<option value="awg2" selected>AmneziaWG 2.0 — рекомендуется</option>
+<option value="legacy">AmneziaWG Legacy 1.5</option>
+<option value="awg3">AmneziaWG 3.0</option>
+<option value="awg31">AmneziaWG 3.1</option>
+</select>
+<p class="warp-setting-help" id="warp-profile-help">Хороший баланс совместимости и дополнительных возможностей. Для 3.x нужны новые версии клиента.</p>
+</div>
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-dns">DNS-сервер</label>
+<select class="tool-input" id="warp-auto-dns">
+<option value="cloudflare" selected>Cloudflare · 1.1.1.1</option>
+<option value="google">Google · 8.8.8.8</option>
+<option value="yandex">Яндекс</option>
+<option value="yandex_safe">Яндекс Безопасный</option>
+<option value="adguard">AdGuard</option>
+<option value="quad9">Quad9</option>
+<option value="comss_one">Comss.one</option>
+<option value="malw_link">malw.link</option>
+</select>
+<p class="warp-setting-help">DNS будет записан в конфигурацию клиента.</p>
+</div>
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-port">UDP-порт WARP</label>
+<select class="tool-input" id="warp-auto-port">
+<option value="4500" selected>4500 · стандартный</option>
+<option value="2408">2408</option>
+<option value="500">500</option>
+<option value="1701">1701</option>
+<option value="880">880</option>
+<option value="8854">8854</option>
+</select>
+<p class="warp-setting-help">Меняй порт, если UDP на стандартном порту не проходит через сеть.</p>
+</div>
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-device">Профиль устройства</label>
+<select class="tool-input" id="warp-auto-device">
+<option value="universal" selected>Обычный · ПК и универсальные клиенты</option>
+<option value="mobile">Мобильный · Android / iOS</option>
+<option value="router">Роутер · OpenWrt / Keenetic / MikroTik</option>
+<option value="mobile-router">Мобильный + роутер</option>
+</select>
+<p class="warp-setting-help">Мобильный профиль автоматически отключает IPv6 и уменьшает нагрузку от шумовых пакетов.</p>
+</div>
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-endpoint">Endpoint</label>
+<select class="tool-input" id="warp-auto-endpoint">
+<option value="lab" selected>Автоматический · свежая проверка Endpoint Lab</option>
+<option value="hostname">Домен Cloudflare · engage.cloudflareclient.com</option>
+</select>
+<p class="warp-setting-help">Автоматический режим использует проверенные адреса, когда они доступны; иначе сервис объяснит причину.</p>
+</div>
+<div class="warp-setting">
+<label class="tool-field-label" for="warp-auto-cps">Протокол CPS / I1</label>
+<select class="tool-input" id="warp-auto-cps">
+<option value="auto" selected>Auto · стабильные варианты</option>
+<option value="static">Static</option>
+<option value="sip">SIP</option>
+<option value="stun">STUN</option>
+<optgroup label="Экспериментальные">
+<option value="quic">QUIC</option>
+<option value="dns">DNS</option>
+<option value="dtls">DTLS</option>
+</optgroup>
+</select>
+<p class="warp-setting-help" id="warp-cps-help">Auto выбирает стабильный вариант. Экспериментальные режимы могут хуже работать в отдельных сетях.</p>
+</div>
+</div>
+
+<div class="warp-auto-toggles">
+<label class="warp-toggle"><input id="warp-auto-ipv6" type="checkbox"><span class="warp-toggle-ui"></span><span><strong>IPv6</strong><small>Добавить IPv6-маршрутизацию в туннель</small></span></label>
+<label class="warp-toggle"><input id="warp-auto-cps5" type="checkbox"><span class="warp-toggle-ui"></span><span><strong>Дополнительные CPS-пакеты I2–I5</strong><small>Для современных совместимых клиентов AWG 2.0 / 3.x</small></span></label>
+</div>
+
+<div class="warp-auto-warning" id="warp-auto-warning" hidden></div>
+<div class="warp-auto-actions">
+<button class="warp-auto-generate" id="warp-auto-generate" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg><span>Перейти к созданию готового .conf</span><b>↗</b></button>
+<a class="warp-auto-fallback" id="warp-auto-fallback" href="https://awgconfig.com/" target="_blank" rel="noopener noreferrer" hidden>Открыть генератор с выбранными настройками ↗</a>
+</div>
+<p class="warp-auto-status" id="warp-auto-status" role="status" aria-live="polite">Настройки применятся автоматически при открытии генератора.</p>
+</section>
+
+<section class="warp-service-note">
+<div class="warp-service-icon">i</div>
+<p><strong>Как работает генерация.</strong> GitHub Pages — статический хостинг: он не может самостоятельно регистрировать WARP-устройство и выдавать новые ключи. Поэтому кнопка открывает <a href="https://awgconfig.com/" target="_blank" rel="noopener noreferrer">awgconfig.com</a> — открытый генератор, который регистрирует устройство через API Cloudflare, применяет выбранные параметры и позволяет скачать готовый .conf. После открытия останется нажать Generate на странице генератора. <a href="https://github.com/HereIamGosu/amnezia-config-gen" target="_blank" rel="noopener noreferrer">Исходный код ↗</a></p>
+</section>
+
+<details class="warp-manual-details">
+<summary><span>Ручной режим</span><small>Импорт своего .conf и редактирование существующих ключей</small><span class="warp-details-chevron">⌄</span></summary>
 <div class="warp-workspace">
 <section class="warp-panel">
 <h2>01 / Исходные данные</h2>
@@ -67,11 +169,11 @@ Endpoint = engage.cloudflareclient.com:2408"></textarea>
 <div class="warp-field"><label class="tool-field-label" for="warp-jmin">Jmin</label><input class="tool-input" id="warp-jmin" type="number" min="0" max="1280" value="64"></div>
 <div class="warp-field"><label class="tool-field-label" for="warp-jmax">Jmax</label><input class="tool-input" id="warp-jmax" type="number" min="0" max="1280" value="128"></div>
 </div>
-<p class="warp-fixed-note">S1–S4 и H1–H4 зафиксированы в WARP-совместимых значениях: S = 0, H = 1 / 2 / 3 / 4. Эти поля не рандомизируются, чтобы не нарушить совместимость со стандартным WireGuard peer Cloudflare.</p>
+<p class="warp-fixed-note">S1–S4 и H1–H4 фиксируются в WARP-совместимых значениях: S = 0, H = 1 / 2 / 3 / 4.</p>
 </div>
 <div class="warp-actions"><button class="warp-action primary" id="warp-generate" type="button">Собрать конфигурацию</button></div>
 <p class="warp-status" id="warp-status" role="status" aria-live="polite">Данные остаются в этой вкладке браузера.</p>
-<p class="warp-privacy"><strong>Приватность:</strong> страница не отправляет введённые ключи на сервер и не сохраняет их в localStorage. Не публикуй готовый .conf: внутри приватный ключ.</p>
+<p class="warp-privacy"><strong>Приватность:</strong> локальный редактор не отправляет введённые ключи на сервер и не сохраняет их в localStorage. Не публикуй готовый .conf: внутри приватный ключ.</p>
 </section>
 <section class="warp-panel">
 <h2>02 / Результат</h2>
@@ -79,12 +181,12 @@ Endpoint = engage.cloudflareclient.com:2408"></textarea>
 <label class="tool-field-label" for="warp-output">Конфигурация .conf</label>
 <textarea class="tool-textarea warp-output" id="warp-output" spellcheck="false" readonly placeholder="Здесь появится готовая конфигурация..."></textarea>
 <div class="warp-actions"><button class="warp-action" id="warp-copy" type="button" disabled>Копировать</button><button class="warp-action primary" id="warp-download" type="button" disabled>Скачать .conf</button></div>
-<p class="warp-privacy">Генерация файла не проверяет доступность endpoint из твоей сети и не гарантирует соединение.</p>
-<div class="library-note-line">Внешний генератор нового аккаунта: <a href="https://github.com/HereIamGosu/amnezia-config-gen" target="_blank" rel="noopener noreferrer">исходный код ↗</a>.</div>
+<p class="warp-privacy">Локальная сборка не регистрирует новое устройство и не проверяет доступность endpoint.</p>
 </section>
 </div>
+</details>
 </main>
-<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> WARP Generator</span><span>Local config builder</span></footer>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> WARP Generator</span><span>One-click profile builder</span></footer>
 </div>
 </body>
 </html>
