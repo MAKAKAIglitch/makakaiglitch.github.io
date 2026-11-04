@@ -136,7 +136,13 @@
     try {
       const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || "null");
       if (cached && Array.isArray(cached.items)) {
-        repositories = cached.items;
+        repositories = cached.items.filter((repo) =>
+          repo &&
+          repo.owner &&
+          typeof repo.owner.login === "string" &&
+          repo.owner.login.toLowerCase() === OWNER.toLowerCase() &&
+          repo.fork === false
+        );
         render();
         lastUpdated.textContent = cached.savedAt
           ? "Кэш обновлён " + formatDate(cached.savedAt)
@@ -180,7 +186,12 @@
       if (!Array.isArray(data)) throw new Error("GitHub вернул неожиданный формат данных.");
 
       repositories = data.filter((repo) =>
-        repo && typeof repo.name === "string" &&
+        repo &&
+        repo.owner &&
+        typeof repo.owner.login === "string" &&
+        repo.owner.login.toLowerCase() === OWNER.toLowerCase() &&
+        repo.fork === false &&
+        typeof repo.name === "string" &&
         typeof repo.html_url === "string" &&
         repo.html_url.startsWith("https://github.com/")
       );
