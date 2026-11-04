@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0b0e13">
-<meta name="description" content="Torrent — раздачи и инструменты BitTorrent-клиента.">
+<meta name="description" content="Library — личная библиотека полезных материалов.">
 <title>Library — MAKAKAIglitch</title>
-<link rel="stylesheet" href="/assets/css/style.css?v=20261105-library-torrent-card">
-<script src="/assets/js/library.js?v=20261105-library-single-card" defer></script>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-library-navigation">
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div>
@@ -19,16 +18,13 @@
 </a>
 <nav class="main-nav" aria-label="Основная навигация">
 <a class="nav-link" href="/">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/></svg>
-<span>Repositories</span>
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/></svg><span>Repositories</span>
 </a>
 <a class="nav-link" href="/tools/">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/></svg>
-<span>Utilities</span>
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/></svg><span>Utilities</span>
 </a>
 <a class="nav-link is-active" href="/library/" aria-current="page">
-<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/></svg>
-<span>Library</span>
+<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/></svg><span>Library</span>
 </a>
 </nav>
 <a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
@@ -38,74 +34,20 @@
 <section class="intro tools-intro">
 <div class="eyebrow"><span class="status-dot"></span> PERSONAL LIBRARY</div>
 <h1>Library<span class="title-period">.</span></h1>
-<p class="library-lead">Торренты и инструменты BitTorrent-клиента.</p>
+<p>Коллекция полезных материалов и инструментов.</p>
 </section>
-
-<section id="library-grid" class="library-grid" aria-label="Library">
-<button class="utility-card library-torrent-card library-torrent-launcher" id="torrent-launcher" type="button" aria-expanded="false" aria-controls="torrent-workspace">
-<span class="utility-icon" aria-hidden="true">
-<svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5"/><path d="M4 17v2.25A1.75 1.75 0 0 0 5.75 21h12.5A1.75 1.75 0 0 0 20 19.25V17"/></svg>
-</span>
+<section class="utilities-grid" aria-label="Разделы Library">
+<a class="utility-card" href="/library/torrent/">
+<span class="utility-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12M7.5 10.5 12 15l4.5-4.5"/><path d="M4 17v2.25A1.75 1.75 0 0 0 5.75 21h12.5A1.75 1.75 0 0 0 20 19.25V17"/></svg></span>
 <span class="utility-card-main">
-<span class="utility-card-top"><strong>Torrent</strong><span class="library-torrent-chevron" aria-hidden="true">⌄</span></span>
-<span class="utility-card-description">Раздачи, трекеры и настройки BitTorrent-клиента.</span>
+<span class="utility-card-top"><strong>Torrent</strong><span class="utility-card-arrow">↗</span></span>
+<span class="utility-card-description">Раздачи, трекеры и инструменты BitTorrent-клиента.</span>
+<span class="utility-card-tags"><span>BitTorrent</span><span>Downloads</span></span>
 </span>
-</button>
-
-<div class="library-torrent-workspace" id="torrent-workspace" hidden>
-<div class="utility-tabs library-inner-tabs" role="group" aria-label="Разделы Torrent">
-<button class="utility-tab" type="button" data-torrent-view="shares" aria-pressed="false">Раздачи</button>
-<button class="utility-tab" type="button" data-torrent-view="client" aria-pressed="false">Настройки клиента</button>
-</div>
-
-<div class="library-torrent-placeholder" id="torrent-placeholder">Выбери раздел Torrent.</div>
-
-<section class="library-torrent-panel" data-torrent-panel="shares" hidden>
-<div class="library-panel-heading">
-<h2>War Thunder</h2>
-<span class="library-tag">Official share</span>
-</div>
-<p>Торрент-файл с официального endpoint Gaijin Entertainment. Его можно открыть в qBittorrent или другом BitTorrent-клиенте.</p>
-<div class="library-actions">
-<a class="utility-tab library-action" href="https://yupmaster.gaijinent.com/yuitem/current_yup.php?project=warthunder&amp;torrent=1" target="_blank" rel="noopener noreferrer">Получить .torrent ↗</a>
-<a class="utility-tab library-action" href="https://warthunder.com/" target="_blank" rel="noopener noreferrer">Сайт War Thunder ↗</a>
-</div>
-</section>
-
-<section class="library-torrent-panel" data-torrent-panel="client" hidden>
-<div class="library-panel-heading">
-<h2>Публичные BitTorrent-трекеры</h2>
-<span class="library-tag">Live list</span>
-</div>
-<p>Загружай актуальные списки announce URL из проекта ngosang/trackerslist, копируй их или открывай исходный файл.</p>
-<div class="utility-tabs library-tracker-tabs" role="group" aria-label="Тип списка трекеров">
-<button class="utility-tab" type="button" data-trackers-list="best" aria-pressed="false">Лучшие</button>
-<button class="utility-tab" type="button" data-trackers-list="all" aria-pressed="false">Все</button>
-<button class="utility-tab" type="button" data-trackers-list="udp" aria-pressed="false">UDP</button>
-<button class="utility-tab" type="button" data-trackers-list="http" aria-pressed="false">HTTP</button>
-<button class="utility-tab" type="button" data-trackers-list="https" aria-pressed="false">HTTPS</button>
-<a class="utility-tab library-action" href="https://github.com/ngosang/trackerslist" target="_blank" rel="noopener noreferrer">GitHub проекта ↗</a>
-</div>
-<pre id="tracker-preview" class="library-preview" aria-label="Список трекеров"></pre>
-<div class="library-actions">
-<button class="utility-tab library-action" id="tracker-copy" type="button" disabled>Копировать список</button>
-<a class="utility-tab library-action" id="tracker-raw-link" href="https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt" target="_blank" rel="noopener noreferrer">Открыть raw ↗</a>
-</div>
-<p class="library-status" id="tracker-status" role="status" aria-live="polite">Выбери тип списка для загрузки с GitHub.</p>
-<div class="library-client-note">
-<p><strong>DHT</strong> помогает находить участников раздачи без центрального трекера.</p>
-<p><strong>PeX</strong> позволяет обмениваться адресами пиров с уже подключёнными участниками.</p>
-<p><strong>Trackers</strong> сообщают клиенту адреса пиров конкретной раздачи.</p>
-</div>
-</section>
-</div>
+</a>
 </section>
 </main>
-
-<footer class="footer">
-<span>MAKAKAIglitch <span class="footer-separator">/</span> Library</span>
-<span>Personal library</span>
-</footer>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Library</span><span>Personal library</span></footer>
 </div>
 </body>
 </html>
