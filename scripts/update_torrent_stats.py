@@ -31,6 +31,11 @@ REQUEST_TIMEOUT = 7
 MAX_TORRENT_BYTES = 20 * 1024 * 1024
 MAX_TRACKERS_PER_TORRENT = 30
 MAX_WORKERS = 10
+GAIJIN_TRACKERS = (
+    "udp://yuptracker-eu.gaijinent.com:27022/announce",
+    "udp://yuptracker-sa.gaijinent.com:27022/announce",
+    "udp://yuptracker-us.gaijinent.com:27022/announce",
+)
 
 GAMES = (
     {
@@ -333,8 +338,12 @@ def collect_game(game: dict[str, str], previous: dict[str, Any], checked_at: str
         torrent = decode_torrent(fetch_torrent(game["url"]))
         base["info_hash"] = torrent["info_hash"]
         base["torrent_name"] = torrent["name"]
-        base["trackers_total"] = len(torrent["trackers"])
-        results, errors = collect_tracker_stats(torrent["trackers"], torrent["info_hash"])
+        # Gaijin's current torrent metadata may omit announce URLs. Use the
+        # official regional trackers supplied for this collector as fallbacks.
+        trackers = list(dict.fromkeys([*torrent["trackers"], *GAIJIN_TRACKERS]))[:MAX_TRACKERS_PER_TORRENT]
+        base["trackers_total"] = len(trackers)
+        base["tracker_urls"] = trackers
+        results, errors = collect_tracker_stats(trackers, torrent["info_hash"])
         base["trackers_responded"] = len(results)
 
         if results:
@@ -438,6 +447,9 @@ def self_test():
     assert decoded["name"] == "MAKAKAIglitch test torrent"
     assert len(decoded["info_hash"]) == 40
     assert len(decoded["trackers"]) == 2
+    merged_trackers = list(dict.fromkeys([*decoded["trackers"], *GAIJIN_TRACKERS]))
+    assert all(tracker in merged_trackers for tracker in GAIJIN_TRACKERS)
+    assert len(merged_trackers) == 5
     assert decoded["info_hash"] == hashlib.sha1(encode(info)).hexdigest()
     assert bdecode(encode({b"a": 1, b"b": [b"x", 2]}))[0] == {b"a": 1, b"b": [b"x", 2]}
 
