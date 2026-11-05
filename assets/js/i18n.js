@@ -33,6 +33,7 @@ const map={
 "MASQUE fallback — UDP без 443":"MASQUE fallback — UDP without 443",
 "Добавит 500, 1701, 4500, 4443, 8443 и 8095. Основной MASQUE UDP 443 намеренно не добавляется.":"Adds 500, 1701, 4500, 4443, 8443 and 8095. The primary MASQUE UDP 443 port is intentionally omitted.",
 "Обычный QUIC — UDP 443":"Regular QUIC — UDP 443",
+"Стандартный HTTPS/3 для сайтов. Это отдельный веб-трафик, не WARP-порт; по умолчанию выключен.":"Standard HTTPS/3 for websites. This is regular web traffic, not a WARP port; disabled by default.",
 "Стандартный HTTPS/3 для сайтов. Это отдельный веб-трафик, не WARP-порт.":"Standard HTTPS/3 for websites. This is regular web traffic, not a WARP port.",
 "Дополнительные TCP-порты — вручную":"Additional TCP ports — manual",
 "Добавить эти TCP-порты в фильтр":"Add these TCP ports to the filter",
