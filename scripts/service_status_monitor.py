@@ -498,13 +498,18 @@ def self_test() -> None:
         "error_code": "TIMEOUT", "health_status": "outage",
     }
     second = build_snapshot(catalog, [unhealthy.copy()], first, base_time + 300)
-    assert second["summary"]["active_incidents"] == 1
-    assert second["incidents"][0]["severity"] == "major"
+    assert second["summary"]["active_incidents"] == 0
+    assert not second["incidents"]
 
-    third = build_snapshot(catalog, [healthy.copy()], second, base_time + 600)
+    third = build_snapshot(catalog, [unhealthy.copy()], second, base_time + 600)
+    assert third["summary"]["active_incidents"] == 1
+    assert third["incidents"][0]["severity"] == "major"
+
     fourth = build_snapshot(catalog, [healthy.copy()], third, base_time + 900)
-    assert fourth["summary"]["active_incidents"] == 0
-    assert fourth["incidents"][0]["ended_at"] == base_time + 900
+    assert fourth["summary"]["active_incidents"] == 1
+    fifth = build_snapshot(catalog, [healthy.copy()], fourth, base_time + 1200)
+    assert fifth["summary"]["active_incidents"] == 0
+    assert fifth["incidents"][0]["ended_at"] == base_time + 1200
 
     status_major = {"indicator": "major_outage"}
     assert health_from(
