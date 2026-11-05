@@ -124,12 +124,16 @@ function renderServiceCard(service) {
   const checked = latest.checked_at ? formatDate(latest.checked_at) : "Нет измерений";
   const incidentCount = Number(service.active_incidents || 0);
   const statusSummary = latest.status_summary ? '<div class="ss-service-meta"><span>'+escapeHtml(latest.status_summary)+'</span></div>' : "";
+  const officialStatus = latest.status_api_available
+    ? '<div class="ss-service-official"><span>Official status API</span><strong>'+escapeHtml(latest.status_indicator || "unknown")+'</strong></div>'
+    : (service.status_page_url ? '<div class="ss-service-official is-muted"><span>Official status API</span><strong>Not available</strong></div>' : "");
   return '<button class="ss-service-card" type="button" data-service="'+escapeHtml(service.id)+'" aria-label="'+escapeHtml(service.name)+': '+escapeHtml(statusLabel(status))+'">'+
     '<div class="ss-service-top"><div class="ss-service-name-wrap"><span class="ss-service-symbol">'+escapeHtml(service.symbol || service.name.slice(0,2))+'</span><span class="ss-service-name">'+escapeHtml(service.name)+'</span></div><span class="ss-status '+escapeHtml(status)+'">'+escapeHtml(statusLabel(status))+'</span></div>'+
     '<div class="ss-service-description">'+escapeHtml(service.description || "")+'</div>'+
     '<div class="ss-service-metrics"><div><span>Задержка</span><strong>'+latency+'</strong></div><div><span>Uptime / 24 ч</span><strong>'+uptime+'</strong></div><div><span>HTTP</span><strong>'+(latest.http_status ? escapeHtml(latest.http_status) : "—")+'</strong></div></div>'+
     '<div class="ss-service-meta"><span>'+escapeHtml(checked)+'</span><span class="ss-service-incidents">'+(incidentCount ? incidentCount+" активн. инц." : "Без инцидентов")+'</span></div>'+
     statusSummary+
+    officialStatus+
     '</button>';
 }
 function renderServices() {
