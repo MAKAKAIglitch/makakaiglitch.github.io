@@ -4,16 +4,16 @@ This Worker powers the Service Status page at `/tools/service-status/`.
 
 ## Monitored catalog
 
-The fixed catalog contains **84 monitored endpoints**:
+The fixed catalog contains **104 monitored endpoints**:
 
 - Search: Google Search, Yandex Search, Bing and DuckDuckGo.
-- AI: OpenAI, Claude, Gemini, Grok, Perplexity, DeepSeek, Mistral, Cohere, Groq, Hugging Face, OpenRouter, Cursor, GigaChat and Yandex AI.
+- AI: OpenAI, Claude, Gemini, Grok, Perplexity, DeepSeek, Mistral, Cohere, Groq, Hugging Face, OpenRouter, Cursor, GigaChat, Yandex AI, GitHub Copilot, Amazon Bedrock, Azure OpenAI, Fireworks AI, Together AI, Midjourney, ElevenLabs, Replicate, Runway, Windsurf, Stability AI and Luma AI.
 - Russian services: Yandex, Yandex Mail, Yandex Disk, VK, Mail.ru, Dzen, RuTube, Odnoklassniki, MAX and Gosuslugi.
-- Banks and payments: 18 major Russian bank websites (Sber, VTB, T-Bank, Alfa-Bank, Gazprombank, Sovcombank, PSB, Rosselkhozbank, MKB, MTS Bank, DOM.RF, Zenit, Ak Bars, Bank Saint Petersburg, Uralsib, Modulbank, Absolut and BCS) plus Mir and SBP.
+- Banks and payments: 26 major and regional Russian bank websites (Sber, VTB, T-Bank, Alfa-Bank, Gazprombank, Sovcombank, PSB, Rosselkhozbank, MKB, MTS Bank, DOM.RF, Zenit, Ak Bars, Bank Saint Petersburg, Uralsib, Modulbank, Absolut, BCS, UBRR, Bank Rossiya, UniCredit, Avers, Chelindbank, Ozon Bank, Tochka and MSP Bank) plus Mir and SBP.
 - Cloud, CDN and hosting: AWS, Google Cloud, Azure, Yandex Cloud, VK Cloud, Cloud.ru, Selectel, MWS, Timeweb, REG.RU, Beget, Rostelecom Cloud, CDNvideo, EdgeCenter, Qrator and NGENIX.
 - Other global platforms, communications, media and development services: Telegram, YouTube, Cloudflare, GitHub, Discord, Steam Store, Steam Community, Steam Web API, NextDNS, Reddit, X, Twitch, Spotify, Wikipedia, WhatsApp and Microsoft, plus Russian telecom operator websites.
 
-This is a curated list of major bank websites, not the complete register of every licensed Russian credit institution. The Bank of Russia publishes the official directory of credit-organization websites at https://www.cbr.ru/banking_sector/credit/cowebsites/.
+This is a curated set of 26 major and regional bank websites, not the complete register. The Bank of Russia's directory, updated 2026-11-02, lists 340 credit organizations and 1,793 website addresses (including non-bank credit organizations): https://www.cbr.ru/banking_sector/credit/cowebsites/.
 
 For most bank entries the monitor checks the public website endpoint only. It does **not** authenticate, access private accounts, or verify card authorization, transfers, payment processing, SBP transactions or mobile-app backends. A reachable website is not proof that every banking function is operational.
 
@@ -26,22 +26,22 @@ For each service, the Worker:
 4. Saves the result in D1 and updates the current service state.
 5. Opens an incident after two consecutive non-operational checks and resolves it after two consecutive operational checks.
 
-Official status feeds are currently configured for Cloudflare, GitHub, Discord, OpenAI, Anthropic/Claude, xAI, Perplexity, DeepSeek, Mistral, Cohere, Hugging Face and OpenRouter. Other official status pages are linked from service cards when available, but are not scraped if a structured feed is not configured.
+Structured official status feeds are configured for Cloudflare, GitHub (also used for GitHub Copilot), Discord, OpenAI, Anthropic/Claude, xAI, Perplexity, DeepSeek, Mistral, Cohere, Hugging Face and OpenRouter. AWS, Azure and other providers have their official status pages linked where available; those pages are not treated as parsed JSON feeds unless a supported endpoint is configured. Other official status pages are linked from service cards when available, but are not scraped if a structured feed is not configured.
 
 The Worker does not accept arbitrary probe URLs, so it cannot be used as an open URL-fetch proxy. Its public API is read-only.
 
 ## Cloudflare Free plan-aware scheduling
 
-A single Worker invocation is limited to 50 external subrequests on the Workers Free plan. The 84 endpoints are therefore divided into three stable groups of 28 services. Each group runs every five minutes, staggered one minute apart:
+A single Worker invocation is limited to 50 external subrequests on the Workers Free plan. The 104 endpoints are therefore divided into three stable groups of 35, 35 and 34 services. Each group runs every five minutes, staggered one minute apart:
 
 - `*/5 * * * *` — group 0
 - `1-59/5 * * * *` — group 1
 - `2-59/5 * * * *` — group 2
 - `57 3 * * *` — daily history compaction and retention cleanup
 
-A service is still checked every five minutes. Each batch uses at most 28 direct probes plus a smaller number of official Status API requests. The Worker limits concurrent outgoing connections to six.
+A service is still checked every five minutes. Each batch uses at most 35 direct probes plus up to seven official Status API requests, remaining below the 50-subrequest Free-plan ceiling. The Worker limits concurrent outgoing connections to six.
 
-With 84 services and a five-minute interval, the system performs up to 24,192 HTTP probes/day. The D1 writes include one probe row and one service-state upsert per service/check (about 48,384 row writes/day, excluding rare incident changes and daily rollups). Cloudflare plan limits can change; check your account's Workers and D1 usage.
+With 104 services and a five-minute interval, the system performs up to 29,952 HTTP probes/day. The D1 writes include one probe row and one service-state upsert per service/check (about 59,904 row writes/day, excluding rare incident changes and daily rollups). Cloudflare plan limits can change; check your account's Workers and D1 usage.
 
 ## History and storage
 
