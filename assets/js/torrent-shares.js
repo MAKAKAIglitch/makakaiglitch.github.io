@@ -78,20 +78,19 @@
 
   function initCursorGlow(){
     const glow=document.querySelector(".cursor-glow");
-    const finePointer=window.matchMedia("(hover: hover) and (pointer: fine)");
-    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)");
-    if(!glow||!finePointer.matches||reducedMotion.matches)return;
+    if(!glow)return;
 
+    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let targetX=0,targetY=0,currentX=0,currentY=0,frameId=0,hasPosition=false;
     function animate(){
       const dx=targetX-currentX,dy=targetY-currentY;
-      currentX+=dx*0.085;
-      currentY+=dy*0.085;
+      currentX+=dx*0.09;
+      currentY+=dy*0.09;
       glow.style.transform="translate3d("+currentX+"px,"+currentY+"px,0) translate(-50%,-50%)";
-      if(Math.abs(dx)+Math.abs(dy)>0.25)frameId=requestAnimationFrame(animate);
+      if(Math.abs(dx)+Math.abs(dy)>0.2)frameId=requestAnimationFrame(animate);
       else frameId=0;
     }
-    function onPointerMove(event){
+    function onMouseMove(event){
       targetX=event.clientX;
       targetY=event.clientY;
       if(!hasPosition){
@@ -100,14 +99,20 @@
         hasPosition=true;
       }
       glow.classList.add("is-visible");
-      if(!frameId)frameId=requestAnimationFrame(animate);
+      if(reducedMotion){
+        currentX=targetX;
+        currentY=targetY;
+        glow.style.transform="translate3d("+currentX+"px,"+currentY+"px,0) translate(-50%,-50%)";
+      }else if(!frameId){
+        frameId=requestAnimationFrame(animate);
+      }
     }
     function hideGlow(){
       glow.classList.remove("is-visible");
     }
-    window.addEventListener("pointermove",onPointerMove,{passive:true});
+    window.addEventListener("mousemove",onMouseMove,{passive:true});
     window.addEventListener("blur",hideGlow);
-    document.addEventListener("pointerleave",hideGlow);
+    document.documentElement.addEventListener("mouseleave",hideGlow);
     document.addEventListener("visibilitychange",()=>{if(document.hidden)hideGlow();});
   }
   initCursorGlow();
