@@ -228,3 +228,64 @@
     }
   });
 })();
+
+
+/* Global ambient cursor light — shared by every page using global-search.js. */
+(() => {
+  "use strict";
+  function initSiteCursorGlow() {
+    if (!document.body) return;
+    let glow = document.querySelector(".cursor-glow");
+    if (!glow) {
+      glow = document.createElement("div");
+      glow.className = "cursor-glow";
+      glow.setAttribute("aria-hidden", "true");
+      document.body.insertBefore(glow, document.body.firstChild);
+    }
+
+    let targetX = 0, targetY = 0, currentX = 0, currentY = 0;
+    let frameId = 0, hasPosition = false;
+
+    function animate() {
+      const dx = targetX - currentX;
+      const dy = targetY - currentY;
+      currentX += dx * 0.065;
+      currentY += dy * 0.065;
+      glow.style.transform = "translate3d(" + currentX + "px," + currentY + "px,0) translate(-50%,-50%)";
+      if (Math.abs(dx) + Math.abs(dy) > 0.18) {
+        frameId = requestAnimationFrame(animate);
+      } else {
+        frameId = 0;
+      }
+    }
+
+    function onMouseMove(event) {
+      targetX = event.clientX;
+      targetY = event.clientY;
+      if (!hasPosition) {
+        currentX = targetX;
+        currentY = targetY;
+        hasPosition = true;
+      }
+      glow.classList.add("is-visible");
+      if (!frameId) frameId = requestAnimationFrame(animate);
+    }
+
+    function hideGlow() {
+      glow.classList.remove("is-visible");
+    }
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true });
+    window.addEventListener("blur", hideGlow);
+    window.addEventListener("mouseleave", hideGlow);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) hideGlow();
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSiteCursorGlow, { once: true });
+  } else {
+    initSiteCursorGlow();
+  }
+})();
