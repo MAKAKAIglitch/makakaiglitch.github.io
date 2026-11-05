@@ -53,6 +53,9 @@
     const masqueOnly = warpWireGuard.checked
       ? (warpMasque.checked ? ["4443", "8443", "8095"] : [])
       : masque;
+    if (customTcpEnabled.checked && !customTcpInput.value.trim()) {
+      throw new Error("Укажи TCP-порты или отключи дополнительный TCP-фильтр.");
+    }
     const customTcp = customTcpEnabled.checked
       ? parsePorts(customTcpInput.value, "TCP")
       : [];
@@ -218,11 +221,12 @@
           "--filter-udp=443 --filter-l7=quic --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=6 --new"
         );
       }
-      if (ports.customTcp.length) {
-        args.push(
-          "--filter-tcp=" + ports.customTcp.join(",") + " --filter-l7=tls --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:repeats=6 --lua-desync=multidisorder:pos=midsld --new"
-        );
-      }
+    }
+
+    if (ports.customTcp.length) {
+      args.push(
+        "--filter-tcp=" + ports.customTcp.join(",") + " --filter-l7=tls --payload=tls_client_hello --lua-desync=fake:blob=fake_default_tls:repeats=6 --lua-desync=multidisorder:pos=midsld --new"
+      );
     }
 
     if (ports.wg.length) {
@@ -340,6 +344,14 @@
   [warpWireGuard, warpMasque, quic, customTcpEnabled, customTcpInput].forEach(control => {
     control.addEventListener("change", render);
     control.addEventListener("input", render);
+  });
+  $("zapret-add-wireguard").addEventListener("click", () => {
+    warpWireGuard.checked = true;
+    render();
+  });
+  $("zapret-add-masque").addEventListener("click", () => {
+    warpMasque.checked = true;
+    render();
   });
   $("zapret-fill-tcp").addEventListener("click", () => {
     customTcpInput.value = WARP_WG_UDP.join(",");
