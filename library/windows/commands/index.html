@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e13">
+<meta name="description" content="Команды CMD, PowerShell и Win+R для диагностики Windows">
+<title>Команды Windows — MAKAKAIglitch</title>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-windows-library">
+<script src="/assets/js/global-search.js?v=20261105-windows-library" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-windows-library" defer></script>
+<script src="/assets/js/library-windows.js?v=20261105-windows-library" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="site-shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
+<nav class="main-nav" aria-label="Основная навигация">
+<a class="nav-link" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/></svg><span>Repositories</span></a>
+<a class="nav-link" href="/tools/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/></svg><span>Utilities</span></a>
+<a class="nav-link is-active" href="/library/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/></svg><span>Library</span></a>
+</nav>
+<a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+</header>
+<main class="main-content library-page tool-page-main">
+<a class="utility-back" href="/library/windows/"><span>←</span> Windows</a>
+<section class="intro tools-intro"><div class="eyebrow"><span class="status-dot"></span> WINDOWS / COMMANDS</div><h1>Команды Windows</h1><p>Быстрый доступ к системным окнам, CMD и PowerShell. Ищи команду и копируй её в терминал.</p></section>
+<div class="windows-search-row"><label class="sort-control" for="windows-command-search"><span>Поиск команды</span><input id="windows-command-search" class="tool-input" type="search" placeholder="Например: процесс, версия, диск..." autocomplete="off"></label><span class="windows-search-count" id="windows-search-count" aria-live="polite">Все команды</span></div>
+<section class="windows-command-section"><div class="windows-section-heading"><h2>Быстрые окна — Win + R</h2><p>Нажми Win + R, вставь команду и нажми Enter.</p></div><div class="windows-command-grid"><article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Версия Windows</strong><span class="library-tag">Win + R</span></div>
+<p>Показывает выпуск, версию и номер сборки.</p><pre class="windows-command-code" id="win-run-winver"><code>winver</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-winver">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Сведения о системе</strong><span class="library-tag">Win + R</span></div>
+<p>Оборудование, BIOS/UEFI, память и компоненты.</p><pre class="windows-command-code" id="win-run-msinfo"><code>msinfo32</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-msinfo">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Диагностика DirectX</strong><span class="library-tag">Win + R</span></div>
+<p>Сведения о графике, звуке и компонентах DirectX.</p><pre class="windows-command-code" id="win-run-dxdiag"><code>dxdiag</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-dxdiag">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Диспетчер задач</strong><span class="library-tag">Win + R</span></div>
+<p>Процессы, автозагрузка, производительность и службы.</p><pre class="windows-command-code" id="win-run-taskmgr"><code>taskmgr</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-taskmgr">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Монитор ресурсов</strong><span class="library-tag">Win + R</span></div>
+<p>Подробная загрузка CPU, RAM, диска и сети.</p><pre class="windows-command-code" id="win-run-resmon"><code>resmon</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-resmon">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Монитор стабильности</strong><span class="library-tag">Win + R</span></div>
+<p>История сбоев приложений, Windows и обновлений.</p><pre class="windows-command-code" id="win-run-rel"><code>perfmon /rel</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-rel">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Просмотр событий</strong><span class="library-tag">Win + R</span></div>
+<p>Журналы приложений, системы и ошибок.</p><pre class="windows-command-code" id="win-run-event"><code>eventvwr.msc</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-event">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Диспетчер устройств</strong><span class="library-tag">Win + R</span></div>
+<p>Состояние устройств и установленных драйверов.</p><pre class="windows-command-code" id="win-run-device"><code>devmgmt.msc</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-device">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Управление дисками</strong><span class="library-tag">Win + R</span></div>
+<p>Разделы, буквы томов и состояние дисков.</p><pre class="windows-command-code" id="win-run-disk"><code>diskmgmt.msc</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-disk">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Сетевые подключения</strong><span class="library-tag">Win + R</span></div>
+<p>Список сетевых адаптеров и их состояния.</p><pre class="windows-command-code" id="win-run-network"><code>ncpa.cpl</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-network">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Службы Windows</strong><span class="library-tag">Win + R</span></div>
+<p>Список служб и их режимы запуска.</p><pre class="windows-command-code" id="win-run-services"><code>services.msc</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-services">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Установленные программы</strong><span class="library-tag">Win + R</span></div>
+<p>Классическое окно удаления и изменения программ.</p><pre class="windows-command-code" id="win-run-appwiz"><code>appwiz.cpl</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-run-appwiz">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article></div></section>
+<section class="windows-command-section"><div class="windows-section-heading"><h2>Командная строка — CMD</h2><p>Открой cmd.exe или Windows Terminal с профилем Command Prompt.</p></div><div class="windows-command-grid"><article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Сведения о системе</strong><span class="library-tag">CMD</span></div>
+<p>Версия ОС, модель ПК, BIOS, память и сетевые сведения.</p><pre class="windows-command-code" id="win-cmd-systeminfo"><code>systeminfo</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-cmd-systeminfo">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Имя компьютера</strong><span class="library-tag">CMD</span></div>
+<p>Выводит имя текущего компьютера.</p><pre class="windows-command-code" id="win-cmd-hostname"><code>hostname</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-cmd-hostname">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Текущая учётная запись</strong><span class="library-tag">CMD</span></div>
+<p>Показывает домен и имя пользователя текущего сеанса.</p><pre class="windows-command-code" id="win-cmd-whoami"><code>whoami</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-cmd-whoami">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Список драйверов</strong><span class="library-tag">CMD</span></div>
+<p>Выводит список драйверов устройств.</p><pre class="windows-command-code" id="win-cmd-driverquery"><code>driverquery /fo table</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-cmd-driverquery">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Отчёт о батарее</strong><span class="library-tag">CMD</span></div>
+<p>Создаёт HTML-отчёт о батарее; полезно для ноутбуков.</p><pre class="windows-command-code" id="win-cmd-powercfg"><code>powercfg /batteryreport</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-cmd-powercfg">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article></div></section>
+<section class="windows-command-section"><div class="windows-section-heading"><h2>PowerShell</h2><p>Открой PowerShell или Windows Terminal с профилем PowerShell.</p></div><div class="windows-command-grid"><article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Сведения о Windows</strong><span class="library-tag">PowerShell</span></div>
+<p>Показывает название Windows, версию и номер сборки.</p><pre class="windows-command-code" id="win-ps-computer"><code>Get-ComputerInfo | Select-Object WindowsProductName, WindowsVersion, OsBuildNumber</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-ps-computer">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Топ процессов по CPU</strong><span class="library-tag">PowerShell</span></div>
+<p>Сортирует процессы по накопленному процессорному времени.</p><pre class="windows-command-code" id="win-ps-process"><code>Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name, Id, CPU</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-ps-process">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Тома и свободное место</strong><span class="library-tag">PowerShell</span></div>
+<p>Показывает файловую систему и свободное место на томах.</p><pre class="windows-command-code" id="win-ps-volume"><code>Get-Volume | Format-Table DriveLetter, FileSystemLabel, FileSystem, SizeRemaining, Size</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-ps-volume">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Физические диски</strong><span class="library-tag">PowerShell</span></div>
+<p>Показывает модель, тип и сообщаемое состояние накопителей.</p><pre class="windows-command-code" id="win-ps-disk"><code>Get-PhysicalDisk | Format-Table FriendlyName, MediaType, HealthStatus, OperationalStatus</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-ps-disk">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Устройства с ошибками</strong><span class="library-tag">PowerShell</span></div>
+<p>Выводит устройства, которые Windows пометила как ошибочные.</p><pre class="windows-command-code" id="win-ps-pnp"><code>Get-PnpDevice -Status ERROR</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-ps-pnp">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Видеоконтроллеры</strong><span class="library-tag">PowerShell</span></div>
+<p>Показывает видеокарты и версии драйверов.</p><pre class="windows-command-code" id="win-ps-gpu"><code>Get-CimInstance Win32_VideoController | Select-Object Name, DriverVersion</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-ps-gpu">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article></div></section>
+<p class="tool-note windows-bottom-note">Команды в этом каталоге предназначены для просмотра информации. Отдельные оснастки могут запросить подтверждение или права администратора в зависимости от выбранного действия.</p>
+</main>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Library / Windows / Commands</span><span>Personal library</span></footer>
+</div>
+</body>
+</html>
