@@ -1149,6 +1149,83 @@ const SERVICES = [
     "probe_url": "https://mspbank.ru/",
     "status_api_url": null,
     "status_page_url": null
+  },
+  {
+    "id": "openstreetmap",
+    "name": "OpenStreetMap",
+    "symbol": "OSM",
+    "category": "mapping",
+    "description": "OpenStreetMap — главная карта и веб-интерфейс",
+    "website": "https://www.openstreetmap.org/",
+    "probe_url": "https://www.openstreetmap.org/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "nominatim",
+    "name": "Nominatim",
+    "symbol": "NOM",
+    "category": "mapping",
+    "description": "Nominatim — поиск адресов и геокодирование OpenStreetMap",
+    "website": "https://nominatim.openstreetmap.org/",
+    "probe_url": "https://nominatim.openstreetmap.org/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "beacondb",
+    "name": "BeaconDB",
+    "symbol": "BDB",
+    "category": "mapping",
+    "description": "BeaconDB — открытая база Wi-Fi и геолокационных данных",
+    "website": "https://beacondb.net/",
+    "probe_url": "https://beacondb.net/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "roblox",
+    "name": "Roblox",
+    "symbol": "RBX",
+    "category": "gaming",
+    "description": "Roblox — сайт и игровая платформа",
+    "website": "https://www.roblox.com/",
+    "probe_url": "https://www.roblox.com/",
+    "status_api_url": "https://status.roblox.com/api/v2/summary.json",
+    "status_page_url": "https://status.roblox.com/"
+  },
+  {
+    "id": "rockstar",
+    "name": "Rockstar Games",
+    "symbol": "RG",
+    "category": "gaming",
+    "description": "Rockstar Games — сайт, аккаунты и игровые сервисы",
+    "website": "https://www.rockstargames.com/",
+    "probe_url": "https://www.rockstargames.com/",
+    "status_api_url": null,
+    "status_page_url": "https://support.rockstargames.com/servicestatus"
+  },
+  {
+    "id": "wildberries",
+    "name": "Wildberries",
+    "symbol": "WB",
+    "category": "commerce",
+    "description": "Wildberries — маркетплейс и веб-магазин",
+    "website": "https://www.wildberries.ru/",
+    "probe_url": "https://www.wildberries.ru/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "ozon_marketplace",
+    "name": "Ozon",
+    "symbol": "OZ",
+    "category": "commerce",
+    "description": "Ozon — маркетплейс и веб-магазин",
+    "website": "https://www.ozon.ru/",
+    "probe_url": "https://www.ozon.ru/",
+    "status_api_url": null,
+    "status_page_url": "https://ozon.statuspage.io/"
   }
 ];
 
