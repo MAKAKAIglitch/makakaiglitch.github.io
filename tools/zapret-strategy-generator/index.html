@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e13">
+<meta name="description" content="Экспериментальный генератор стратегий zapret 1 на базе Flowseal и zapret 2 для Windows.">
+<title>Zapret Strategy Generator — MAKAKAIglitch</title>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-zapret-generator">
+<script src="/assets/js/global-search.js?v=20261105-global-ambient" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-zapret-generator" defer></script>
+<script src="/assets/js/zapret-generator.js?v=20261105-zapret-generator" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="site-shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
+<nav class="main-nav" aria-label="Основная навигация">
+<a class="nav-link" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/></svg><span>Repositories</span></a>
+<a class="nav-link is-active" href="/tools/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/></svg><span>Utilities</span></a>
+<a class="nav-link" href="/library/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/></svg><span>Library</span></a>
+</nav>
+<a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+</header>
+
+<main class="main-content zapret-generator-page">
+<a class="utility-back" href="/tools/"><span>←</span> Все утилиты</a>
+<section class="intro tools-intro">
+<div class="eyebrow"><span class="status-dot"></span> NETWORKING / EXPERIMENTAL</div>
+<h1>Zapret Strategy Generator</h1>
+<p>Собери собственный профиль для Windows: zapret 1 на базе стратегий Flowseal или zapret 2 на базе winws2.</p>
+</section>
+
+<section class="zapret-experimental-notice">
+<span class="zapret-experimental-mark">EXPERIMENTAL</span>
+<div><strong>Это конструктор конфигураций, а не проверка работоспособности.</strong><p>Генератор собирает BAT/CMD-файл. Он не скачивает winws, не запускает команды и не проверяет, подходит ли стратегия твоему провайдеру. Сначала проверь сгенерированный профиль вручную.</p></div>
+</section>
+
+<section class="tool-card zapret-builder-card">
+<div class="tool-card-heading zapret-builder-heading">
+<div><h2>1. Движок и стратегия</h2><p>Версии несовместимы между собой — выбери ту, которая уже установлена.</p></div>
+</div>
+<div class="zapret-form-grid">
+<label class="tool-field"><span class="tool-field-label">Версия zapret</span>
+<select class="tool-input" id="zapret-engine">
+<option value="v1">Zapret 1 — winws.exe / Flowseal</option>
+<option value="v2">Zapret 2 — winws2.exe</option>
+</select></label>
+<label class="tool-field"><span class="tool-field-label">Базовая стратегия</span>
+<select class="tool-input" id="zapret-profile">
+<option value="general">Flowseal General — multisplit</option>
+<option value="alt2">Flowseal ALT2 — другой split offset</option>
+<option value="simple">Flowseal SIMPLE FAKE ALT</option>
+<option value="multidisorder">Flowseal FAKE TLS AUTO — multidisorder</option>
+</select></label>
+</div>
+<div class="zapret-version-note" id="zapret-version-note">Профили Flowseal рассчитаны на структуру его Windows-сборки: winws.exe, папки bin и lists, service.bat.</div>
+</section>
+
+<section class="tool-card zapret-builder-card">
+<div class="tool-card-heading zapret-builder-heading">
+<div><h2>2. WARP и дополнительные порты</h2><p>Выбирай конкретные порты, которые нужно добавить в перехват.</p></div>
+</div>
+<div class="zapret-warp-options">
+<label class="zapret-option zapret-option-feature">
+<input type="checkbox" id="zapret-warp-wireguard" checked>
+<span><strong>WARP WireGuard — UDP</strong><small>2408 — основной; 500, 1701, 4500 — запасные порты Cloudflare.</small></span>
+<span class="zapret-port-chip">UDP</span>
+</label>
+<label class="zapret-option">
+<input type="checkbox" id="zapret-warp-masque">
+<span><strong>MASQUE fallback — UDP без 443</strong><small>Добавит 500, 1701, 4500, 4443, 8443 и 8095. Основной MASQUE UDP 443 намеренно не добавляется.</small></span>
+<span class="zapret-port-chip">UDP</span>
+</label>
+<label class="zapret-option">
+<input type="checkbox" id="zapret-quic" checked>
+<span><strong>Обычный QUIC — UDP 443</strong><small>Стандартный HTTPS/3 для сайтов. Это отдельный веб-трафик, не WARP-порт.</small></span>
+<span class="zapret-port-chip">UDP 443</span>
+</label>
+</div>
+<div class="zapret-custom-ports">
+<div class="zapret-custom-heading"><strong>Дополнительные TCP-порты — вручную</strong><span class="library-tag">Advanced</span></div>
+<p>У WireGuard WARP нет стандартного TCP-порта 2408/500: туннель использует UDP. Здесь можно задать собственные TCP/TLS-порты для отдельного сервиса.</p>
+<div class="zapret-custom-row">
+<label class="tool-field" for="zapret-custom-tcp"><span class="tool-field-label">TCP-порты</span><input class="tool-input" id="zapret-custom-tcp" type="text" placeholder="Например: 2053, 2083, 8443" autocomplete="off" spellcheck="false"></label>
+<button class="tool-button secondary" id="zapret-fill-tcp" type="button">Подставить номера WARP</button>
+</div>
+<label class="zapret-option zapret-option-compact"><input type="checkbox" id="zapret-use-custom-tcp"><span><strong>Добавить эти TCP-порты в фильтр</strong><small>Режим обработки будет экспериментальным; эти порты не становятся от этого штатными TCP-портами WARP.</small></span></label>
+</div>
+<div class="zapret-port-summary" id="zapret-port-summary" aria-live="polite"></div>
+</section>
+
+<section class="tool-card zapret-output-card">
+<div class="tool-card-heading zapret-builder-heading">
+<div><h2>3. Результат</h2><p>Предпросмотр обновляется при изменении настроек. Файл сохраняется локально через браузер.</p></div>
+</div>
+<div class="zapret-output-meta"><span id="zapret-output-type">BAT · Flowseal / zapret 1</span><span id="zapret-output-status" role="status" aria-live="polite">Готово к генерации</span></div>
+<textarea id="zapret-output" class="tool-textarea zapret-output-text" spellcheck="false" readonly aria-label="Сгенерированная стратегия"></textarea>
+<div class="tool-actions zapret-output-actions">
+<button class="tool-button" id="zapret-copy" type="button">Копировать</button>
+<button class="tool-button" id="zapret-download" type="button">Скачать .bat</button>
+<button class="tool-button secondary" id="zapret-reset" type="button">Сбросить настройки</button>
+</div>
+<p class="tool-note" id="zapret-save-note">Для zapret 1 сохрани .bat в корневую папку Flowseal, рядом с service.bat. Не заменяй general.bat — используй отдельный файл.</p>
+</section>
+
+<section class="tool-card zapret-builder-card">
+<div class="tool-card-heading zapret-builder-heading"><div><h2>Что важно знать о WARP</h2><p>Порты разделены по протоколам и не смешиваются в один список.</p></div></div>
+<ul class="library-bullet-list">
+<li><strong>WireGuard WARP:</strong> UDP 2408 по умолчанию; UDP 500, 1701 и 4500 — fallback.</li>
+<li><strong>MASQUE:</strong> использует UDP; среди fallback есть 500, 1701, 4500, 4443, 8443 и 8095. UDP/TCP 443 не включается в WARP-набор.</li>
+<li><strong>TCP вручную:</strong> это отдельный пользовательский фильтр для своих сервисов, не официальный режим WARP.</li>
+<li><strong>Обычный HTTPS:</strong> TCP 443 остаётся в базовых Flowseal/winws2 профилях; его можно отличить от дополнительных WARP-портов.</li>
+</ul>
+</section>
+
+<section class="windows-sources zapret-sources">
+<h2>Источники стратегий и документация</h2>
+<a href="https://github.com/Flowseal/zapret-discord-youtube/blob/main/general.bat" target="_blank" rel="noopener noreferrer">Flowseal — general.bat ↗</a>
+<a href="https://github.com/Flowseal/zapret-discord-youtube/blob/main/general%20%28ALT2%29.bat" target="_blank" rel="noopener noreferrer">Flowseal — general (ALT2).bat ↗</a>
+<a href="https://github.com/Flowseal/zapret-discord-youtube/blob/main/general%20%28SIMPLE%20FAKE%20ALT%29.bat" target="_blank" rel="noopener noreferrer">Flowseal — SIMPLE FAKE ALT ↗</a>
+<a href="https://github.com/bol-van/zapret-win-bundle/blob/master/zapret-winws/preset2_example.cmd" target="_blank" rel="noopener noreferrer">Windows bundle — winws2 example ↗</a>
+<a href="https://github.com/bol-van/zapret-win-bundle/blob/master/zapret-winws/preset2_wireguard.cmd" target="_blank" rel="noopener noreferrer">Windows bundle — WireGuard preset ↗</a>
+<a href="https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/deployment/firewall/" target="_blank" rel="noopener noreferrer">Cloudflare — WARP firewall ports ↗</a>
+</section>
+</main>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities / Zapret Strategy Generator</span><span>Experimental tool</span></footer>
+</div>
+</body>
+</html>
