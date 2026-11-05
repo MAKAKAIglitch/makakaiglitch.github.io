@@ -1115,12 +1115,14 @@ async function runScheduledChecks(env, scheduledTime, servicesToCheck=SERVICES) 
     ).bind(...chunk.flat()));
   }
 
-  if (stateRows.length) {
-    const values=stateRows.map(()=>"(?, ?, ?, ?, ?, ?)").join(", ");
+  // Six parameters per row: batches of 16 stay below D1's 100-variable limit.
+  for (let offset=0; offset<stateRows.length; offset+=16) {
+    const chunk=stateRows.slice(offset,offset+16);
+    const values=chunk.map(()=>"(?, ?, ?, ?, ?, ?)").join(", ");
     statements.push(env.DB.prepare(
       "INSERT INTO service_state (service_id, consecutive_bad, consecutive_good, current_incident_id, last_status, updated_at) VALUES " + values +
       " ON CONFLICT(service_id) DO UPDATE SET consecutive_bad=excluded.consecutive_bad, consecutive_good=excluded.consecutive_good, current_incident_id=excluded.current_incident_id, last_status=excluded.last_status, updated_at=excluded.updated_at"
-    ).bind(...stateRows.flat()));
+    ).bind(...chunk.flat()));
   }
 
   // Incident rows have 6 bound values (ended_at is SQL NULL). Limit each
