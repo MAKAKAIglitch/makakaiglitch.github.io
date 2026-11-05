@@ -86,7 +86,7 @@ jobs:
               ;;
           esac
 
-          deployment_ids=$(gh api "repos/${GITHUB_REPOSITORY}/deployments?sha=${stale_sha}&environment=github-pages&per_page=100" --jq ".[] | select(.sha == \"\${stale_sha}\" and .environment == \"github-pages\") | .id")
+          deployment_ids=$(gh api "repos/${GITHUB_REPOSITORY}/deployments?sha=${stale_sha}&environment=github-pages&per_page=100" --jq '.[].id')
           if [ -z "${deployment_ids}" ]; then
             echo "::error::No matching github-pages deployment record was found for the stale SHA."
             exit 1
