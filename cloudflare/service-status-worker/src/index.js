@@ -1156,6 +1156,7 @@ async function compactAndCleanup(env, nowSeconds=Math.floor(Date.now()/1000)) {
   if (!env.DB) throw new Error("Missing D1 binding: DB");
   const rawCutoff = Math.floor((nowSeconds - DETAILED_RETENTION_DAYS*86400)/86400)*86400;
   const retentionCutoff = nowSeconds - RETENTION_DAYS*86400;
+  const dailyRetentionCutoff = Math.floor(retentionCutoff/86400)*86400;
   const result = await env.DB.batch([
     env.DB.prepare(
       "INSERT OR REPLACE INTO probe_daily (service_id, day_start, checks, successful, latency_sum, latency_samples, min_latency_ms, max_latency_ms) " +
@@ -1165,7 +1166,7 @@ async function compactAndCleanup(env, nowSeconds=Math.floor(Date.now()/1000)) {
     ).bind(retentionCutoff,rawCutoff),
     env.DB.prepare("DELETE FROM probe_results WHERE checked_at < ? AND checked_at >= ?").bind(rawCutoff,retentionCutoff),
     env.DB.prepare("DELETE FROM probe_results WHERE checked_at < ?").bind(retentionCutoff),
-    env.DB.prepare("DELETE FROM probe_daily WHERE day_start < ?").bind(retentionCutoff),
+    env.DB.prepare("DELETE FROM probe_daily WHERE day_start < ?").bind(dailyRetentionCutoff),
     env.DB.prepare("DELETE FROM incidents WHERE ended_at IS NOT NULL AND ended_at < ?").bind(retentionCutoff)
   ]);
   console.log(JSON.stringify({
@@ -1236,7 +1237,10 @@ async function getHistory(env, url) {
   if (!service) return json({error:"Unknown service id."},400);
   if (!range) return json({error:"Unsupported range. Use 24h, 7d, 30d, 90d or 365d."},400);
   const to=Math.floor(Date.now()/1000);
-  const from=to-range.seconds;
+  const exactFrom=to-range.seconds;
+  const from=(rangeKey==="90d" || rangeKey==="365d")
+    ? Math.floor(exactFrom/86400)*86400
+    : exactFrom;
   let query;
   if (rangeKey === "90d" || rangeKey === "365d") {
     // Older than 30 days is kept as one daily rollup per service. The most
