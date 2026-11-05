@@ -246,14 +246,14 @@ function renderChart(container, response) {
   const bucketSeconds=Number(response.bucket_seconds || 300);
   const latencyPath=linePath(points,point=>point.avg_latency_ms,timestamp=>x(timestamp),yLatency,bucketSeconds);
   const uptimePath=linePath(points,point=>point.uptime_pct,timestamp=>x(timestamp),yUptime,bucketSeconds);
-  const areaPath=uptimePath ? uptimePath+" L"+x(timeEnd).toFixed(1)+","+(top+plotH)+" L"+x(timeStart).toFixed(1)+","+(top+plotH)+" Z" : "";
-  const labelFirst=formatDate(timeStart,{hour:"2-digit",minute:"2-digit"});
-  const labelLast=formatDate(timeEnd,{hour:"2-digit",minute:"2-digit"});
-  const labelMiddle=formatDate(Math.floor((timeStart+timeEnd)/2),{day:"2-digit",month:"short"});
+  const isLongRange=response.range!=="24h";
+  const axisOptions=isLongRange ? {day:"2-digit",month:"short",...(response.range==="365d"?{year:"2-digit"}:{})} : {hour:"2-digit",minute:"2-digit"};
+  const labelFirst=formatDate(timeStart,axisOptions);
+  const labelLast=formatDate(timeEnd,axisOptions);
+  const labelMiddle=formatDate(Math.floor((timeStart+timeEnd)/2),axisOptions);
   const coverage=response.coverage_pct==null ? "—" : Number(response.coverage_pct).toFixed(1)+"%";
   container.innerHTML = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Combined chart of HTTP latency and uptime">'+
     grid+
-    (areaPath?'<path d="'+areaPath+'" fill="rgba(125,219,176,.055)" stroke="none"/>':"")+
     (latencyPath?'<path d="'+latencyPath+'" fill="none" stroke="#aabaff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>':"")+
     (uptimePath?'<path d="'+uptimePath+'" fill="none" stroke="#7ddbb0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>':"")+
     '<line x1="'+left+'" y1="'+top+'" x2="'+left+'" y2="'+(top+plotH)+'" stroke="rgba(215,225,245,.2)"/>'+
