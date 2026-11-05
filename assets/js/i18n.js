@@ -818,6 +818,8 @@ const map={
 ,"Официальная status page сообщает о технических работах.":"The official status page reports maintenance."
 ,"Состояние сервиса отличается от нормального.":"The service state is not operational."
 ,"Сервис":"Service"
+,"Service Status Monitor":"Service Status Monitor"
+,"Мониторинг Telegram, YouTube, Google, Cloudflare и других сервисов: uptime, задержка HTTP, годовая история и журнал инцидентов.":"Monitor Telegram, YouTube, Google, Cloudflare and more: uptime, HTTP latency, one-year history and incident log."
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
