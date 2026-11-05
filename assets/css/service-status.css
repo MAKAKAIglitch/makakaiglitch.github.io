@@ -175,3 +175,7 @@
  .ss-tab-panel { animation:none; }
  .ss-service-card,.ss-tab,.ss-icon-button { transition:none; }
 }
+
+.ss-service-official { display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:9px;border-top:1px solid rgba(220,230,255,.055);color:#8794a8;font-size:9px; }
+.ss-service-official strong { color:#bac6d8;font:600 9px var(--mono);text-transform:uppercase;letter-spacing:.025em; }
+.ss-service-official.is-muted { opacity:.55; }
