@@ -1040,7 +1040,7 @@ const CATALOG = [
     "category": "commerce",
     "description": "Ozon — маркетплейс и веб-магазин",
     "website": "https://www.ozon.ru/",
-    "status_page_url": "https://ozon.statuspage.io/"
+    "status_page_url": null
   }
 ];
 
