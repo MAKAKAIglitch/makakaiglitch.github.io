@@ -1793,3 +1793,20 @@ body.modal-open{overflow:hidden}
 @media(max-width:720px){.ip-intel-grid{grid-template-columns:1fr}.ip-intel-map{height:300px}.ip-intel-list dt{flex-basis:42%}}
 @media(max-width:420px){.ip-intel-input-row{grid-template-columns:1fr}.ip-intel-input-row .tool-button{width:100%}.ip-intel-list>div{gap:8px}.ip-intel-list dt{flex-basis:38%}}
 @media(prefers-reduced-motion:reduce){.vpn-result-row,.vpn-step{transition:none!important}}
+
+/* The torrent shares page explicitly uses slow ambient motion. Keep it running
+   even when the browser requests reduced motion; the rest of the site is unchanged. */
+@media (prefers-reduced-motion: reduce) {
+  body.torrent-shares-page .ambient-one {
+    animation: shares-light-drift-one 52s ease-in-out infinite !important;
+    animation-play-state: running !important;
+  }
+  body.torrent-shares-page .ambient-two {
+    animation: shares-light-drift-two 61s ease-in-out infinite !important;
+    animation-play-state: running !important;
+  }
+  body.torrent-shares-page .cursor-glow {
+    transition: opacity 650ms ease !important;
+  }
+}
+
