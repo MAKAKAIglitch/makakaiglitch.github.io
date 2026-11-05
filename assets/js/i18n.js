@@ -642,6 +642,43 @@ const map={
 ,"Источник не предоставил сведения о точности":"The source did not provide accuracy details"
 ,"±":"±"
 ,"не отмечен базой":"Not flagged by the database"
+"General — базовая стратегия":"General — base strategy",
+"ALT5 — NOT RECOMMENDED":"ALT5 — NOT RECOMMENDED",
+"EXP — экспериментальная":"EXP — experimental",
+"В исходном файле Flowseal есть комментарий NOT RECOMMENDED.":"The original Flowseal file contains a NOT RECOMMENDED comment.",
+"Имя исходного файла помечает эту стратегию как EXP.":"The source filename marks this strategy as EXP.",
+"Нет совпадений":"No matches",
+"Найдено: ":"Found: ",
+"Оригинальные конфигурации: ":"Original configurations: ",
+"Оригинальная стратегия Flowseal":"Original Flowseal strategy",
+"22 оригинальных .bat-профиля. Выбранный файл загружается из Flowseal и сохраняет собственные параметры.":"22 original .bat profiles. The selected file is loaded from Flowseal and keeps its original parameters.",
+"Оригинальные конфигурации Flowseal ↗":"Original Flowseal configurations ↗",
+"Зависимости bin будут показаны после загрузки профиля.":"bin dependencies will be shown after the profile loads.",
+"Файлы, которые профиль ожидает в bin: ":"Files expected in the bin folder: ",
+"В исходном профиле не обнаружены зависимости .bin.":"No .bin dependencies were found in the source profile.",
+"Загружен оригинальный ":"Loaded original ",
+". Его параметры и порядок правил сохранены; добавлены только выбранные фильтры портов.":". Its parameters and rule order are preserved; only the selected port filters were added.",
+"Оригинальные параметры сохранены; WARP-порты добавлены отдельно.":"Original parameters were preserved; WARP ports were added separately.",
+"Загружаю оригинальную стратегию Flowseal…":"Loading original Flowseal strategy…",
+"Загружаю оригинальный файл ":"Loading original file ",
+"Не удалось получить или обработать оригинальный профиль. ":"Could not download or process the original profile. ",
+"Проверь доступ к raw.githubusercontent.com или api.github.com.":"Check access to raw.githubusercontent.com or api.github.com.",
+"Для V1 нужен Flowseal Windows bundle: winws.exe, bin, lists и service.bat.":"V1 requires the Flowseal Windows bundle: winws.exe, bin, lists and service.bat.",
+"Zapret 1 загружает оригинальный .bat из Flowseal. Нужны winws.exe, service.bat, папки bin и lists из совместимой сборки.":"Zapret 1 loads the original .bat from Flowseal. You need winws.exe, service.bat, bin and lists from a compatible build.",
+"Оригинальные QUIC-правила Flowseal оставлены без изменений; UDP 443 не добавлялся как WARP-порт.":"Flowseal's original QUIC rules are unchanged; UDP 443 was not added as a WARP port.",
+"V1 WireGuard-фильтр использует общий UDP-шаблон выбранного профиля.":"The V1 WireGuard filter uses the selected profile's generic UDP template.",
+"Оригинальный .bat загружается из Flowseal при выборе стратегии.":"The original .bat is loaded from Flowseal when a strategy is selected.",
+"Оригинальная стратегия Flowseal ↗":"Original Flowseal strategy ↗",
+"Оригинальные конфигурации Flowseal ↗":"Original Flowseal configurations ↗",
+"В выбранном профиле не найдена исходная GameFilter TCP-стратегия для расширения портов.":"The selected profile has no original GameFilter TCP rule to extend.",
+"В выбранном профиле не найдена исходная GameFilter UDP-стратегия для WARP.":"The selected profile has no original GameFilter UDP rule for WARP.",
+"В оригинальном .bat не найдена строка запуска winws.exe.":"The original .bat has no winws.exe start line.",
+"Не удалось разобрать --wf-tcp/--wf-udp в оригинальном профиле.":"Could not parse --wf-tcp/--wf-udp in the original profile.",
+"В оригинальном профиле не найдена QUIC-стратегия для MASQUE-портов.":"The original profile has no QUIC strategy for MASQUE ports.",
+"Оригинальные конфигурации Flowseal":"Original Flowseal configurations",
+"Поиск по 22 конфигурациям":"Search 22 configurations",
+"Например: ALT, FAKE TLS, SIMPLE FAKE...":"For example: ALT, FAKE TLS, SIMPLE FAKE...",
+"Зависимости bin будут показаны после загрузки профиля.":"bin dependencies will be shown after the profile loads."
 
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
