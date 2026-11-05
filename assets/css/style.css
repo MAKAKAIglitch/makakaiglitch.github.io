@@ -1790,6 +1790,8 @@ body.modal-open{overflow:hidden}
 .ip-intel-map-dot{flex:0 0 auto;width:8px;height:8px;border-radius:50%;background:#9eafff;box-shadow:0 0 9px rgba(158,175,255,.45)}
 .ip-intel-map .leaflet-control-attribution{font-size:9px}
 .ip-intel-map .leaflet-popup-content-wrapper,.ip-intel-map .leaflet-popup-tip{color:#dce5f5;background:#121a28}
+.ip-intel-map-legend a{margin-left:auto;color:#b8c5ff;font-size:9px;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+@media(max-width:520px){.ip-intel-map-legend{align-items:flex-start;flex-wrap:wrap}.ip-intel-map-legend a{margin-left:16px}}
 @media(max-width:720px){.ip-intel-grid{grid-template-columns:1fr}.ip-intel-map{height:300px}.ip-intel-list dt{flex-basis:42%}}
 @media(max-width:420px){.ip-intel-input-row{grid-template-columns:1fr}.ip-intel-input-row .tool-button{width:100%}.ip-intel-list>div{gap:8px}.ip-intel-list dt{flex-basis:38%}}
 @media(prefers-reduced-motion:reduce){.vpn-result-row,.vpn-step{transition:none!important}}
