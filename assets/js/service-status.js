@@ -202,13 +202,20 @@ async function loadIncidents() {
     $("#ss-incidents").innerHTML = '<div class="ss-empty-state">Не удалось получить журнал: '+escapeHtml(error.message)+'</div>';
   }
 }
-function linePath(points, accessor, x, y) {
-  let path="", drawing=false;
-  points.forEach((point,index) => {
+function linePath(points, accessor, x, y, bucketSeconds=0) {
+  let path="", drawing=false, previousTimestamp=null;
+  points.forEach(point => {
     const value = accessor(point);
-    if (value===null || value===undefined || !Number.isFinite(Number(value))) { drawing=false; return; }
-    path += (drawing ? "L" : "M") + x(index).toFixed(1) + "," + y(Number(value)).toFixed(1) + " ";
+    const timestamp = Number(point.timestamp);
+    const gap = previousTimestamp!==null && bucketSeconds>0 && timestamp-previousTimestamp>bucketSeconds*1.5;
+    if (value===null || value===undefined || !Number.isFinite(Number(value)) || gap) drawing=false;
+    if (value===null || value===undefined || !Number.isFinite(Number(value))) {
+      previousTimestamp=Number.isFinite(timestamp) ? timestamp : previousTimestamp;
+      return;
+    }
+    path += (drawing ? "L" : "M") + x(timestamp).toFixed(1) + "," + y(Number(value)).toFixed(1) + " ";
     drawing=true;
+    previousTimestamp=timestamp;
   });
   return path.trim();
 }
@@ -221,7 +228,10 @@ function renderChart(container, response) {
   const W=960,H=350,left=66,right=66,top=24,bottom=49,plotW=W-left-right,plotH=H-top-bottom;
   const maxLatencyRaw=Math.max(0,...points.map(point=>Number(point.avg_latency_ms)||0));
   const maxLatency=Math.max(100,Math.ceil(maxLatencyRaw*1.18/50)*50);
-  const x=index => left+(points.length===1?plotW/2:index/(points.length-1)*plotW);
+  const timeStart=Number(response.from || points[0].timestamp);
+  const timeEnd=Number(response.to || (points[points.length-1].timestamp + Number(response.bucket_seconds || 300)));
+  const timeSpan=Math.max(1,timeEnd-timeStart);
+  const x=timestamp=>left+Math.max(0,Math.min(1,(Number(timestamp)-timeStart)/timeSpan))*plotW;
   const yLatency=value => top+plotH-(value/maxLatency)*plotH;
   const yUptime=value => top+plotH-(value/100)*plotH;
   let grid="";
@@ -233,13 +243,13 @@ function renderChart(container, response) {
     grid += '<text x="'+(left-11)+'" y="'+(yy+4)+'" text-anchor="end" fill="#8794a8" font-size="11">'+Math.round(ms)+'</text>';
     grid += '<text x="'+(W-right+11)+'" y="'+(yy+4)+'" text-anchor="start" fill="#80cfa9" font-size="11">'+pct+'%</text>';
   }
-  const latencyPath=linePath(points,point=>point.avg_latency_ms,x,yLatency);
-  const uptimePath=linePath(points,point=>point.uptime_pct,x,yUptime);
-  const areaPath=uptimePath ? uptimePath+" L"+x(points.length-1).toFixed(1)+","+(top+plotH)+" L"+x(0).toFixed(1)+","+(top+plotH)+" Z" : "";
-  const labelFirst=formatDate(points[0].timestamp,{hour:"2-digit",minute:"2-digit"});
-  const labelLast=formatDate(points[points.length-1].timestamp,{hour:"2-digit",minute:"2-digit"});
-  const middle=points[Math.floor(points.length/2)];
-  const labelMiddle=middle ? formatDate(middle.timestamp,{day:"2-digit",month:"short"}) : "";
+  const bucketSeconds=Number(response.bucket_seconds || 300);
+  const latencyPath=linePath(points,point=>point.avg_latency_ms,timestamp=>x(timestamp),yLatency,bucketSeconds);
+  const uptimePath=linePath(points,point=>point.uptime_pct,timestamp=>x(timestamp),yUptime,bucketSeconds);
+  const areaPath=uptimePath ? uptimePath+" L"+x(timeEnd).toFixed(1)+","+(top+plotH)+" L"+x(timeStart).toFixed(1)+","+(top+plotH)+" Z" : "";
+  const labelFirst=formatDate(timeStart,{hour:"2-digit",minute:"2-digit"});
+  const labelLast=formatDate(timeEnd,{hour:"2-digit",minute:"2-digit"});
+  const labelMiddle=formatDate(Math.floor((timeStart+timeEnd)/2),{day:"2-digit",month:"short"});
   const coverage=response.coverage_pct==null ? "—" : Number(response.coverage_pct).toFixed(1)+"%";
   container.innerHTML = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Combined chart of HTTP latency and uptime">'+
     grid+
