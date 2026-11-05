@@ -98,13 +98,13 @@
 <section class="ss-tab-panel" id="ss-tab-incidents" data-panel="incidents" role="tabpanel" hidden>
 <div class="ss-section-heading"><div><h2>Журнал инцидентов</h2><p>События, подтверждённые несколькими последовательными проверками</p></div><select id="ss-incident-period" aria-label="Период инцидентов"><option value="7">7 дней</option><option value="30" selected>30 дней</option><option value="90">90 дней</option><option value="365">365 дней</option></select></div>
 <div class="ss-incident-summary" id="ss-incident-summary"></div>
-<div class="ss-incident-list ss-incident-list-full" id="ss-incidents"><div class="ss-empty-state">Журнал загрузится после подключения API.</div></div>
+<div class="ss-incident-list ss-incident-list-full" id="ss-incidents"><div class="ss-empty-state">Журнал появится после первых проверок GitHub Actions.</div></div>
 </section>
 
 <section class="ss-tab-panel" id="ss-tab-diagnostics" data-panel="diagnostics" role="tabpanel" hidden>
 <div class="ss-section-heading"><div><h2>Методика измерений</h2><p>Что именно проверяется и как читать результаты</p></div></div>
 <div class="ss-info-grid">
-<article class="ss-card"><span class="ss-info-icon">HTTP</span><h3>Доступность</h3><p>Worker запрашивает проверочный HTTPS-адрес сервиса. Сохраняются HTTP-код, результат запроса и время получения заголовков ответа.</p></article>
+<article class="ss-card"><span class="ss-info-icon">HTTP</span><h3>Доступность</h3><p>GitHub Actions runner выполняет HTTPS-запрос к проверочному адресу сервиса. Сохраняются HTTP-код, результат запроса и время получения заголовков ответа.</p></article>
 <article class="ss-card"><span class="ss-info-icon">ms</span><h3>Задержка</h3><p>HTTP latency включает сетевой путь, установление соединения при необходимости и ожидание ответа сервера. Это не чистый ICMP RTT и не измерение из твоего домашнего роутера.</p></article>
 <article class="ss-card"><span class="ss-info-icon">API</span><h3>Официальные статусы</h3><p>Для GitHub, Cloudflare, Discord и OpenAI дополнительно опрашиваются официальные Status API. Они показываются отдельно от сетевого ответа.</p></article>
 <article class="ss-card"><span class="ss-info-icon">365d</span><h3>История и uptime</h3><p>За 24 часа сохраняются 5-минутные измерения, за 7 дней — 15-минутные агрегаты, за 30 дней — часовые, за 365 дней — дневные. Пропуски расписания снижают покрытие и не считаются успешными проверками.</p></article>
@@ -115,7 +115,7 @@
 <section class="ss-tab-panel" id="ss-tab-settings" data-panel="settings" role="tabpanel" hidden>
 <div class="ss-section-heading"><div><h2>Настройки мониторинга</h2><p>Автоматизация и параметры хранения данных</p></div></div>
 <article class="ss-card ss-settings-card">
-<p>Мониторинг полностью запускается через GitHub Actions. Ручное подключение API, Cloudflare Worker, база данных и секретные ключи не требуются.</p>
+<p>Мониторинг полностью запускается через GitHub Actions. Внешний API-ключ, Cloudflare Worker и отдельная база данных не нужны.</p>
 <div class="ss-settings-divider"></div>
 <div class="ss-config-grid"><div><span>Расписание</span><strong>Каждые 5 минут</strong></div><div><span>Детализация</span><strong>5 мин / 24 ч</strong></div><div><span>История</span><strong>365 дней</strong></div><div><span>Сервисов</span><strong>111</strong></div></div>
 <p class="ss-field-help">Данные формируются в JSON и публикуются на GitHub Pages вместе с сайтом. Между запусками история берётся из предыдущей опубликованной версии.</p>
