@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e13">
+<meta name="description" content="Рассчитай примерное время скачивания файла по его размеру и скорости интернет-соединения.">
+<title>Download Time Calculator — MAKAKAIglitch</title>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-download-time-v1">
+<script src="/assets/js/global-search.js?v=20261105-search-v7" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-download-time-v1" defer></script>
+<script src="/assets/js/download-time.js?v=20261105-download-time-v1" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="site-shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
+<nav class="main-nav" aria-label="Основная навигация">
+<a class="nav-link" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/></svg><span>Repositories</span></a>
+<a class="nav-link is-active" href="/tools/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/></svg><span>Utilities</span></a>
+<a class="nav-link" href="/library/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/></svg><span>Library</span></a>
+</nav>
+<a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+</header>
+<main class="main-content tool-page-main">
+<a class="utility-back" href="/tools/"><span>←</span> Все утилиты</a>
+<section class="intro tools-intro">
+<div class="eyebrow"><span class="status-dot"></span> NETWORK / CALCULATOR</div>
+<h1>Download Time Calculator</h1>
+<p>Рассчитай, сколько времени займёт скачивание файла при заданном размере и скорости соединения.</p>
+</section>
+<section class="tools-grid download-time-grid" aria-label="Калькулятор времени загрузки">
+<article class="tool-detail-card tool-card">
+<div class="tool-card-heading">
+<span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v12m-4.5-4.5L12 15l4.5-4.5"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg></span>
+<div><h2>Параметры загрузки</h2><p>Укажи размер файла и скорость скачивания.</p></div>
+</div>
+<form id="download-time-form" novalidate>
+<div class="download-field-grid">
+<div class="download-field">
+<label class="tool-field-label" for="download-size">Размер файла</label>
+<div class="download-input-row">
+<input class="tool-input" id="download-size" name="size" type="number" min="0" step="any" value="10" inputmode="decimal">
+<select class="tool-input" id="download-size-unit" name="size-unit" aria-label="Единица размера файла">
+<option value="B">B</option><option value="kB">kB</option><option value="MB">MB</option><option value="GB">GB</option><option value="TB">TB</option>
+<option value="KiB">KiB</option><option value="MiB">MiB</option><option value="GiB" selected>GiB</option><option value="TiB">TiB</option>
+</select>
+</div>
+</div>
+<div class="download-field">
+<label class="tool-field-label" for="download-speed">Скорость загрузки</label>
+<div class="download-input-row">
+<input class="tool-input" id="download-speed" name="speed" type="number" min="0" step="any" value="100" inputmode="decimal">
+<select class="tool-input" id="download-speed-unit" name="speed-unit" aria-label="Единица скорости">
+<option value="bps">bit/s</option><option value="Kbps">Kbit/s</option><option value="Mbps" selected>Mbit/s</option><option value="Gbps">Gbit/s</option>
+<option value="B/s">B/s</option><option value="kB/s">kB/s</option><option value="MB/s">MB/s</option><option value="GB/s">GB/s</option>
+<option value="KiB/s">KiB/s</option><option value="MiB/s">MiB/s</option><option value="GiB/s">GiB/s</option>
+</select>
+</div>
+</div>
+</div>
+<div class="download-result" aria-live="polite" aria-atomic="true">
+<span class="download-result-label">Примерное время скачивания</span>
+<strong id="download-time-result">13 мин 39 сек</strong>
+<span class="download-result-subtitle" id="download-result-summary">10 GiB при 100 Mbit/s</span>
+</div>
+<div class="download-result-details">
+<div><span>Скорость в байтах</span><strong id="download-speed-bytes">12.5 MB/s</strong></div>
+<div><span>Размер в байтах</span><strong id="download-size-bytes">10.74 GiB</strong></div>
+</div>
+<div class="tool-actions">
+<button class="tool-button" id="download-calculate" type="submit">Рассчитать</button>
+<button class="tool-button secondary" id="download-reset" type="reset">Сбросить</button>
+</div>
+<p class="tool-status" id="download-status" role="status" aria-live="polite">Расчёт выполняется прямо в браузере.</p>
+</form>
+</article>
+<aside class="tool-detail-card tool-card download-presets">
+<div class="tool-card-heading"><div><h2>Быстрый выбор</h2><p>Готовые размеры файлов и скорости.</p></div></div>
+<div class="download-preset-group">
+<strong>Размер файла</strong>
+<div class="download-preset-list">
+<button class="download-preset" type="button" data-size="1" data-unit="GB">1 GB</button>
+<button class="download-preset" type="button" data-size="10" data-unit="GB">10 GB</button>
+<button class="download-preset" type="button" data-size="50" data-unit="GB">50 GB</button>
+<button class="download-preset" type="button" data-size="100" data-unit="GB">100 GB</button>
+<button class="download-preset" type="button" data-size="1" data-unit="TB">1 TB</button>
+</div>
+</div>
+<div class="download-preset-group">
+<strong>Скорость соединения</strong>
+<div class="download-preset-list">
+<button class="download-preset" type="button" data-speed="10" data-speed-unit="Mbps">10 Mbit/s</button>
+<button class="download-preset" type="button" data-speed="50" data-speed-unit="Mbps">50 Mbit/s</button>
+<button class="download-preset" type="button" data-speed="100" data-speed-unit="Mbps">100 Mbit/s</button>
+<button class="download-preset" type="button" data-speed="300" data-speed-unit="Mbps">300 Mbit/s</button>
+<button class="download-preset" type="button" data-speed="1" data-speed-unit="Gbps">1 Gbit/s</button>
+<button class="download-preset" type="button" data-speed="10" data-speed-unit="MB/s">10 MB/s</button>
+</div>
+</div>
+<div class="download-info">
+<strong>Биты и байты — не одно и то же</strong>
+<p>Провайдеры обычно указывают скорость в Mbit/s (Мбит/с), а браузеры и загрузчики часто показывают MB/s (МБ/с). В одном байте 8 бит, поэтому 100 Mbit/s — это максимум 12.5 MB/s до учёта накладных расходов.</p>
+</div>
+</aside>
+</section>
+<p class="network-privacy-note">Расчёт полностью локальный: размер файла и скорость не отправляются на сервер. Реальное время зависит от нагрузки сети, сервера и протокольных накладных расходов.</p>
+</main>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities / Download Time</span><span>Download calculator</span></footer>
+</div>
+</body>
+</html>
