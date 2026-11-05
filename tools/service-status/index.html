@@ -7,10 +7,10 @@
 <meta name="description" content="Мониторинг доступности популярных интернет-сервисов, HTTP latency, uptime и история инцидентов до 365 дней.">
 <title>Service Status Monitor — MAKAKAIglitch</title>
 <link rel="stylesheet" href="/assets/css/style.css?v=20261105-global-ambient">
-<link rel="stylesheet" href="/assets/css/service-status.css?v=20261105-v3">
+<link rel="stylesheet" href="/assets/css/service-status.css?v=20261105-v4">
 <script src="/assets/js/global-search.js?v=20261105-global-ambient" defer></script>
-<script src="/assets/js/i18n.js?v=20261105-service-status-v3" defer></script>
-<script src="/assets/js/service-status.js?v=20261105-v3" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-service-status-v4" defer></script>
+<script src="/assets/js/service-status.js?v=20261105-v4" defer></script>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div>
@@ -54,7 +54,7 @@
 
 <section class="ss-tab-panel is-active" id="ss-tab-overview" data-panel="overview" role="tabpanel">
 <div class="ss-metric-grid" id="ss-overview-metrics">
-<article class="ss-metric"><span>Сервисов под наблюдением</span><strong id="ss-total-services">104</strong><small>Каталог мониторинга</small></article>
+<article class="ss-metric"><span>Сервисов под наблюдением</span><strong id="ss-total-services">111</strong><small>Каталог мониторинга</small></article>
 <article class="ss-metric"><span>Работают нормально</span><strong id="ss-operational">—</strong><small>По последней проверке</small></article>
 <article class="ss-metric"><span>Средний uptime за 24 ч</span><strong id="ss-uptime">—</strong><small>По сохранённым измерениям</small></article>
 <article class="ss-metric"><span>Средняя задержка</span><strong id="ss-latency">—</strong><small>HTTP response time</small></article>
@@ -73,10 +73,10 @@
 </section>
 
 <section class="ss-tab-panel" id="ss-tab-services" data-panel="services" role="tabpanel" hidden>
-<div class="ss-section-heading ss-service-heading"><div><h2>Все сервисы</h2><p>Официальный статус и доступность проверочного HTTPS-адреса</p></div><span class="ss-count" id="ss-service-count">104 сервиса</span></div>
+<div class="ss-section-heading ss-service-heading"><div><h2>Все сервисы</h2><p>Официальный статус и доступность проверочного HTTPS-адреса</p></div><span class="ss-count" id="ss-service-count">111 сервисов</span></div>
 <div class="ss-filters">
 <label class="ss-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></svg><input id="ss-service-search" type="search" placeholder="Найти сервис..." autocomplete="off"></label>
-<select id="ss-category-filter" aria-label="Категория"><option value="all">Все категории</option><option value="search">Поисковики</option><option value="ai">ИИ-сервисы</option><option value="finance">Банки и платежи</option><option value="russian">Российские сервисы</option><option value="platform">Платформы</option><option value="infrastructure">Облака / CDN / хостинг</option><option value="communication">Связь</option><option value="media">Медиа</option><option value="development">Разработка</option></select>
+<select id="ss-category-filter" aria-label="Категория"><option value="all">Все категории</option><option value="search">Поисковики</option><option value="ai">ИИ-сервисы</option><option value="finance">Банки и платежи</option><option value="russian">Российские сервисы</option><option value="mapping">Карты и геоданные</option><option value="gaming">Игры и игровые сервисы</option><option value="commerce">Магазины и маркетплейсы</option><option value="platform">Платформы</option><option value="infrastructure">Облака / CDN / хостинг</option><option value="communication">Связь</option><option value="media">Медиа</option><option value="development">Разработка</option></select>
 <select id="ss-status-filter" aria-label="Состояние"><option value="all">Любое состояние</option><option value="operational">Работает</option><option value="degraded">Нестабильно</option><option value="outage">Сбой</option><option value="unknown">Нет данных</option></select>
 </div>
 <div class="ss-service-grid ss-service-grid-large" id="ss-all-services"></div>
@@ -109,7 +109,7 @@
 <article class="ss-card"><span class="ss-info-icon">API</span><h3>Официальные статусы</h3><p>Для GitHub, Cloudflare, Discord и OpenAI дополнительно опрашиваются официальные Status API. Они показываются отдельно от сетевого ответа.</p></article>
 <article class="ss-card"><span class="ss-info-icon">365d</span><h3>История и uptime</h3><p>За последние 30 дней сохраняются отдельные пятиминутные измерения. Более старые данные сжимаются в дневные агрегаты с uptime и средней, минимальной и максимальной HTTP latency. Пропуски расписания снижают покрытие и не считаются успешными проверками.</p></article>
 </div>
-<div class="ss-card ss-method-card"><p>В монитор добавлены 26 крупных и региональных банков, а также Мир и СБП. Полный официальный перечень Банка России шире: на 02.11.2026 в нём указаны 340 кредитных организаций и 1 793 сайта — включая небанковские кредитные организации. <a href="https://www.cbr.ru/banking_sector/credit/cowebsites/" target="_blank" rel="noopener noreferrer">Открыть реестр Банка России ↗</a>. Проверка банков в этом мониторе измеряет доступность публичного сайта, а не доступность переводов, карт, СБП или личного кабинета.</p><h3>Откуда выполняются проверки</h3><p>Плановые запросы идут из Cloudflare Worker. Это одна точка наблюдения, а не глобальная сеть зондов и не проверка из сети каждого пользователя. Региональная блокировка, проблемы отдельного провайдера или DNS могут отличаться от результата Worker.</p><h3>Как определяется инцидент</h3><p>Одиночный неудачный запрос записывается как неуспешная точка. Инцидент открывается после двух последовательных проблемных проверок и закрывается после двух последовательных нормальных проверок. Поэтому краткие сетевые всплески не превращаются в длинные инциденты.</p><h3>Что означает HTTP-код</h3><p>Ответы 2xx и 3xx считаются доступными. Ответы 4xx означают, что узел ответил, но запрос ограничен или отклонён; они отмечаются как деградация. Ошибки сети, тайм-ауты и ответы 5xx считаются недоступностью проверочного endpoint.</p></div>
+<div class="ss-card ss-method-card"><p>В монитор добавлены 26 крупных и региональных банков, а также Мир и СБП. Полный официальный перечень Банка России шире: на 02.11.2026 в нём указаны 340 кредитных организаций и 1 793 сайта — включая небанковские кредитные организации. <a href="https://www.cbr.ru/banking_sector/credit/cowebsites/" target="_blank" rel="noopener noreferrer">Открыть реестр Банка России ↗</a>. Проверка банков в этом мониторе измеряет доступность публичного сайта, а не доступность переводов, карт, СБП или личного кабинета.</p><h3>Проверки без API</h3><p>Для OpenStreetMap, BeaconDB, Wildberries, Ozon и Rockstar монитор делает обычный HTTPS GET к публичной странице. Отдельный API сервиса не требуется: фиксируются HTTP-ответ, код и время отклика. Для Roblox такая проверка тоже основная, а официальный Status API добавлен лишь как дополнительный источник. Это показывает доступность сайта/endpoint, но не гарантирует работу входа, платежей, матчмейкинга, геопоиска или других внутренних функций.</p><h3>Откуда выполняются проверки</h3><p>Плановые запросы идут из Cloudflare Worker. Это одна точка наблюдения, а не глобальная сеть зондов и не проверка из сети каждого пользователя. Региональная блокировка, проблемы отдельного провайдера или DNS могут отличаться от результата Worker.</p><h3>Как определяется инцидент</h3><p>Одиночный неудачный запрос записывается как неуспешная точка. Инцидент открывается после двух последовательных проблемных проверок и закрывается после двух последовательных нормальных проверок. Поэтому краткие сетевые всплески не превращаются в длинные инциденты.</p><h3>Что означает HTTP-код</h3><p>Ответы 2xx и 3xx считаются доступными. Ответы 4xx означают, что узел ответил, но запрос ограничен или отклонён; они отмечаются как деградация. Ошибки сети, тайм-ауты и ответы 5xx считаются недоступностью проверочного endpoint.</p></div>
 </section>
 
 <section class="ss-tab-panel" id="ss-tab-settings" data-panel="settings" role="tabpanel" hidden>
@@ -121,7 +121,7 @@
 <div class="ss-settings-actions"><button class="ss-primary-button" id="ss-save-api" type="button">Сохранить и подключить</button><button class="ss-secondary-button" id="ss-test-api" type="button">Проверить соединение</button></div>
 <p class="ss-settings-message" id="ss-settings-message" role="status" aria-live="polite"></p>
 <div class="ss-settings-divider"></div>
-<div class="ss-config-grid"><div><span>Интервал опроса</span><strong>5 минут</strong></div><div><span>Детальная история</span><strong>30 дней</strong></div><div><span>Дневная история</span><strong>365 дней</strong></div><div><span>Сервисов</span><strong>104</strong></div></div>
+<div class="ss-config-grid"><div><span>Интервал опроса</span><strong>5 минут</strong></div><div><span>Детальная история</span><strong>30 дней</strong></div><div><span>Дневная история</span><strong>365 дней</strong></div><div><span>Сервисов</span><strong>111</strong></div></div>
 </article>
 <article class="ss-card ss-setup-card"><h3>Подключение серверной части</h3><p>В репозитории находится готовый Cloudflare Worker, схема базы D1 и инструкция развёртывания.</p><ol><li>Создай базу D1 в Cloudflare.</li><li>Впиши полученный database_id в wrangler.toml.</li><li>Выполни SQL-схему и разверни Worker.</li><li>Скопируй адрес Worker в поле выше.</li></ol><a href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io/tree/main/cloudflare/service-status-worker" target="_blank" rel="noopener noreferrer">Открыть файлы Worker в GitHub ↗</a></article>
 </section>
