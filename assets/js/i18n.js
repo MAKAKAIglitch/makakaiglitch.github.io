@@ -679,6 +679,12 @@ const map={
 "Поиск по 22 конфигурациям":"Search 22 configurations",
 "Например: ALT, FAKE TLS, SIMPLE FAKE...":"For example: ALT, FAKE TLS, SIMPLE FAKE...",
 "Зависимости bin будут показаны после загрузки профиля.":"bin dependencies will be shown after the profile loads."
+"Генератор 22 оригинальных стратегий Flowseal для zapret 1 и профилей zapret 2 для Windows.":"Generator for 22 original Flowseal strategies for zapret 1 and zapret 2 profiles for Windows.",
+"Выбери один из 22 оригинальных профилей Flowseal для zapret 1 или отдельный режим zapret 2 на базе winws2. Порты WARP добавляются отдельно.":"Choose one of 22 original Flowseal profiles for zapret 1 or the separate zapret 2 mode based on winws2. WARP ports are added separately.",
+"Оригинальные файлы загружаются из Flowseal при выборе стратегии. Сохраняются исходные параметры выбранного .bat.":"Original files are loaded from Flowseal when a strategy is selected. The chosen .bat parameters are preserved.",
+"Например: ALT, FAKE TLS, SIMPLE FAKE...":"For example: ALT, FAKE TLS, SIMPLE FAKE...",
+"22 оригинальных конфигурации":"22 original configurations",
+"22 оригинальных профиля Flowseal для zapret 1, отдельный режим zapret 2 и дополнительные порты WARP.":"22 original Flowseal profiles for zapret 1, a separate zapret 2 mode and additional WARP ports."
 
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
