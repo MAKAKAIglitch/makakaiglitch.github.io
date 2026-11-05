@@ -80,7 +80,6 @@
     const glow=document.querySelector(".cursor-glow");
     if(!glow)return;
 
-    const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let targetX=0,targetY=0,currentX=0,currentY=0,frameId=0,hasPosition=false;
     function animate(){
       const dx=targetX-currentX,dy=targetY-currentY;
@@ -99,13 +98,7 @@
         hasPosition=true;
       }
       glow.classList.add("is-visible");
-      if(reducedMotion){
-        currentX=targetX;
-        currentY=targetY;
-        glow.style.transform="translate3d("+currentX+"px,"+currentY+"px,0) translate(-50%,-50%)";
-      }else if(!frameId){
-        frameId=requestAnimationFrame(animate);
-      }
+      if(!frameId)frameId=requestAnimationFrame(animate);
     }
     function hideGlow(){
       glow.classList.remove("is-visible");
