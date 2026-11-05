@@ -208,7 +208,7 @@ const CATALOG = [
     "category": "ai",
     "description": "Gemini и веб-приложение Google AI",
     "website": "https://gemini.google.com/",
-    "status_page_url": "https://status.cloud.google.com/"
+    "status_page_url": null
   },
   {
     "id": "xai",
@@ -262,7 +262,7 @@ const CATALOG = [
     "category": "ai",
     "description": "GroqCloud и inference API",
     "website": "https://groq.com/",
-    "status_page_url": "https://groqstatus.com/"
+    "status_page_url": null
   },
   {
     "id": "huggingface",
@@ -289,7 +289,7 @@ const CATALOG = [
     "category": "ai",
     "description": "AI-редактор Cursor и его сервисы",
     "website": "https://cursor.com/",
-    "status_page_url": "https://status.cursor.com/"
+    "status_page_url": null
   },
   {
     "id": "gigachat",
@@ -813,7 +813,7 @@ function setConnection(message, kind="") {
   $("#ss-live-label").textContent = kind==="ok" ? "Worker API подключён" : kind==="error" ? "Ошибка подключения API" : "Мониторинг ожидает подключения API";
 }
 function categoryLabel(category) {
-  return ({platform:"Платформы",infrastructure:"Инфраструктура",communication:"Связь",media:"Медиа",development:"Разработка"})[category] || "Сервис";
+  return ({platform:"Платформы",infrastructure:"Инфраструктура",communication:"Связь",media:"Медиа",development:"Разработка",search:"Поисковики",ai:"ИИ-сервисы",russian:"Российские сервисы",finance:"Банки и платежи"})[category] || "Сервис";
 }
 function statusLabel(status) {
   return ({operational:"Работает",degraded:"Нестабильно",outage:"Сбой",maintenance:"Техработы",unknown:"Нет данных"})[status] || "Нет данных";
