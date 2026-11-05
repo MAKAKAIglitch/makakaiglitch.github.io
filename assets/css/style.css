@@ -1301,14 +1301,18 @@ kbd {
   min-width: 0;
 }
 .share-demand-high {
-  color: #d9b77d;
-  border-color: rgba(217, 183, 125, 0.22);
-  background: rgba(217, 183, 125, 0.07);
+  color: #ffd27a;
+  border-color: rgba(255, 190, 70, 0.58);
+  background: rgba(255, 170, 40, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 190, 70, 0.08);
+  font-weight: 800;
 }
 .share-demand-medium {
-  color: #9eb8df;
-  border-color: rgba(158, 184, 223, 0.2);
-  background: rgba(158, 184, 223, 0.06);
+  color: #8fc8ff;
+  border-color: rgba(75, 160, 255, 0.5);
+  background: rgba(55, 140, 255, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(75, 160, 255, 0.07);
+  font-weight: 800;
 }
 .share-stats {
   display: flex;
