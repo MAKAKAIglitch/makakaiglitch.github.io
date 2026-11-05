@@ -25,21 +25,21 @@ The remainder of this directory is retained as an optional alternative backend. 
 
 ## Monitored catalog
 
-The fixed catalog contains **111 monitored endpoints**:
+The fixed catalog contains **107 monitored endpoints**:
 
 - Search: Google Search, Yandex Search, Bing and DuckDuckGo.
 - Maps and geodata: OpenStreetMap, Nominatim and BeaconDB.
 - AI: OpenAI, Claude, Gemini, Grok, Perplexity, DeepSeek, Mistral, Cohere, Groq, Hugging Face, OpenRouter, Cursor, GigaChat, Yandex AI, GitHub Copilot, Amazon Bedrock, Azure OpenAI, Fireworks AI, Together AI, Midjourney, ElevenLabs, Replicate, Runway, Windsurf, Stability AI and Luma AI.
-- Russian services: Yandex, Yandex Mail, Yandex Disk, VK, Mail.ru, Dzen, RuTube, Odnoklassniki, MAX and Gosuslugi.
+- Russian services: Yandex, Yandex Disk, VK, Mail.ru, Dzen, RuTube, Odnoklassniki and Gosuslugi. MAX and Yandex Mail are excluded because of reported VPN access restrictions.
 - Banks and payments: 26 major and regional Russian bank websites (Sber, VTB, T-Bank, Alfa-Bank, Gazprombank, Sovcombank, PSB, Rosselkhozbank, MKB, MTS Bank, DOM.RF, Zenit, Ak Bars, Bank Saint Petersburg, Uralsib, Modulbank, Absolut, BCS, UBRR, Bank Rossiya, UniCredit, Avers, Chelindbank, Ozon Bank, Tochka and MSP Bank) plus Mir and SBP.
 - Cloud, CDN and hosting: AWS, Google Cloud, Azure, Yandex Cloud, VK Cloud, Cloud.ru, Selectel, MWS, Timeweb, REG.RU, Beget, Rostelecom Cloud, CDNvideo, EdgeCenter, Qrator and NGENIX.
 - Games: Roblox and Rockstar Games.
-- Marketplaces: Wildberries and Ozon (Ozon's marketplace, separate from Ozon Bank).
+- Marketplaces: Ozon Bank remains monitored separately; the Ozon marketplace and Wildberries are excluded because VPN/datacenter access is restricted.
 - Other global platforms, communications, media and development services: Telegram, YouTube, Cloudflare, GitHub, Discord, Steam Store, Steam Community, Steam Web API, NextDNS, Reddit, X, Twitch, Spotify, Wikipedia, WhatsApp and Microsoft, plus Russian telecom operator websites.
 
 This is a curated set of 26 major and regional bank websites, not the complete register. The Bank of Russia's directory, updated 2026-11-02, lists 340 credit organizations and 1,793 website addresses (including non-bank credit organizations): https://www.cbr.ru/banking_sector/credit/cowebsites/.
 
-OpenStreetMap, Nominatim, BeaconDB, Wildberries, Ozon and Rockstar are checked with ordinary HTTPS GET requests to their public pages; no service-specific API is required for those checks. Roblox is also checked directly over HTTPS, with its official status feed as a supplementary data source. For most bank entries the monitor checks the public website endpoint only. It does **not** authenticate, access private accounts, or verify card authorization, transfers, payment processing, SBP transactions or mobile-app backends. A reachable website is not proof that every banking function is operational.
+OpenStreetMap, Nominatim, BeaconDB and Rockstar are checked with ordinary HTTPS GET requests to their public pages; no service-specific API is required for those checks. Roblox is also checked directly over HTTPS, with its official status feed as a supplementary data source. For most bank entries the monitor checks the public website endpoint only. It does **not** authenticate, access private accounts, or verify card authorization, transfers, payment processing, SBP transactions or mobile-app backends. A reachable website is not proof that every banking function is operational.
 
 ## What each scheduled check does
 
