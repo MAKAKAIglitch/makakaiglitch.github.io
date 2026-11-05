@@ -44,3 +44,21 @@ CREATE TABLE IF NOT EXISTS service_state (
   last_status TEXT NOT NULL DEFAULT 'unknown',
   updated_at INTEGER NOT NULL
 );
+
+
+-- Detailed five-minute rows are kept for 30 days. Older measurements
+-- are compacted into one daily row per service for 365-day charts.
+CREATE TABLE IF NOT EXISTS probe_daily (
+  service_id TEXT NOT NULL,
+  day_start INTEGER NOT NULL,
+  checks INTEGER NOT NULL,
+  successful INTEGER NOT NULL,
+  latency_sum REAL NOT NULL DEFAULT 0,
+  latency_samples INTEGER NOT NULL DEFAULT 0,
+  min_latency_ms INTEGER,
+  max_latency_ms INTEGER,
+  PRIMARY KEY (service_id, day_start)
+);
+
+CREATE INDEX IF NOT EXISTS idx_probe_daily_service_day
+  ON probe_daily(service_id, day_start);
