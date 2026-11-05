@@ -1801,3 +1801,75 @@ body.modal-open{overflow:hidden}
   .cursor-glow { transition: opacity 850ms ease !important; }
 }
 
+
+
+/* Windows reference library */
+.windows-overview-grid { margin-top: 16px; }
+.windows-search-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 0 0 22px;
+}
+.windows-search-row .sort-control { display: grid; gap: 7px; width: min(100%, 440px); }
+.windows-search-row .tool-input { min-height: 40px; }
+.windows-search-count { color: #78869a; font-family: var(--mono); font-size: 9px; white-space: nowrap; padding-bottom: 12px; }
+.windows-command-section { margin-top: 28px; }
+.windows-section-heading { margin: 0 0 12px; }
+.windows-section-heading h2 { margin: 0; color: #e1e7f4; font-size: 15px; letter-spacing: -.02em; }
+.windows-section-heading p { margin: 5px 0 0; color: #8793a6; font-size: 10px; line-height: 1.6; }
+.windows-command-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.windows-command-card {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(220, 230, 255, .075);
+  border-radius: 12px;
+  background: linear-gradient(145deg, rgba(27, 35, 49, .55), rgba(13, 18, 27, .48));
+}
+.windows-command-card[hidden] { display: none !important; }
+.windows-command-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.windows-command-top strong { color: #dce5f5; font-size: 11px; line-height: 1.45; }
+.windows-command-card > p { min-height: 32px; margin: 7px 0 10px; color: #8793a6; font-size: 9px; line-height: 1.65; }
+.windows-command-code {
+  display: block;
+  min-height: 39px;
+  margin: 0;
+  padding: 10px;
+  overflow: auto;
+  border: 1px solid rgba(220, 230, 255, .07);
+  border-radius: 8px;
+  color: #c9d5ed;
+  background: rgba(5, 9, 15, .55);
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 1.6;
+  white-space: pre;
+  scrollbar-width: thin;
+}
+.windows-command-code code { font: inherit; }
+.windows-command-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+.windows-command-permission { color: #7e9b8b; font-size: 8px; }
+.windows-command-permission.is-admin { color: #d5ad77; }
+.windows-command-actions .tool-button { min-height: 29px; margin-left: auto; }
+.windows-copy-state { color: #8fc9a8; font-size: 8px; }
+.windows-copy-state[data-state="error"] { color: #e6a0a0; }
+.windows-warning-card { margin: 16px 0 22px; border-color: rgba(211, 168, 104, .16); }
+.windows-warning-card > p { margin: 0; color: #a7afbd; font-size: 10px; line-height: 1.7; }
+.windows-info-card { margin-top: 22px; }
+.windows-steps { margin: 0; padding-left: 20px; color: #9aa6b8; font-size: 10px; line-height: 1.85; }
+.windows-steps li + li { margin-top: 5px; }
+.windows-sources { display: flex; align-items: center; flex-wrap: wrap; gap: 9px 16px; margin-top: 25px; padding-top: 14px; border-top: 1px solid rgba(220,230,255,.08); }
+.windows-sources h2 { width: 100%; margin: 0; color: #9ca9bd; font-size: 11px; }
+.windows-sources a { color: #aebeff; font-size: 9px; text-decoration: underline; text-underline-offset: 3px; }
+.windows-bottom-note { margin-top: 16px; }
+.windows-command-section .windows-command-card { transition: border-color 150ms ease, background 150ms ease; }
+.windows-command-section .windows-command-card:hover { border-color: rgba(170,187,255,.17); background: linear-gradient(145deg, rgba(31,40,56,.62), rgba(13,18,27,.52)); }
+@media (max-width: 680px) {
+  .windows-command-grid { grid-template-columns: 1fr; }
+  .windows-search-row { align-items: stretch; flex-direction: column; gap: 8px; }
+  .windows-search-row .sort-control { width: 100%; }
+  .windows-search-count { padding: 0; }
+  .windows-command-card > p { min-height: 0; }
+  .windows-sources { align-items: flex-start; flex-direction: column; }
+}
