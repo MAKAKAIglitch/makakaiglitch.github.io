@@ -65,7 +65,7 @@ async function publicIps() {
   };
 }
 function parseCandidateLine(line) {
-  const tokens = line.trim().split(/\s+/);
+  const tokens = line.trim().replace(/^a=/,"").split(/\s+/);
   if (tokens.length < 8 || !tokens[0].startsWith("candidate:")) return null;
   const address = tokens[4];
   const typeIndex = tokens.indexOf("typ");
