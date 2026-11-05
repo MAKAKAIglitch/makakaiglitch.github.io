@@ -936,7 +936,7 @@ const ALLOWED_RANGES = {
   "24h": {seconds: 86400, bucket: 300},
   "7d": {seconds: 604800, bucket: 900},
   "30d": {seconds: 2592000, bucket: 3600},
-  "90d": {seconds: 7776000, bucket: 21600},
+  "90d": {seconds: 7776000, bucket: 86400},
   "365d": {seconds: 31536000, bucket: 86400}
 };
 
@@ -1056,14 +1056,14 @@ async function mapLimit(items, limit, worker) {
   return results;
 }
 
-async function runScheduledChecks(env, scheduledTime) {
+async function runScheduledChecks(env, scheduledTime, servicesToCheck=SERVICES) {
   if (!env.DB) throw new Error("Missing D1 binding: DB");
   const checkedAt = Math.floor((scheduledTime || Date.now())/1000);
   const stateResult = await env.DB.prepare(
     "SELECT service_id, consecutive_bad, consecutive_good, current_incident_id FROM service_state"
   ).all();
   const oldStates = new Map((stateResult.results || []).map(row=>[row.service_id,row]));
-  const results = await mapLimit(SERVICES,MAX_CONCURRENT_SERVICES,checkService);
+  const results = await mapLimit(servicesToCheck,MAX_CONCURRENT_SERVICES,checkService);
 
   const probeRows = [];
   const stateRows = [];
@@ -1151,14 +1151,28 @@ async function runScheduledChecks(env, scheduledTime) {
     d1_statements:statements.length
   }));
 }
-async function cleanupOldData(env, nowSeconds=Math.floor(Date.now()/1000)) {
+async function compactAndCleanup(env, nowSeconds=Math.floor(Date.now()/1000)) {
   if (!env.DB) throw new Error("Missing D1 binding: DB");
-  const cutoff = nowSeconds - RETENTION_DAYS*86400;
+  const rawCutoff = nowSeconds - 30*86400;
+  const retentionCutoff = nowSeconds - RETENTION_DAYS*86400;
   const result = await env.DB.batch([
-    env.DB.prepare("DELETE FROM probe_results WHERE checked_at < ?").bind(cutoff),
-    env.DB.prepare("DELETE FROM incidents WHERE ended_at IS NOT NULL AND ended_at < ?").bind(cutoff)
+    env.DB.prepare(
+      "INSERT OR REPLACE INTO probe_daily (service_id, day_start, checks, successful, latency_sum, latency_samples, min_latency_ms, max_latency_ms) " +
+      "SELECT service_id, (checked_at / 86400) * 86400 AS day_start, COUNT(*), SUM(up), " +
+      "COALESCE(SUM(latency_ms), 0), COUNT(latency_ms), MIN(latency_ms), MAX(latency_ms) " +
+      "FROM probe_results WHERE checked_at >= ? AND checked_at < ? GROUP BY service_id, day_start"
+    ).bind(retentionCutoff,rawCutoff),
+    env.DB.prepare("DELETE FROM probe_results WHERE checked_at < ? AND checked_at >= ?").bind(rawCutoff,retentionCutoff),
+    env.DB.prepare("DELETE FROM probe_results WHERE checked_at < ?").bind(retentionCutoff),
+    env.DB.prepare("DELETE FROM probe_daily WHERE day_start < ?").bind(retentionCutoff),
+    env.DB.prepare("DELETE FROM incidents WHERE ended_at IS NOT NULL AND ended_at < ?").bind(retentionCutoff)
   ]);
-  console.log(JSON.stringify({event:"service_status_retention_cleanup",cutoff,statements:result.length}));
+  console.log(JSON.stringify({
+    event:"service_status_retention_compaction",
+    raw_cutoff:rawCutoff,
+    retention_cutoff:retentionCutoff,
+    statements:result.length
+  }));
 }
 
 async function getHealth(env) {
@@ -1220,9 +1234,33 @@ async function getHistory(env, url) {
   if (!range) return json({error:"Unsupported range. Use 24h, 7d, 30d, 90d or 365d."},400);
   const to=Math.floor(Date.now()/1000);
   const from=to-range.seconds;
-  const query=await env.DB.prepare(
-    "SELECT (checked_at / ?) * ? AS bucket_at, COUNT(*) AS checks, SUM(up) AS successful, COUNT(*) - SUM(up) AS failed, AVG(latency_ms) AS avg_latency_ms, MIN(latency_ms) AS min_latency_ms, MAX(latency_ms) AS max_latency_ms, COUNT(latency_ms) AS latency_samples FROM probe_results WHERE service_id = ? AND checked_at >= ? GROUP BY bucket_at ORDER BY bucket_at ASC"
-  ).bind(range.bucket,range.bucket,serviceId,from).all();
+  let query;
+  if (rangeKey === "90d" || rangeKey === "365d") {
+    // Older than 30 days is kept as one daily rollup per service. The most
+    // recent 30 days remain at five-minute resolution and are grouped daily
+    // only for long-range charts.
+    const rawFrom = Math.max(from,to-30*86400);
+    const dailyFrom = Math.floor(from/86400)*86400;
+    query = await env.DB.prepare(
+      "SELECT bucket_at, SUM(checks) AS checks, SUM(successful) AS successful, " +
+      "SUM(failed) AS failed, " +
+      "CASE WHEN SUM(latency_samples)>0 THEN SUM(latency_sum)/SUM(latency_samples) ELSE NULL END AS avg_latency_ms, " +
+      "MIN(min_latency_ms) AS min_latency_ms, MAX(max_latency_ms) AS max_latency_ms, " +
+      "SUM(latency_samples) AS latency_samples FROM (" +
+      "SELECT day_start AS bucket_at, checks, successful, checks-successful AS failed, latency_sum, latency_samples, min_latency_ms, max_latency_ms " +
+      "FROM probe_daily WHERE service_id = ? AND day_start >= ? AND day_start < ? " +
+      "UNION ALL " +
+      "SELECT (checked_at / 86400)*86400 AS bucket_at, COUNT(*) AS checks, SUM(up) AS successful, " +
+      "COUNT(*)-SUM(up) AS failed, COALESCE(SUM(latency_ms),0) AS latency_sum, COUNT(latency_ms) AS latency_samples, " +
+      "MIN(latency_ms) AS min_latency_ms, MAX(latency_ms) AS max_latency_ms " +
+      "FROM probe_results WHERE service_id = ? AND checked_at >= ? GROUP BY bucket_at" +
+      ") GROUP BY bucket_at ORDER BY bucket_at ASC"
+    ).bind(serviceId,dailyFrom,rawFrom,serviceId,rawFrom).all();
+  } else {
+    query = await env.DB.prepare(
+      "SELECT (checked_at / ?) * ? AS bucket_at, COUNT(*) AS checks, SUM(up) AS successful, COUNT(*) - SUM(up) AS failed, AVG(latency_ms) AS avg_latency_ms, MIN(latency_ms) AS min_latency_ms, MAX(latency_ms) AS max_latency_ms, COUNT(latency_ms) AS latency_samples FROM probe_results WHERE service_id = ? AND checked_at >= ? GROUP BY bucket_at ORDER BY bucket_at ASC"
+    ).bind(range.bucket,range.bucket,serviceId,from).all();
+  }
   const rows=query.results || [];
   const checks=rows.reduce((sum,row)=>sum+Number(row.checks||0),0);
   const successful=rows.reduce((sum,row)=>sum+Number(row.successful||0),0);
@@ -1290,10 +1328,14 @@ export default {
 
   async scheduled(controller, env) {
     try {
-      if (controller.cron === "0 3 * * *") {
-        await cleanupOldData(env,Math.floor((controller.scheduledTime || Date.now())/1000));
+      const scheduleTime = controller.scheduledTime || Date.now();
+      if (controller.cron === "57 3 * * *") {
+        await compactAndCleanup(env,Math.floor(scheduleTime/1000));
       } else {
-        await runScheduledChecks(env,controller.scheduledTime);
+        const group = controller.cron === "1-59/5 * * * *" ? 1 :
+          controller.cron === "2-59/5 * * * *" ? 2 : 0;
+        const batch = SERVICES.filter((service,index)=>index%3===group);
+        await runScheduledChecks(env,scheduleTime,batch);
       }
     } catch (error) {
       console.error("Scheduled monitor run failed:",error?.stack || error);
