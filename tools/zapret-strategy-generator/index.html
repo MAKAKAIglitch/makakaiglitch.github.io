@@ -48,15 +48,19 @@
 <option value="v1">Zapret 1 — winws.exe / Flowseal</option>
 <option value="v2">Zapret 2 — winws2.exe</option>
 </select></label>
-<label class="tool-field"><span class="tool-field-label">Базовая стратегия</span>
+<label class="tool-field"><span class="tool-field-label" id="zapret-profile-label">Оригинальная стратегия Flowseal</span>
 <select class="tool-input" id="zapret-profile">
-<option value="general">Flowseal General — multisplit</option>
-<option value="alt2">Flowseal ALT2 — другой split offset</option>
-<option value="simple">Flowseal SIMPLE FAKE ALT</option>
-<option value="multidisorder">Flowseal FAKE TLS AUTO — multidisorder</option>
+<option value="general.bat">General — базовый</option>
 </select></label>
 </div>
-<div class="zapret-version-note" id="zapret-version-note">Профили Flowseal рассчитаны на структуру его Windows-сборки: winws.exe, папки bin и lists, service.bat.</div>
+<div class="zapret-profile-search-wrap" id="zapret-profile-search-wrap">
+<label class="tool-field" for="zapret-profile-search"><span class="tool-field-label">Поиск по 22 конфигурациям</span>
+<input class="tool-input" id="zapret-profile-search" type="search" placeholder="Например: ALT, FAKE TLS, SIMPLE FAKE..." autocomplete="off"></label>
+<span class="zapret-profile-count" id="zapret-profile-count">22 оригинальные конфигурации</span>
+</div>
+<div class="zapret-profile-info" id="zapret-profile-info">Оригинальные файлы загружаются из Flowseal при выборе стратегии. Сохраняются исходные параметры выбранного .bat.</div>
+<div class="zapret-version-note" id="zapret-version-note">Для V1 нужен Flowseal Windows bundle: winws.exe, bin, lists и service.bat.</div>
+<div class="zapret-source-link-wrap"><a id="zapret-source-link" href="https://github.com/Flowseal/zapret-discord-youtube" target="_blank" rel="noopener noreferrer">Исходный репозиторий Flowseal ↗</a><span id="zapret-profile-dependencies">Зависимости bin будут показаны после загрузки профиля.</span></div>
 </section>
 
 <section class="tool-card zapret-builder-card">
@@ -80,7 +84,7 @@
 </label>
 <label class="zapret-option">
 <input type="checkbox" id="zapret-quic">
-<span><strong>Обычный QUIC — UDP 443</strong><small>Стандартный HTTPS/3 для сайтов. Это отдельный веб-трафик, не WARP-порт; по умолчанию выключен.</small></span>
+<span><strong>Обычный QUIC — UDP 443</strong><small>Для V2: стандартный HTTPS/3. V1 сохраняет исходные QUIC-правила выбранного Flowseal .bat. Это не WARP-порт.</small></span>
 <span class="zapret-port-chip">UDP 443</span>
 </label>
 </div>
@@ -89,7 +93,7 @@
 <p>У WireGuard WARP нет стандартного TCP-порта 2408/500: туннель использует UDP. Здесь можно задать собственные TCP/TLS-порты для отдельного сервиса.</p>
 <div class="zapret-custom-row">
 <label class="tool-field" for="zapret-custom-tcp"><span class="tool-field-label">TCP-порты</span><input class="tool-input" id="zapret-custom-tcp" type="text" placeholder="Например: 2053, 2083, 8443" autocomplete="off" spellcheck="false"></label>
-<button class="tool-button secondary" id="zapret-fill-tcp" type="button">Повторить номера в TCP</button>
+<button class="tool-button secondary" id="zapret-fill-tcp" type="button">Вставить те же номера в TCP (вручную)</button>
 </div>
 <label class="zapret-option zapret-option-compact"><input type="checkbox" id="zapret-use-custom-tcp"><span><strong>Добавить эти TCP-порты в фильтр</strong><small>Режим обработки будет экспериментальным; эти порты не становятся от этого штатными TCP-портами WARP.</small></span></label>
 </div>
