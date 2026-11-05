@@ -9,7 +9,6 @@ const runButton = $("vpn-run");
 if (!statusNode || !baselineButton || !runButton) return;
 let baseline = null;
 let busy = false;
-const publicIpCache = new Map();
 
 function setStatus(message, state) {
   statusNode.textContent = t(message);
@@ -56,7 +55,7 @@ function isV6(value) {
 }
 async function publicIps() {
   const [v4, v6] = await Promise.allSettled([
-    jsonRequest("https://api4.ipify.org?format=json", 7000),
+    jsonRequest("https://api.ipify.org?format=json", 7000),
     jsonRequest("https://api6.ipify.org?format=json", 7000)
   ]);
   return {
