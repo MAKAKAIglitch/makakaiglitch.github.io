@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e13">
+<meta name="description" content="Команды SFC, DISM, CHKDSK и инструменты диагностики Windows 10 и 11">
+<title>Диагностика Windows — MAKAKAIglitch</title>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-windows-library">
+<script src="/assets/js/global-search.js?v=20261105-windows-library" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-windows-library" defer></script>
+<script src="/assets/js/library-windows.js?v=20261105-windows-library" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="site-shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
+<nav class="main-nav" aria-label="Основная навигация">
+<a class="nav-link" href="/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/></svg><span>Repositories</span></a>
+<a class="nav-link" href="/tools/"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/></svg><span>Utilities</span></a>
+<a class="nav-link is-active" href="/library/" aria-current="page"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/></svg><span>Library</span></a>
+</nav>
+<a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+</header>
+<main class="main-content library-page tool-page-main">
+<a class="utility-back" href="/library/windows/"><span>←</span> Windows</a>
+<section class="intro tools-intro"><div class="eyebrow"><span class="status-dot"></span> WINDOWS / DIAGNOSTICS</div><h1>Диагностика Windows</h1><p>Проверка системных файлов, хранилища компонентов, дисков, драйверов и журналов.</p></section>
+<article class="tool-card tool-detail-card windows-warning-card"><div class="tool-card-heading"><div><h2>Проверка и исправление — разные действия</h2><p>Сначала выполни диагностику и посмотри результат. Команды восстановления запускай отдельно, когда понятна причина.</p></div></div><p>Команды с меткой «Администратор» запускаются из Windows Terminal или CMD, открытых через «Запуск от имени администратора». Не закрывай окно до завершения проверки или восстановления.</p></article>
+<section class="windows-command-section"><div class="windows-section-heading"><h2>Сведения и журналы</h2><p>Эти команды в основном собирают информацию.</p></div><div class="windows-command-grid"><article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Подробности об ОС и ПК</strong><span class="library-tag">CMD</span></div>
+<p>Сбор информации об установленной ОС, BIOS, памяти и конфигурации.</p><pre class="windows-command-code" id="win-diag-systeminfo"><code>systeminfo</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-systeminfo">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>История стабильности</strong><span class="library-tag">Win + R</span></div>
+<p>Временная шкала сбоев приложений, ошибок и обновлений.</p><pre class="windows-command-code" id="win-diag-rel"><code>perfmon /rel</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-rel">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Системные журналы</strong><span class="library-tag">Win + R</span></div>
+<p>Просмотр ошибок и предупреждений в журналах Windows.</p><pre class="windows-command-code" id="win-diag-events"><code>eventvwr.msc</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-events">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Состояние физических дисков</strong><span class="library-tag">PowerShell</span></div>
+<p>Показывает сведения о дисках, которые предоставляет Windows.</p><pre class="windows-command-code" id="win-diag-phys"><code>Get-PhysicalDisk | Format-Table FriendlyName, HealthStatus, OperationalStatus</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-phys">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Устройства с ошибками</strong><span class="library-tag">PowerShell</span></div>
+<p>Проверяет, есть ли устройства с ошибочным статусом.</p><pre class="windows-command-code" id="win-diag-pnp"><code>Get-PnpDevice -Status ERROR</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-pnp">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article></div></section>
+<section class="windows-command-section"><div class="windows-section-heading"><h2>Проверка системных файлов и образа Windows</h2><p>Запускай эти команды в терминале от имени администратора.</p></div><div class="windows-command-grid"><article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Только проверить системные файлы</strong><span class="library-tag">CMD · Admin</span></div>
+<p>Проверяет целостность защищённых системных файлов без исправления.</p><pre class="windows-command-code" id="win-diag-sfc-verify"><code>sfc /verifyonly</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission is-admin">Администратор</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-sfc-verify">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Быстрая проверка хранилища компонентов</strong><span class="library-tag">CMD · Admin</span></div>
+<p>Проверяет, обнаружено ли ранее повреждение хранилища компонентов.</p><pre class="windows-command-code" id="win-diag-dism-check"><code>DISM /Online /Cleanup-Image /CheckHealth</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission is-admin">Администратор</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-dism-check">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Полное сканирование хранилища компонентов</strong><span class="library-tag">CMD · Admin</span></div>
+<p>Сканирует образ Windows на повреждения; не выполняет восстановление.</p><pre class="windows-command-code" id="win-diag-dism-scan"><code>DISM /Online /Cleanup-Image /ScanHealth</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission is-admin">Администратор</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-dism-scan">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Проверить и восстановить системные файлы</strong><span class="library-tag">CMD · Admin</span></div>
+<p>Проверяет защищённые системные файлы и пытается восстановить найденные повреждения.</p><pre class="windows-command-code" id="win-diag-sfc-repair"><code>sfc /scannow</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission is-admin">Администратор</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-sfc-repair">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Восстановить хранилище компонентов</strong><span class="library-tag">CMD · Admin</span></div>
+<p>Восстанавливает хранилище компонентов; может использовать Windows Update и интернет.</p><pre class="windows-command-code" id="win-diag-dism-repair"><code>DISM /Online /Cleanup-Image /RestoreHealth</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission is-admin">Администратор</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-dism-repair">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article></div></section>
+<section class="windows-command-section"><div class="windows-section-heading"><h2>Проверка дисков</h2><p>Команды ниже не содержат параметров принудительного исправления.</p></div><div class="windows-command-grid"><article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Проверка файловой системы</strong><span class="library-tag">CMD</span></div>
+<p>Показывает состояние файловой системы тома C: без параметра /f.</p><pre class="windows-command-code" id="win-diag-chkdsk"><code>chkdsk C:</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-chkdsk">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Онлайн-сканирование NTFS</strong><span class="library-tag">CMD · Admin</span></div>
+<p>Выполняет онлайн-сканирование NTFS-тома; может сообщить о необходимости отдельного исправления.</p><pre class="windows-command-code" id="win-diag-chkdsk-scan"><code>chkdsk C: /scan</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission is-admin">Администратор</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-chkdsk-scan">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article>
+<article class="windows-command-card" data-windows-command>
+<div class="windows-command-top"><strong>Сведения о томах</strong><span class="library-tag">PowerShell</span></div>
+<p>Показывает файловую систему, состояние и свободное место.</p><pre class="windows-command-code" id="win-diag-volume"><code>Get-Volume | Format-Table DriveLetter, FileSystem, HealthStatus, SizeRemaining, Size</code></pre>
+<div class="windows-command-actions"><span class="windows-command-permission">Без прав администратора</span><button class="tool-button secondary windows-copy" type="button" data-copy-target="win-diag-volume">Копировать</button><span class="windows-copy-state" role="status" aria-live="polite"></span></div>
+</article></div></section>
+<article class="tool-card tool-detail-card windows-info-card"><div class="tool-card-heading"><div><h2>Рекомендуемый порядок проверки</h2><p>Когда Windows ведёт себя нестабильно.</p></div></div><ol class="windows-steps">
+<li>Открой «Монитор стабильности» через <code>perfmon /rel</code> и найди время сбоя.</li>
+<li>Проверь системный образ командами DISM <code>/CheckHealth</code> или <code>/ScanHealth</code>.</li>
+<li>Запусти <code>sfc /scannow</code>, чтобы проверить и восстановить защищённые системные файлы.</li>
+<li>Для диска сначала используй обычный <code>chkdsk C:</code> или онлайн-сканирование NTFS.</li>
+</ol><p class="tool-note">Параметры <code>/r</code> и <code>/f</code> запускают проверку с исправлением; обычная диагностика и восстановление — разные этапы.</p></article>
+<section class="windows-sources"><h2>Документация Microsoft</h2>
+<a href="https://learn.microsoft.com/ru-ru/windows-server/administration/windows-commands/sfc" target="_blank" rel="noopener noreferrer">SFC — System File Checker ↗</a>
+<a href="https://learn.microsoft.com/en-us/windows-hardware/manufacture/desktop/repair-a-windows-image?view=windows-11" target="_blank" rel="noopener noreferrer">DISM — восстановление образа Windows ↗</a>
+<a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/chkdsk" target="_blank" rel="noopener noreferrer">CHKDSK — проверка дисков ↗</a>
+</section>
+</main>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Library / Windows / Diagnostics</span><span>Personal library</span></footer>
+</div>
+</body>
+</html>
