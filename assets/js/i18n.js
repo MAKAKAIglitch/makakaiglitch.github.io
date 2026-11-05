@@ -641,7 +641,7 @@ const map={
 ,"База указывает страну; числовой радиус ошибки не предоставлен":"The database lists a country; no numeric uncertainty radius is provided"
 ,"Источник не предоставил сведения о точности":"The source did not provide accuracy details"
 ,"±":"±"
-,"не отмечен базой":"Not flagged by the database"
+,"не отмечен базой":"Not flagged by the database",
 "General — базовая стратегия":"General — base strategy",
 "ALT5 — NOT RECOMMENDED":"ALT5 — NOT RECOMMENDED",
 "EXP — экспериментальная":"EXP — experimental",
