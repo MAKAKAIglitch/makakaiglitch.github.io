@@ -277,14 +277,14 @@ async function getHistory(env, url) {
   const to=Math.floor(Date.now()/1000);
   const from=to-range.seconds;
   const query=await env.DB.prepare(
-    "SELECT (checked_at / ?) * ? AS bucket_at, COUNT(*) AS checks, SUM(up) AS successful, COUNT(*) - SUM(up) AS failed, AVG(CASE WHEN up=1 THEN latency_ms END) AS avg_latency_ms, MIN(CASE WHEN up=1 THEN latency_ms END) AS min_latency_ms, MAX(CASE WHEN up=1 THEN latency_ms END) AS max_latency_ms FROM probe_results WHERE service_id = ? AND checked_at >= ? GROUP BY bucket_at ORDER BY bucket_at ASC"
+    "SELECT (checked_at / ?) * ? AS bucket_at, COUNT(*) AS checks, SUM(up) AS successful, COUNT(*) - SUM(up) AS failed, AVG(latency_ms) AS avg_latency_ms, MIN(latency_ms) AS min_latency_ms, MAX(latency_ms) AS max_latency_ms, COUNT(latency_ms) AS latency_samples FROM probe_results WHERE service_id = ? AND checked_at >= ? GROUP BY bucket_at ORDER BY bucket_at ASC"
   ).bind(range.bucket,range.bucket,serviceId,from).all();
   const rows=query.results || [];
   const checks=rows.reduce((sum,row)=>sum+Number(row.checks||0),0);
   const successful=rows.reduce((sum,row)=>sum+Number(row.successful||0),0);
   const failed=checks-successful;
-  const weightedLatency=rows.reduce((sum,row)=>sum+(Number(row.avg_latency_ms||0)*Number(row.successful||0)),0);
-  const totalLatencySamples=rows.reduce((sum,row)=>sum+Number(row.successful||0),0);
+  const weightedLatency=rows.reduce((sum,row)=>sum+(Number(row.avg_latency_ms||0)*Number(row.latency_samples||0)),0);
+  const totalLatencySamples=rows.reduce((sum,row)=>sum+Number(row.latency_samples||0),0);
   const expected=Math.max(1,Math.ceil(range.seconds/CHECK_INTERVAL_SECONDS));
   const coveragePct=Math.min(100,checks/expected*100);
   return json({
@@ -300,6 +300,7 @@ async function getHistory(env, url) {
         timestamp:Number(row.bucket_at),checks:pointChecks,successful:pointOk,failed:Number(row.failed||0),
         uptime_pct:pointChecks ? Number((pointOk/pointChecks*100).toFixed(2)) : null,
         avg_latency_ms:row.avg_latency_ms===null ? null : Number(Number(row.avg_latency_ms).toFixed(2)),
+        latency_samples:Number(row.latency_samples||0),
         min_latency_ms:row.min_latency_ms===null ? null : Number(row.min_latency_ms),
         max_latency_ms:row.max_latency_ms===null ? null : Number(row.max_latency_ms)
       };
