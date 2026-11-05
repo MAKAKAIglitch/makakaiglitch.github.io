@@ -51,6 +51,32 @@ button, input, select { font: inherit; }
 .ambient-one { top: 15%; left: -260px; background: #5366bd; }
 .ambient-two { right: -280px; bottom: 5%; background: #347d91; opacity: 0.12; }
 
+/* Slow ambient light movement on the torrent shares page */
+@keyframes shares-light-drift-one {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  24% { transform: translate3d(34vw, 28vh, 0) scale(1.12); }
+  50% { transform: translate3d(62vw, 55vh, 0) scale(0.94); }
+  76% { transform: translate3d(24vw, 72vh, 0) scale(1.08); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes shares-light-drift-two {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  25% { transform: translate3d(-36vw, -24vh, 0) scale(1.08); }
+  50% { transform: translate3d(-66vw, -48vh, 0) scale(0.94); }
+  76% { transform: translate3d(-26vw, -76vh, 0) scale(1.12); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
+}
+body.torrent-shares-page .ambient-one {
+  opacity: 0.2;
+  will-change: transform;
+  animation: shares-light-drift-one 52s ease-in-out infinite;
+}
+body.torrent-shares-page .ambient-two {
+  opacity: 0.16;
+  will-change: transform;
+  animation: shares-light-drift-two 61s ease-in-out infinite;
+}
+
 .site-shell {
   position: relative;
   z-index: 1;
