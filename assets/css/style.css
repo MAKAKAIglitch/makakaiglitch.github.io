@@ -41,73 +41,65 @@ button, input, select { font: inherit; }
 .ambient {
   position: fixed;
   z-index: 0;
-  width: 390px;
-  height: 390px;
+  width: 440px;
+  height: 440px;
   border-radius: 50%;
-  filter: blur(105px);
-  opacity: 0.16;
+  filter: blur(132px);
   pointer-events: none;
+  will-change: transform;
 }
-.ambient-one { top: 15%; left: -260px; background: #5366bd; }
-.ambient-two { right: -280px; bottom: 5%; background: #347d91; opacity: 0.12; }
+.ambient-one {
+  top: 8%;
+  left: -300px;
+  background: #5366bd;
+  opacity: 0.055;
+  animation: site-ambient-drift-one 185s ease-in-out infinite;
+}
+.ambient-two {
+  right: -320px;
+  bottom: 0;
+  background: #347d91;
+  opacity: 0.04;
+  animation: site-ambient-drift-two 210s ease-in-out infinite;
+}
 
-/* Soft cursor-following light, only on the torrent shares page */
-body.torrent-shares-page .cursor-glow {
+@keyframes site-ambient-drift-one {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  25% { transform: translate3d(13vw, 16vh, 0) scale(1.04); }
+  50% { transform: translate3d(30vw, 34vh, 0) scale(0.98); }
+  75% { transform: translate3d(12vw, 48vh, 0) scale(1.03); }
+}
+@keyframes site-ambient-drift-two {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  25% { transform: translate3d(-14vw, -13vh, 0) scale(1.04); }
+  50% { transform: translate3d(-32vw, -31vh, 0) scale(0.98); }
+  75% { transform: translate3d(-11vw, -47vh, 0) scale(1.03); }
+}
+
+/* Very subtle light that follows the mouse on every page */
+.cursor-glow {
   position: fixed;
   z-index: 0;
   top: 0;
   left: 0;
-  width: 500px;
-  height: 500px;
+  width: 440px;
+  height: 440px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(125, 158, 255, 0.19) 0%,
-    rgba(105, 143, 242, 0.10) 25%,
-    rgba(83, 122, 220, 0.045) 48%,
+    rgba(125, 158, 255, 0.075) 0%,
+    rgba(105, 143, 242, 0.038) 28%,
+    rgba(83, 122, 220, 0.016) 50%,
     transparent 72%
   );
   opacity: 0;
   pointer-events: none;
   transform: translate3d(-1000px, -1000px, 0) translate(-50%, -50%);
-  transition: opacity 650ms ease;
+  transition: opacity 850ms ease;
   will-change: transform, opacity;
   mix-blend-mode: screen;
 }
-body.torrent-shares-page .cursor-glow.is-visible {
-  opacity: 0.88;
-}
-@media (prefers-reduced-motion: reduce) {
-  body.torrent-shares-page .cursor-glow {
-    transition: none;
-  }
-}
-
-/* Slow ambient light movement on the torrent shares page */
-@keyframes shares-light-drift-one {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  24% { transform: translate3d(34vw, 28vh, 0) scale(1.12); }
-  50% { transform: translate3d(62vw, 55vh, 0) scale(0.94); }
-  76% { transform: translate3d(24vw, 72vh, 0) scale(1.08); }
-  100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-@keyframes shares-light-drift-two {
-  0% { transform: translate3d(0, 0, 0) scale(1); }
-  25% { transform: translate3d(-36vw, -24vh, 0) scale(1.08); }
-  50% { transform: translate3d(-66vw, -48vh, 0) scale(0.94); }
-  76% { transform: translate3d(-26vw, -76vh, 0) scale(1.12); }
-  100% { transform: translate3d(0, 0, 0) scale(1); }
-}
-body.torrent-shares-page .ambient-one {
-  opacity: 0.2;
-  will-change: transform;
-  animation: shares-light-drift-one 52s ease-in-out infinite;
-}
-body.torrent-shares-page .ambient-two {
-  opacity: 0.16;
-  will-change: transform;
-  animation: shares-light-drift-two 61s ease-in-out infinite;
-}
+.cursor-glow.is-visible { opacity: 0.62; }
 
 .site-shell {
   position: relative;
@@ -1796,19 +1788,16 @@ body.modal-open{overflow:hidden}
 @media(max-width:420px){.ip-intel-input-row{grid-template-columns:1fr}.ip-intel-input-row .tool-button{width:100%}.ip-intel-list>div{gap:8px}.ip-intel-list dt{flex-basis:38%}}
 @media(prefers-reduced-motion:reduce){.vpn-result-row,.vpn-step{transition:none!important}}
 
-/* The torrent shares page explicitly uses slow ambient motion. Keep it running
-   even when the browser requests reduced motion; the rest of the site is unchanged. */
+/* Keep the requested ambient movement on every site page. */
 @media (prefers-reduced-motion: reduce) {
-  body.torrent-shares-page .ambient-one {
-    animation: shares-light-drift-one 52s ease-in-out infinite !important;
+  .ambient-one {
+    animation: site-ambient-drift-one 185s ease-in-out infinite !important;
     animation-play-state: running !important;
   }
-  body.torrent-shares-page .ambient-two {
-    animation: shares-light-drift-two 61s ease-in-out infinite !important;
+  .ambient-two {
+    animation: site-ambient-drift-two 210s ease-in-out infinite !important;
     animation-play-state: running !important;
   }
-  body.torrent-shares-page .cursor-glow {
-    transition: opacity 650ms ease !important;
-  }
+  .cursor-glow { transition: opacity 850ms ease !important; }
 }
 
