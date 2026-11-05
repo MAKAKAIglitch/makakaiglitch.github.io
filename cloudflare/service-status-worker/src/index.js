@@ -929,6 +929,226 @@ const SERVICES = [
     "probe_url": "https://t2.ru/",
     "status_api_url": null,
     "status_page_url": null
+  },
+  {
+    "id": "github_copilot",
+    "name": "GitHub Copilot",
+    "symbol": "GC",
+    "category": "ai",
+    "description": "GitHub Copilot — AI-функции GitHub",
+    "website": "https://github.com/features/copilot",
+    "probe_url": "https://github.com/",
+    "status_api_url": "https://www.githubstatus.com/api/v2/summary.json",
+    "status_page_url": "https://www.githubstatus.com/"
+  },
+  {
+    "id": "aws_bedrock",
+    "name": "Amazon Bedrock",
+    "symbol": "AB",
+    "category": "ai",
+    "description": "Amazon Bedrock — модели и inference в AWS",
+    "website": "https://aws.amazon.com/bedrock/",
+    "probe_url": "https://aws.amazon.com/bedrock/",
+    "status_api_url": null,
+    "status_page_url": "https://health.aws.amazon.com/health/status"
+  },
+  {
+    "id": "azure_openai",
+    "name": "Azure OpenAI",
+    "symbol": "AO",
+    "category": "ai",
+    "description": "Модели OpenAI в Azure AI Foundry",
+    "website": "https://azure.microsoft.com/en-us/products/ai-foundry/",
+    "probe_url": "https://azure.microsoft.com/en-us/products/ai-foundry/",
+    "status_api_url": null,
+    "status_page_url": "https://status.azure.com/"
+  },
+  {
+    "id": "fireworks",
+    "name": "Fireworks AI",
+    "symbol": "FW",
+    "category": "ai",
+    "description": "Fireworks AI — inference API и модели",
+    "website": "https://fireworks.ai/",
+    "probe_url": "https://fireworks.ai/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "together",
+    "name": "Together AI",
+    "symbol": "TA",
+    "category": "ai",
+    "description": "Together AI — serverless inference и модели",
+    "website": "https://www.together.ai/",
+    "probe_url": "https://www.together.ai/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "midjourney",
+    "name": "Midjourney",
+    "symbol": "MJ",
+    "category": "ai",
+    "description": "Midjourney — генерация изображений",
+    "website": "https://www.midjourney.com/",
+    "probe_url": "https://www.midjourney.com/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "elevenlabs",
+    "name": "ElevenLabs",
+    "symbol": "EL",
+    "category": "ai",
+    "description": "ElevenLabs — синтез речи и voice AI",
+    "website": "https://elevenlabs.io/",
+    "probe_url": "https://elevenlabs.io/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "replicate",
+    "name": "Replicate",
+    "symbol": "RP",
+    "category": "ai",
+    "description": "Replicate — хостинг моделей и prediction API",
+    "website": "https://replicate.com/",
+    "probe_url": "https://replicate.com/",
+    "status_api_url": null,
+    "status_page_url": "https://www.replicatestatus.com/"
+  },
+  {
+    "id": "runway",
+    "name": "Runway",
+    "symbol": "RW",
+    "category": "ai",
+    "description": "Runway — генерация видео и AI-инструменты",
+    "website": "https://runwayml.com/",
+    "probe_url": "https://runwayml.com/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "windsurf",
+    "name": "Windsurf",
+    "symbol": "WS",
+    "category": "ai",
+    "description": "Windsurf — AI IDE и Cascade",
+    "website": "https://windsurf.com/",
+    "probe_url": "https://windsurf.com/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "stability",
+    "name": "Stability AI",
+    "symbol": "SA",
+    "category": "ai",
+    "description": "Stability AI — генеративные модели",
+    "website": "https://stability.ai/",
+    "probe_url": "https://stability.ai/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "luma",
+    "name": "Luma AI",
+    "symbol": "LA",
+    "category": "ai",
+    "description": "Luma AI — Dream Machine и генерация видео",
+    "website": "https://lumalabs.ai/",
+    "probe_url": "https://lumalabs.ai/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "ubrr",
+    "name": "Банк УБРиР",
+    "symbol": "УБ",
+    "category": "finance",
+    "description": "Уральский банк реконструкции и развития",
+    "website": "https://www.ubrr.ru/",
+    "probe_url": "https://www.ubrr.ru/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "bank_rossiya",
+    "name": "Банк Россия",
+    "symbol": "БР",
+    "category": "finance",
+    "description": "Официальный сайт банка Россия",
+    "website": "https://www.abr.ru/",
+    "probe_url": "https://www.abr.ru/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "unicredit",
+    "name": "ЮниКредит Банк",
+    "symbol": "ЮК",
+    "category": "finance",
+    "description": "Официальный сайт ЮниКредит Банка из реестра Банка России",
+    "website": "https://www.unicreditbank.ru/",
+    "probe_url": "https://www.unicreditbank.ru/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "avers",
+    "name": "Аверс Банк",
+    "symbol": "АВ",
+    "category": "finance",
+    "description": "Официальный сайт банка Аверс",
+    "website": "https://www.aversbank.ru/",
+    "probe_url": "https://www.aversbank.ru/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "chelindbank",
+    "name": "Челиндбанк",
+    "symbol": "ЧБ",
+    "category": "finance",
+    "description": "Официальный сайт Челиндбанка",
+    "website": "https://chelind.ru/",
+    "probe_url": "https://chelind.ru/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "ozon_bank",
+    "name": "ОЗОН Банк",
+    "symbol": "ОЗ",
+    "category": "finance",
+    "description": "Официальный сайт ОЗОН Банка",
+    "website": "https://finance.ozon.ru/",
+    "probe_url": "https://finance.ozon.ru/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "tochka",
+    "name": "Банк Точка",
+    "symbol": "ТО",
+    "category": "finance",
+    "description": "Официальный сайт банка Точка",
+    "website": "https://tochka.com/",
+    "probe_url": "https://tochka.com/",
+    "status_api_url": null,
+    "status_page_url": null
+  },
+  {
+    "id": "msp_bank",
+    "name": "МСП Банк",
+    "symbol": "МСП",
+    "category": "finance",
+    "description": "Официальный сайт МСП Банка",
+    "website": "https://mspbank.ru/",
+    "probe_url": "https://mspbank.ru/",
+    "status_api_url": null,
+    "status_page_url": null
   }
 ];
 
