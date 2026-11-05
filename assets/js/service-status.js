@@ -867,15 +867,21 @@ function renderServiceCard(service) {
   const officialIndicator = ({none:"норма",minor:"minor",major:"major",critical:"critical",maintenance:"maintenance"})[latest.status_indicator] || latest.status_indicator || "unknown";
   const officialStatus = latest.status_api_available
     ? '<div class="ss-service-official"><span>Официальный статус API</span><strong>'+escapeHtml(officialIndicator)+'</strong></div>'
-    : (service.status_page_url ? '<div class="ss-service-official is-muted"><span>Официальный статус API</span><strong>Недоступен</strong></div>' : "");
-  return '<button class="ss-service-card" type="button" data-service="'+escapeHtml(service.id)+'" aria-label="'+escapeHtml(service.name)+': '+escapeHtml(statusLabel(status))+'">'+
+    : (service.status_page_url ? '<div class="ss-service-official is-muted"><span>Источник статуса</span><strong>Страница провайдера</strong></div>' : "");
+  const websiteLink = service.website
+    ? '<a class="ss-service-outlink" href="'+escapeHtml(service.website)+'" target="_blank" rel="noopener noreferrer">Сайт ↗</a>'
+    : "";
+  const statusLink = service.status_page_url
+    ? '<a class="ss-service-outlink" href="'+escapeHtml(service.status_page_url)+'" target="_blank" rel="noopener noreferrer">Официальный статус ↗</a>'
+    : "";
+  return '<article class="ss-service-card">'+
     '<div class="ss-service-top"><div class="ss-service-name-wrap"><span class="ss-service-symbol">'+escapeHtml(service.symbol || service.name.slice(0,2))+'</span><span class="ss-service-name">'+escapeHtml(service.name)+'</span></div><span class="ss-status '+escapeHtml(status)+'">'+escapeHtml(statusLabel(status))+'</span></div>'+
     '<div class="ss-service-description">'+escapeHtml(service.description || "")+'</div>'+
     '<div class="ss-service-metrics"><div><span>Задержка</span><strong>'+latency+'</strong></div><div><span>Uptime / 24 ч</span><strong>'+uptime+'</strong></div><div><span>HTTP</span><strong>'+(latest.http_status ? escapeHtml(latest.http_status) : "—")+'</strong></div></div>'+
     '<div class="ss-service-meta"><span>'+escapeHtml(checked)+'</span><span class="ss-service-incidents">'+(incidentCount ? incidentCount+" активн. инц." : "Без инцидентов")+'</span></div>'+
-    statusSummary+
-    officialStatus+
-    '</button>';
+    statusSummary+officialStatus+
+    '<div class="ss-service-actions"><button class="ss-service-open" type="button" data-service="'+escapeHtml(service.id)+'">График и история →</button>'+websiteLink+statusLink+'</div>'+
+    '</article>';
 }
 function renderServices() {
   const cards = state.services.map(renderServiceCard).join("");
