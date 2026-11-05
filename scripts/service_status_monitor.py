@@ -26,7 +26,9 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = ROOT / "data" / "service-status-catalog.json"
-OUTPUT_PATH = ROOT / "data" / "service-status.json"
+STATE_PATH = ROOT / "data" / "service-status-state.json"
+SUMMARY_PATH = ROOT / "data" / "service-status.json"
+HISTORY_DIR = ROOT / "data" / "service-status" / "history"
 
 INTERVAL_SECONDS = 300
 PROBE_TIMEOUT_SECONDS = 8
@@ -206,9 +208,9 @@ def empty_snapshot() -> dict[str, Any]:
 
 
 def load_previous_snapshot() -> dict[str, Any]:
-    if OUTPUT_PATH.exists():
+    if STATE_PATH.exists():
         try:
-            data = json.loads(OUTPUT_PATH.read_text(encoding="utf-8"))
+            data = json.loads(STATE_PATH.read_text(encoding="utf-8"))
             if isinstance(data, dict):
                 print("Loaded previous snapshot from the workspace.")
                 return data
@@ -523,14 +525,42 @@ def main() -> int:
         results = list(pool.map(check_service, catalog))
 
     snapshot = build_snapshot(catalog, results, previous, checked_at)
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    temp_path = OUTPUT_PATH.with_suffix(".json.tmp")
-    temp_path.write_text(
+    STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    state_temp = STATE_PATH.with_suffix(".json.tmp")
+    state_temp.write_text(
         json.dumps(snapshot, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8",
     )
-    temp_path.replace(OUTPUT_PATH)
-    size_mb = OUTPUT_PATH.stat().st_size / (1024 * 1024)
+    state_temp.replace(STATE_PATH)
+
+    public_snapshot = {
+        key: snapshot[key]
+        for key in (
+            "schema_version", "generated_at", "last_check_at", "interval_seconds",
+            "retention_days", "monitoring_location", "services", "incidents", "summary",
+        )
+    }
+    summary_temp = SUMMARY_PATH.with_suffix(".json.tmp")
+    summary_temp.write_text(
+        json.dumps(public_snapshot, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8",
+    )
+    summary_temp.replace(SUMMARY_PATH)
+
+    HISTORY_DIR.mkdir(parents=True, exist_ok=True)
+    for service_id, ranges in snapshot["history"].items():
+        history_temp = HISTORY_DIR / (service_id + ".json.tmp")
+        history_path = HISTORY_DIR / (service_id + ".json")
+        history_temp.write_text(
+            json.dumps(
+                {"service_id": service_id, "generated_at": snapshot["generated_at"], "history": ranges},
+                separators=(",", ":"),
+            ) + "\\n",
+            encoding="utf-8",
+        )
+        history_temp.replace(history_path)
+
+    size_mb = STATE_PATH.stat().st_size / (1024 * 1024)
     summary = snapshot["summary"]
     print(
         "Snapshot saved:",
