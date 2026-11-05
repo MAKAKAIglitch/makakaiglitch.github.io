@@ -3,22 +3,762 @@
 
 const STORAGE_KEY = "makakaiglitch.serviceStatus.api.v1";
 const CATALOG = [
-  {id:"telegram",name:"Telegram",symbol:"TG",category:"communication",description:"Telegram Web — доступность веб-клиента",website:"https://web.telegram.org/"},
-  {id:"youtube",name:"YouTube",symbol:"YT",category:"media",description:"YouTube — основной web endpoint",website:"https://www.youtube.com/"},
-  {id:"google",name:"Google",symbol:"G",category:"platform",description:"Google Search — endpoint generate_204",website:"https://www.google.com/"},
-  {id:"cloudflare",name:"Cloudflare",symbol:"CF",category:"infrastructure",description:"Cloudflare — edge trace и официальная status page",website:"https://www.cloudflare.com/"},
-  {id:"github",name:"GitHub",symbol:"GH",category:"development",description:"GitHub — сайт и официальная status page",website:"https://github.com/"},
-  {id:"discord",name:"Discord",symbol:"DC",category:"communication",description:"Discord Gateway и официальная status page",website:"https://discord.com/"},
-  {id:"openai",name:"OpenAI",symbol:"AI",category:"platform",description:"ChatGPT и официальная status page",website:"https://chatgpt.com/"},
-  {id:"steam",name:"Steam",symbol:"ST",category:"media",description:"Steam Store — доступность магазина",website:"https://store.steampowered.com/"},
-  {id:"nextdns",name:"NextDNS",symbol:"ND",category:"infrastructure",description:"NextDNS — тестовый endpoint сервиса",website:"https://test.nextdns.io/"},
-  {id:"reddit",name:"Reddit",symbol:"R",category:"media",description:"Reddit — главная страница",website:"https://www.reddit.com/"},
-  {id:"x",name:"X",symbol:"X",category:"communication",description:"X — веб-платформа",website:"https://x.com/"},
-  {id:"twitch",name:"Twitch",symbol:"TW",category:"media",description:"Twitch — live-платформа",website:"https://www.twitch.tv/"},
-  {id:"spotify",name:"Spotify",symbol:"SP",category:"media",description:"Spotify Web Player",website:"https://open.spotify.com/"},
-  {id:"wikipedia",name:"Wikipedia",symbol:"W",category:"platform",description:"Wikipedia — главная страница",website:"https://www.wikipedia.org/"},
-  {id:"whatsapp",name:"WhatsApp",symbol:"WA",category:"communication",description:"WhatsApp Web",website:"https://web.whatsapp.com/"},
-  {id:"microsoft",name:"Microsoft",symbol:"MS",category:"platform",description:"Microsoft — основной web endpoint",website:"https://www.microsoft.com/"}
+  {
+    "id": "telegram",
+    "name": "Telegram",
+    "symbol": "TG",
+    "category": "communication",
+    "description": "Telegram Web — доступность веб-клиента",
+    "website": "https://web.telegram.org/a/",
+    "status_page_url": null
+  },
+  {
+    "id": "youtube",
+    "name": "YouTube",
+    "symbol": "YT",
+    "category": "media",
+    "description": "YouTube — веб-сайт и видеоплатформа",
+    "website": "https://www.youtube.com/generate_204",
+    "status_page_url": null
+  },
+  {
+    "id": "google",
+    "name": "Google Search",
+    "symbol": "G",
+    "category": "search",
+    "description": "Поисковая система Google",
+    "website": "https://www.google.com/generate_204",
+    "status_page_url": null
+  },
+  {
+    "id": "cloudflare",
+    "name": "Cloudflare",
+    "symbol": "CF",
+    "category": "infrastructure",
+    "description": "Cloudflare — edge, DNS и CDN",
+    "website": "https://www.cloudflare.com/cdn-cgi/trace",
+    "status_page_url": "https://www.cloudflarestatus.com/"
+  },
+  {
+    "id": "github",
+    "name": "GitHub",
+    "symbol": "GH",
+    "category": "development",
+    "description": "GitHub — сайт, API и репозитории",
+    "website": "https://github.com/",
+    "status_page_url": "https://www.githubstatus.com/"
+  },
+  {
+    "id": "discord",
+    "name": "Discord",
+    "symbol": "DC",
+    "category": "communication",
+    "description": "Discord — веб-клиент и Gateway",
+    "website": "https://discord.com/api/v10/gateway",
+    "status_page_url": "https://discordstatus.com/"
+  },
+  {
+    "id": "openai",
+    "name": "OpenAI / ChatGPT",
+    "symbol": "AI",
+    "category": "ai",
+    "description": "ChatGPT и платформа OpenAI",
+    "website": "https://chatgpt.com/",
+    "status_page_url": "https://status.openai.com/"
+  },
+  {
+    "id": "steam",
+    "name": "Steam Store",
+    "symbol": "ST",
+    "category": "media",
+    "description": "Steam Store — магазин Steam",
+    "website": "https://store.steampowered.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "nextdns",
+    "name": "NextDNS",
+    "symbol": "ND",
+    "category": "infrastructure",
+    "description": "NextDNS — тестовый endpoint",
+    "website": "https://test.nextdns.io/",
+    "status_page_url": null
+  },
+  {
+    "id": "reddit",
+    "name": "Reddit",
+    "symbol": "R",
+    "category": "media",
+    "description": "Reddit — веб-платформа",
+    "website": "https://www.reddit.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "x",
+    "name": "X",
+    "symbol": "X",
+    "category": "communication",
+    "description": "X — социальная платформа",
+    "website": "https://x.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "twitch",
+    "name": "Twitch",
+    "symbol": "TW",
+    "category": "media",
+    "description": "Twitch — стриминговая платформа",
+    "website": "https://www.twitch.tv/",
+    "status_page_url": null
+  },
+  {
+    "id": "spotify",
+    "name": "Spotify",
+    "symbol": "SP",
+    "category": "media",
+    "description": "Spotify Web Player",
+    "website": "https://open.spotify.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "wikipedia",
+    "name": "Wikipedia",
+    "symbol": "W",
+    "category": "platform",
+    "description": "Wikipedia — онлайн-энциклопедия",
+    "website": "https://www.wikipedia.org/",
+    "status_page_url": null
+  },
+  {
+    "id": "whatsapp",
+    "name": "WhatsApp",
+    "symbol": "WA",
+    "category": "communication",
+    "description": "WhatsApp Web",
+    "website": "https://web.whatsapp.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "microsoft",
+    "name": "Microsoft",
+    "symbol": "MS",
+    "category": "platform",
+    "description": "Сайт Microsoft",
+    "website": "https://www.microsoft.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "steam_community",
+    "name": "Steam Community",
+    "symbol": "SC",
+    "category": "media",
+    "description": "Сообщество Steam, профили и обсуждения",
+    "website": "https://steamcommunity.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "steam_api",
+    "name": "Steam Web API",
+    "symbol": "SA",
+    "category": "development",
+    "description": "Публичный endpoint Steam Web API",
+    "website": "https://api.steampowered.com/ISteamWebAPIUtil/GetServerInfo/v1/",
+    "status_page_url": null
+  },
+  {
+    "id": "yandex_search",
+    "name": "Яндекс Поиск",
+    "symbol": "Я",
+    "category": "search",
+    "description": "Поисковая система Яндекса",
+    "website": "https://yandex.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "bing",
+    "name": "Bing",
+    "symbol": "BI",
+    "category": "search",
+    "description": "Поисковая система Microsoft Bing",
+    "website": "https://www.bing.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "duckduckgo",
+    "name": "DuckDuckGo",
+    "symbol": "DD",
+    "category": "search",
+    "description": "Поисковая система DuckDuckGo",
+    "website": "https://duckduckgo.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "anthropic",
+    "name": "Anthropic / Claude",
+    "symbol": "CL",
+    "category": "ai",
+    "description": "Claude, Claude Code и Anthropic API",
+    "website": "https://claude.ai/",
+    "status_page_url": "https://status.claude.com/"
+  },
+  {
+    "id": "gemini",
+    "name": "Google Gemini",
+    "symbol": "GE",
+    "category": "ai",
+    "description": "Gemini и веб-приложение Google AI",
+    "website": "https://gemini.google.com/",
+    "status_page_url": "https://status.cloud.google.com/"
+  },
+  {
+    "id": "xai",
+    "name": "xAI / Grok",
+    "symbol": "GX",
+    "category": "ai",
+    "description": "Grok и xAI API",
+    "website": "https://grok.com/",
+    "status_page_url": "https://status.x.ai/"
+  },
+  {
+    "id": "perplexity",
+    "name": "Perplexity",
+    "symbol": "PE",
+    "category": "ai",
+    "description": "Поиск с ИИ и Perplexity API",
+    "website": "https://www.perplexity.ai/",
+    "status_page_url": "https://status.perplexity.com/"
+  },
+  {
+    "id": "deepseek",
+    "name": "DeepSeek",
+    "symbol": "DS",
+    "category": "ai",
+    "description": "DeepSeek Chat и API",
+    "website": "https://chat.deepseek.com/",
+    "status_page_url": "https://status.deepseek.com/"
+  },
+  {
+    "id": "mistral",
+    "name": "Mistral AI / Le Chat",
+    "symbol": "MI",
+    "category": "ai",
+    "description": "Le Chat и Mistral API",
+    "website": "https://chat.mistral.ai/",
+    "status_page_url": "https://status.mistral.ai/"
+  },
+  {
+    "id": "cohere",
+    "name": "Cohere",
+    "symbol": "CO",
+    "category": "ai",
+    "description": "Cohere API и модели",
+    "website": "https://cohere.com/",
+    "status_page_url": "https://status.cohere.com/"
+  },
+  {
+    "id": "groq",
+    "name": "Groq",
+    "symbol": "GR",
+    "category": "ai",
+    "description": "GroqCloud и inference API",
+    "website": "https://groq.com/",
+    "status_page_url": "https://groqstatus.com/"
+  },
+  {
+    "id": "huggingface",
+    "name": "Hugging Face",
+    "symbol": "HF",
+    "category": "ai",
+    "description": "Hugging Face Hub и Inference",
+    "website": "https://huggingface.co/",
+    "status_page_url": "https://status.huggingface.co/"
+  },
+  {
+    "id": "openrouter",
+    "name": "OpenRouter",
+    "symbol": "OR",
+    "category": "ai",
+    "description": "Единый API-роутер языковых моделей",
+    "website": "https://openrouter.ai/",
+    "status_page_url": "https://status.openrouter.ai/"
+  },
+  {
+    "id": "cursor",
+    "name": "Cursor",
+    "symbol": "CU",
+    "category": "ai",
+    "description": "AI-редактор Cursor и его сервисы",
+    "website": "https://cursor.com/",
+    "status_page_url": "https://status.cursor.com/"
+  },
+  {
+    "id": "gigachat",
+    "name": "Сбер / GigaChat",
+    "symbol": "GI",
+    "category": "ai",
+    "description": "GigaChat — ИИ-сервис Сбера",
+    "website": "https://giga.chat/",
+    "status_page_url": null
+  },
+  {
+    "id": "yandex_ai",
+    "name": "Яндекс Алиса / AI",
+    "symbol": "YA",
+    "category": "ai",
+    "description": "Алиса и ИИ-сервисы Яндекса",
+    "website": "https://alice.yandex.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "yandex",
+    "name": "Яндекс",
+    "symbol": "Я",
+    "category": "russian",
+    "description": "Портал и основные сервисы Яндекса",
+    "website": "https://ya.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "yandex_mail",
+    "name": "Яндекс Почта",
+    "symbol": "YM",
+    "category": "russian",
+    "description": "Почтовый сервис Яндекса",
+    "website": "https://mail.yandex.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "yandex_disk",
+    "name": "Яндекс Диск",
+    "symbol": "YD",
+    "category": "russian",
+    "description": "Облачное хранилище Яндекс Диск",
+    "website": "https://disk.yandex.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "vk",
+    "name": "ВКонтакте",
+    "symbol": "VK",
+    "category": "russian",
+    "description": "Социальная сеть ВКонтакте",
+    "website": "https://vk.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "mail_ru",
+    "name": "Почта Mail.ru",
+    "symbol": "MR",
+    "category": "russian",
+    "description": "Почта Mail.ru",
+    "website": "https://mail.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "dzen",
+    "name": "Дзен",
+    "symbol": "DZ",
+    "category": "russian",
+    "description": "Платформа Дзен",
+    "website": "https://dzen.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "rutube",
+    "name": "RuTube",
+    "symbol": "RT",
+    "category": "russian",
+    "description": "Российский видеохостинг RuTube",
+    "website": "https://rutube.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "odnoklassniki",
+    "name": "Одноклассники",
+    "symbol": "OK",
+    "category": "russian",
+    "description": "Социальная сеть Одноклассники",
+    "website": "https://ok.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "max",
+    "name": "MAX",
+    "symbol": "MX",
+    "category": "russian",
+    "description": "Мессенджер MAX",
+    "website": "https://max.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "gosuslugi",
+    "name": "Госуслуги",
+    "symbol": "ГУ",
+    "category": "russian",
+    "description": "Портал государственных услуг",
+    "website": "https://www.gosuslugi.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "sber",
+    "name": "Сбербанк",
+    "symbol": "СБ",
+    "category": "finance",
+    "description": "Официальный сайт Сбербанка; проверяется веб-доступность",
+    "website": "https://www.sberbank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "vtb",
+    "name": "ВТБ",
+    "symbol": "ВТ",
+    "category": "finance",
+    "description": "Официальный сайт банка ВТБ",
+    "website": "https://www.vtb.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "tbank",
+    "name": "Т-Банк",
+    "symbol": "ТБ",
+    "category": "finance",
+    "description": "Официальный сайт Т-Банка",
+    "website": "https://www.tbank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "alfa",
+    "name": "Альфа-Банк",
+    "symbol": "АБ",
+    "category": "finance",
+    "description": "Официальный сайт Альфа-Банка",
+    "website": "https://alfabank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "gazprombank",
+    "name": "Газпромбанк",
+    "symbol": "ГП",
+    "category": "finance",
+    "description": "Официальный сайт Газпромбанка",
+    "website": "https://www.gazprombank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "sovcombank",
+    "name": "Совкомбанк",
+    "symbol": "СК",
+    "category": "finance",
+    "description": "Официальный сайт Совкомбанка",
+    "website": "https://sovcombank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "psb",
+    "name": "ПСБ",
+    "symbol": "ПС",
+    "category": "finance",
+    "description": "Официальный сайт банка ПСБ",
+    "website": "https://www.psbank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "rshb",
+    "name": "Россельхозбанк",
+    "symbol": "РС",
+    "category": "finance",
+    "description": "Официальный сайт Россельхозбанка",
+    "website": "https://www.rshb.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "mkb",
+    "name": "Московский кредитный банк",
+    "symbol": "МК",
+    "category": "finance",
+    "description": "Официальный сайт МКБ",
+    "website": "https://mkb.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "mts_bank",
+    "name": "МТС Банк",
+    "symbol": "МБ",
+    "category": "finance",
+    "description": "Официальный сайт МТС Банка",
+    "website": "https://www.mtsbank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "domrf_bank",
+    "name": "Банк ДОМ.РФ",
+    "symbol": "ДР",
+    "category": "finance",
+    "description": "Официальный сайт Банка ДОМ.РФ",
+    "website": "https://domrfbank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "zenit_bank",
+    "name": "Банк ЗЕНИТ",
+    "symbol": "ЗН",
+    "category": "finance",
+    "description": "Официальный сайт банка ЗЕНИТ",
+    "website": "https://www.zenit.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "akbars",
+    "name": "Ак Барс Банк",
+    "symbol": "АК",
+    "category": "finance",
+    "description": "Официальный сайт Ак Барс Банка",
+    "website": "https://www.akbars.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "bspb",
+    "name": "Банк Санкт-Петербург",
+    "symbol": "БС",
+    "category": "finance",
+    "description": "Официальный сайт Банка Санкт-Петербург",
+    "website": "https://www.bspb.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "uralsib",
+    "name": "Банк Уралсиб",
+    "symbol": "УР",
+    "category": "finance",
+    "description": "Официальный сайт Банка Уралсиб",
+    "website": "https://www.uralsib.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "modulbank",
+    "name": "Модульбанк",
+    "symbol": "МД",
+    "category": "finance",
+    "description": "Официальный сайт Модульбанка",
+    "website": "https://modulbank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "absolutbank",
+    "name": "Абсолют Банк",
+    "symbol": "АБ",
+    "category": "finance",
+    "description": "Официальный сайт Абсолют Банка",
+    "website": "https://www.absolutbank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "bcsbank",
+    "name": "БКС Банк",
+    "symbol": "БК",
+    "category": "finance",
+    "description": "Официальный сайт БКС Банка",
+    "website": "https://bcs-bank.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "mir",
+    "name": "Платёжная система Мир",
+    "symbol": "МИ",
+    "category": "finance",
+    "description": "Платёжная система Мир",
+    "website": "https://mironline.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "sbp",
+    "name": "Система быстрых платежей",
+    "symbol": "СБП",
+    "category": "finance",
+    "description": "Система быстрых платежей НСПК",
+    "website": "https://sbp.nspk.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "aws",
+    "name": "Amazon Web Services",
+    "symbol": "AWS",
+    "category": "infrastructure",
+    "description": "AWS — глобальная облачная платформа",
+    "website": "https://aws.amazon.com/",
+    "status_page_url": "https://health.aws.amazon.com/health/status"
+  },
+  {
+    "id": "google_cloud",
+    "name": "Google Cloud",
+    "symbol": "GC",
+    "category": "infrastructure",
+    "description": "Google Cloud Platform",
+    "website": "https://cloud.google.com/",
+    "status_page_url": "https://status.cloud.google.com/"
+  },
+  {
+    "id": "azure",
+    "name": "Microsoft Azure",
+    "symbol": "AZ",
+    "category": "infrastructure",
+    "description": "Microsoft Azure Cloud",
+    "website": "https://azure.microsoft.com/",
+    "status_page_url": "https://status.azure.com/"
+  },
+  {
+    "id": "yandex_cloud",
+    "name": "Yandex Cloud",
+    "symbol": "YC",
+    "category": "infrastructure",
+    "description": "Облачная платформа Yandex Cloud",
+    "website": "https://yandex.cloud/",
+    "status_page_url": "https://status.yandex.cloud/"
+  },
+  {
+    "id": "vk_cloud",
+    "name": "VK Cloud",
+    "symbol": "VKC",
+    "category": "infrastructure",
+    "description": "Облачная платформа VK Cloud",
+    "website": "https://cloud.vk.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "cloud_ru",
+    "name": "Cloud.ru",
+    "symbol": "CR",
+    "category": "infrastructure",
+    "description": "Облачная платформа Cloud.ru",
+    "website": "https://cloud.ru/",
+    "status_page_url": "https://status.cloud.ru/"
+  },
+  {
+    "id": "selectel",
+    "name": "Selectel",
+    "symbol": "SEL",
+    "category": "infrastructure",
+    "description": "Облако, VDS, сети, DNS и CDN Selectel",
+    "website": "https://selectel.ru/",
+    "status_page_url": "https://selectel.live/"
+  },
+  {
+    "id": "mws",
+    "name": "MWS / МТС Web Services",
+    "symbol": "MWS",
+    "category": "infrastructure",
+    "description": "Облачная платформа МТС Web Services",
+    "website": "https://mws.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "timeweb",
+    "name": "Timeweb Cloud",
+    "symbol": "TW",
+    "category": "infrastructure",
+    "description": "Облачная платформа Timeweb",
+    "website": "https://timeweb.cloud/",
+    "status_page_url": null
+  },
+  {
+    "id": "reg_ru",
+    "name": "REG.RU",
+    "symbol": "REG",
+    "category": "infrastructure",
+    "description": "Хостинг, домены и облачные сервисы REG.RU",
+    "website": "https://www.reg.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "beget",
+    "name": "Beget",
+    "symbol": "BE",
+    "category": "infrastructure",
+    "description": "Хостинг и облачные сервисы Beget",
+    "website": "https://beget.com/",
+    "status_page_url": null
+  },
+  {
+    "id": "rostelecom_cloud",
+    "name": "Ростелеком Cloud",
+    "symbol": "РТК",
+    "category": "infrastructure",
+    "description": "Облачная платформа Ростелекома",
+    "website": "https://cloud.rt.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "cdnvideo",
+    "name": "CDNvideo",
+    "symbol": "CDN",
+    "category": "infrastructure",
+    "description": "Российская CDN-платформа CDNvideo",
+    "website": "https://www.cdnvideo.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "edgecenter",
+    "name": "EdgeCenter",
+    "symbol": "EC",
+    "category": "infrastructure",
+    "description": "CDN и cloud-инфраструктура EdgeCenter",
+    "website": "https://edgecenter.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "qrator",
+    "name": "Qrator",
+    "symbol": "QR",
+    "category": "infrastructure",
+    "description": "Сетевая инфраструктура и DDoS-защита Qrator",
+    "website": "https://qrator.net/",
+    "status_page_url": null
+  },
+  {
+    "id": "ngenix",
+    "name": "NGENIX",
+    "symbol": "NG",
+    "category": "infrastructure",
+    "description": "Российская CDN и edge-платформа NGENIX",
+    "website": "https://ngenix.net/",
+    "status_page_url": null
+  },
+  {
+    "id": "mts",
+    "name": "МТС",
+    "symbol": "МТС",
+    "category": "russian",
+    "description": "Сайт оператора МТС",
+    "website": "https://www.mts.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "megafon",
+    "name": "МегаФон",
+    "symbol": "МФ",
+    "category": "russian",
+    "description": "Сайт оператора МегаФон",
+    "website": "https://megafon.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "beeline",
+    "name": "Билайн",
+    "symbol": "БЛ",
+    "category": "russian",
+    "description": "Сайт оператора Билайн",
+    "website": "https://beeline.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "t2",
+    "name": "Т2",
+    "symbol": "T2",
+    "category": "russian",
+    "description": "Сайт оператора T2",
+    "website": "https://t2.ru/",
+    "status_page_url": null
+  }
 ];
 
 const $ = (selector, root=document) => root.querySelector(selector);
