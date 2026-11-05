@@ -690,7 +690,6 @@ const map={
 "Оригинальные файлы загружаются из Flowseal при выборе стратегии. Сохраняются исходные параметры выбранного .bat.":"Original files are loaded from Flowseal when a strategy is selected. The chosen .bat parameters are preserved.",
 "Все 22 оригинальные стратегии Flowseal ↗":"All 22 original Flowseal strategies ↗",
 "Файлы bin для оригинальных профилей ↗":"bin files for the original profiles ↗"
-\n
 ,"Мониторинг доступности сервисов, задержки ответа, аптайма и сетевых инцидентов за период до одного года.":"Monitor service availability, response latency, uptime and network incidents for up to one year."
 ,"Мониторинг ожидает подключения API":"Monitoring is waiting for API connection"
 ,"Данные ещё не получены":"No measurements received yet"
@@ -720,13 +719,10 @@ const map={
 ,"Все сервисы →":"All services →"
 ,"Задержка и доступность":"Latency and availability"
 ,"Выбери сервис, чтобы посмотреть историю измерений":"Choose a service to view measurement history"
-,"HTTP latency (ms)":"HTTP latency (ms)"
 ,"Доступность (%)":"Availability (%)"
-,"Uptime (%)":"Uptime (%)"
 ,"Последние инциденты":"Recent incidents"
 ,"Автоматически обнаруженные проблемы доступности":"Automatically detected availability issues"
 ,"Журнал инцидентов →":"Incident log →"
-,"Все сервисы":"All services"
 ,"Официальный статус и доступность проверочного HTTPS-адреса":"Official status and availability of the HTTPS probe endpoint"
 ,"Найти сервис...":"Find a service..."
 ,"Все категории":"All categories"
@@ -755,10 +751,6 @@ const map={
 ,"Покрытие мониторингом":"Monitoring coverage"
 ,"Uptime считается по результатам сохранённых проверок. Покрытие показывает долю ожидаемых проверок, реально попавших в историю.":"Uptime is calculated from saved checks. Coverage shows the share of expected checks that were actually recorded."
 ,"События, подтверждённые несколькими последовательными проверками":"Events confirmed by multiple consecutive checks"
-,"7 дней":"7 days"
-,"30 дней":"30 days"
-,"90 дней":"90 days"
-,"365 дней":"365 days"
 ,"Всего событий":"Total events"
 ,"Активные":"Active"
 ,"Серьёзные сбои":"Major outages"
@@ -799,15 +791,12 @@ const map={
 ,"Скопируй адрес Worker в поле выше.":"Copy the Worker URL into the field above."
 ,"Открыть файлы Worker в GitHub ↗":"Open Worker files on GitHub ↗"
 ,"История появится после подключения Worker и первых проверок.":"History will appear after connecting the Worker and receiving the first checks."
-,"Подключи Worker API, чтобы строить графики по настоящим измерениям.":"Connect the Worker API to build charts from real measurements."
 ,"Подключи Worker API во вкладке «Настройки», чтобы строить графики по настоящим измерениям.":"Connect the Worker API in Settings to build charts from real measurements."
-,"История появится после подключения Worker и первых проверок.":"History will appear after connecting the Worker and receiving the first checks."
 ,"Подключи API, чтобы загрузить историю.":"Connect the API to load history."
 ,"Загружаю историю измерений…":"Loading measurement history…"
 ,"Для выбранного периода ещё нет сохранённых измерений. Новые точки появятся после плановых проверок Worker.":"There are no saved measurements for this period yet. New points will appear after scheduled Worker checks."
 ,"Покрытие: ":"Coverage: "
 ,"Левая шкала — миллисекунды; правая — доступность в процентах.":"Left axis: milliseconds; right axis: availability percentage."
-,"Подключи Worker API во вкладке «Настройки», чтобы получать реальные измерения и накапливать историю.":"Connect the Worker API in Settings to receive real measurements and build history."
 ,"Не удалось получить журнал: ":"Could not retrieve incident log: "
 ,"Инциденты пока не зарегистрированы.":"No incidents have been recorded yet."
 ,"Список сервисов пуст.":"The service list is empty."
@@ -815,7 +804,6 @@ const map={
 ,"Нет измерений":"No measurements"
 ,"Без инцидентов":"No incidents"
 ,"активн. инц.":"active incidents"
-,"Ответ HTTP ":"HTTP response "
 ,"Для Worker API требуется HTTPS.":"Worker API must use HTTPS."
 ,"Проверяю API…":"Testing API…"
 ,"Соединение успешно. Worker видит ":"Connection successful. Worker sees "
@@ -825,17 +813,13 @@ const map={
 ,"Адрес сохранён в этом браузере. Подключаюсь…":"Address saved in this browser. Connecting…"
 ,"Обновляю…":"Refreshing…"
 ,"Обновлено ":"Updated "
-," min · ":" min · "
-," days":" days"
 ,"Cron · ":"Cron · "
 ,"Проверочный endpoint не ответил: ":"Probe endpoint did not respond: "
 ,"Официальная status page сообщает о технических работах.":"The official status page reports maintenance."
 ,"Состояние сервиса отличается от нормального.":"The service state is not operational."
 ,"Сервис":"Service"
-,"Минута":"Minute"
-,"Latency · ms":"Latency · ms"
-,"Uptime · %":"Uptime · %"
-\n};\nconst reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
+};
+const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
 "/":{ru:"Репозитории — MAKAKAIglitch",en:"Repositories — MAKAKAIglitch"},
 "/tools/":{ru:"Утилиты — MAKAKAIglitch",en:"Utilities — MAKAKAIglitch"},
@@ -847,7 +831,8 @@ const titleMap={
 "/tools/dns-tester/":{ru:"Тестер DNS-серверов — MAKAKAIglitch",en:"DNS Server Tester — MAKAKAIglitch"},
 "/tools/download-time/":{ru:"Время загрузки файла — MAKAKAIglitch",en:"Download Time Calculator — MAKAKAIglitch"},
 "/tools/vpn-leak-test/":{ru:"VPN Leak Test — MAKAKAIglitch",en:"VPN Leak Test — MAKAKAIglitch"},
-"/tools/ip-intelligence/":{ru:"IP Intelligence — MAKAKAIglitch",en:"IP Intelligence — MAKAKAIglitch"},\n"/tools/service-status/":{ru:"Service Status Monitor — MAKAKAIglitch",en:"Service Status Monitor — MAKAKAIglitch"},
+"/tools/ip-intelligence/":{ru:"IP Intelligence — MAKAKAIglitch",en:"IP Intelligence — MAKAKAIglitch"},
+"/tools/service-status/":{ru:"Service Status Monitor — MAKAKAIglitch",en:"Service Status Monitor — MAKAKAIglitch"},
 "/library/":{ru:"Библиотека — MAKAKAIglitch",en:"Library — MAKAKAIglitch"},
 "/library/torrent/":{ru:"Torrent — Библиотека — MAKAKAIglitch",en:"Torrent — Library — MAKAKAIglitch"},
 "/library/torrent/shares/":{ru:"Раздачи — Torrent — MAKAKAIglitch",en:"Shares — Torrent — MAKAKAIglitch"},
