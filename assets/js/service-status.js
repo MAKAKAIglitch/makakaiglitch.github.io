@@ -812,7 +812,7 @@ const CATALOG = [
     "website": "https://www.together.ai/",
     "probe_url": "https://www.together.ai/",
     "status_api_url": null,
-    "status_page_url": null
+    "status_page_url": "https://status.together.ai/"
   },
   {
     "id": "midjourney",
@@ -834,7 +834,7 @@ const CATALOG = [
     "website": "https://elevenlabs.io/",
     "probe_url": "https://elevenlabs.io/",
     "status_api_url": null,
-    "status_page_url": null
+    "status_page_url": "https://status.elevenlabs.io/"
   },
   {
     "id": "replicate",
@@ -856,7 +856,7 @@ const CATALOG = [
     "website": "https://runwayml.com/",
     "probe_url": "https://runwayml.com/",
     "status_api_url": null,
-    "status_page_url": null
+    "status_page_url": "https://status.runway.team/"
   },
   {
     "id": "windsurf",
@@ -878,7 +878,7 @@ const CATALOG = [
     "website": "https://stability.ai/",
     "probe_url": "https://stability.ai/",
     "status_api_url": null,
-    "status_page_url": null
+    "status_page_url": "https://status.stability.ai/"
   },
   {
     "id": "luma",
@@ -889,7 +889,7 @@ const CATALOG = [
     "website": "https://lumalabs.ai/",
     "probe_url": "https://lumalabs.ai/",
     "status_api_url": null,
-    "status_page_url": null
+    "status_page_url": "https://status.lumalabs.ai/"
   },
   {
     "id": "ubrr",
