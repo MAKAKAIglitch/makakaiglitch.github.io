@@ -555,6 +555,7 @@
       render();
     }
   });
+  document.addEventListener("site:language-change", updateProfileOptions);
   [warpWireGuard, warpMasque, quic, customTcpEnabled, customTcpInput].forEach(control => {
     control.addEventListener("change", render);
     control.addEventListener("input", render);
