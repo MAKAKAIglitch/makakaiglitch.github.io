@@ -1,6 +1,7 @@
 (() => {
   "use strict";
   const $ = id => document.getElementById(id);
+  const t = value => window.siteI18n?.t(value) || value;
   const engine = $("zapret-engine");
   const profile = $("zapret-profile");
   const warpWireGuard = $("zapret-warp-wireguard");
@@ -197,7 +198,7 @@
       ")"
     );
 
-    const wfTcp = unique(["80", "443", ...ports.customTcp]);
+    const wfTcp = onlyWireGuard ? [...ports.customTcp] : unique(["80", "443", ...ports.customTcp]);
     const wfUdp = unique([...(quic.checked && !onlyWireGuard ? ["443"] : []), ...ports.warpUdp]);
     const args = [];
     if (wfTcp.length) args.push("--wf-tcp-out=" + wfTcp.join(","));
@@ -258,24 +259,24 @@
         content,
         filename: engineValue === "v1" ? "zapret-flowseal-experimental.bat" : "zapret2-experimental.cmd"
       };
-      outputType.textContent = engineValue === "v1" ? "BAT · Flowseal / winws.exe" : "CMD · zapret2 / winws2.exe";
-      status.textContent = "Конфигурация собрана";
+      outputType.textContent = engineValue === "v1" ? t("BAT · Flowseal / winws.exe") : t("CMD · zapret2 / winws2.exe");
+      status.textContent = t("Конфигурация собрана");
       status.dataset.state = "ready";
       saveNote.textContent = engineValue === "v1"
         ? "Сохрани BAT в корневую папку Flowseal, рядом с service.bat. Не заменяй general.bat — используй отдельный файл."
         : "Сохрани CMD в папку zapret-win-bundle\\zapret-winws, рядом с winws2.exe и папкой lua. Нужен именно Windows bundle с winws2.";
       const summary = [];
-      summary.push("WARP UDP: " + (ports.warpUdp.length ? ports.warpUdp.join(", ") : "не добавлен"));
-      summary.push("QUIC UDP 443: " + (quic.checked && chosenProfile !== "wireguard" ? "включён как обычный веб-трафик" : "выключен"));
-      summary.push("Дополнительный TCP: " + (ports.customTcp.length ? ports.customTcp.join(", ") : "нет"));
+      summary.push(t("WARP UDP: ") + (ports.warpUdp.length ? ports.warpUdp.join(", ") : t("не добавлен")));
+      summary.push("QUIC UDP 443: " + (quic.checked && chosenProfile !== "wireguard" ? t("включён как обычный веб-трафик") : t("выключен")));
+      summary.push(t("Дополнительный TCP: ") + (ports.customTcp.length ? ports.customTcp.join(", ") : t("нет")));
       portSummary.textContent = summary.join(" · ");
       return true;
     } catch (error) {
       output.value = "";
       lastBuild = null;
-      status.textContent = error.message;
+      status.textContent = t(error.message);
       status.dataset.state = "error";
-      portSummary.textContent = "Исправь параметры портов, чтобы собрать конфигурацию.";
+      portSummary.textContent = t("Исправь параметры портов, чтобы собрать конфигурацию.");
       return false;
     }
   }
@@ -311,10 +312,10 @@
         output.setSelectionRange(0, 0);
         if (!ok) throw new Error("copy failed");
       }
-      status.textContent = "Скопировано в буфер обмена";
+      status.textContent = t("Скопировано в буфер обмена");
       status.dataset.state = "ready";
     } catch (_) {
-      status.textContent = "Не удалось скопировать. Выдели текст вручную.";
+      status.textContent = t("Не удалось скопировать. Выдели текст вручную.");
       status.dataset.state = "error";
     }
   }
@@ -330,7 +331,7 @@
     link.click();
     link.remove();
     URL.revokeObjectURL(url);
-    status.textContent = "Файл подготовлен для скачивания";
+    status.textContent = t("Файл подготовлен для скачивания");
     status.dataset.state = "ready";
   }
 
@@ -357,7 +358,7 @@
     customTcpInput.value = "";
     profile.value = "general";
     updateProfileOptions();
-    status.textContent = "Настройки сброшены";
+    status.textContent = t("Настройки сброшены");
     status.dataset.state = "ready";
   });
 
