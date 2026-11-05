@@ -15,7 +15,7 @@
 - The history uses 5-minute buckets for 24 hours, 15-minute buckets for 7 days, hourly buckets for 30 days, and daily buckets for up to 365 days.
 - The first successful scheduled run initializes the history. Earlier measurements are not fabricated.
 
-The schedule is managed by GitHub Actions and can occasionally be delayed by GitHub load. Standard GitHub-hosted runners are free for this public repository. The monitor is a single observation point from a GitHub-hosted runner, not a worldwide probe network or a measurement from each visitor's ISP.
+The schedule is managed by GitHub Actions and is configured to run every five minutes; the workflow also supports manual runs and deploys on changes to `main`. GitHub can delay scheduled starts during periods of high load. For public repositories, GitHub automatically disables scheduled workflows after 60 days without repository activity; if that happens, re-enable this workflow from the repository's Actions page. Standard GitHub-hosted runners are free for this public repository. The monitor is a single observation point from a GitHub-hosted runner, not a worldwide probe network or a measurement from each visitor's ISP.
 
 The catalog is stored separately so the Actions collector does not need to parse this legacy Worker source. Keep `data/service-status-catalog.json` as the source of truth for the active monitor.
 
