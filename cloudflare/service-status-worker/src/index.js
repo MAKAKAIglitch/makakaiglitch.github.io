@@ -226,7 +226,7 @@ async function getHealth(env) {
     retention_days:RETENTION_DAYS,
     last_check_at:row?.last_check_at ?? null,
     monitoring_location:"Cloudflare Worker execution region; single vantage point",
-    uptime_definition:"Successful HTTP probe plus official status-page outage state"
+    uptime_definition:"HTTP endpoint reachable (status < 500), excluding official major-outage state"
   };
 }
 
