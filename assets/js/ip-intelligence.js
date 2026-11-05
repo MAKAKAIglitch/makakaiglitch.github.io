@@ -200,18 +200,28 @@ function render(ip,data) {
   setField("ip-intel-rir",data.rir ? data.rir.rir : (data.rirError ? "Недоступно" : "—"));
   setField("ip-intel-rdap",data.rir ? [data.rir.network,data.rir.start && data.rir.end ? data.rir.start + " – " + data.rir.end : ""].filter(Boolean).join(" · ") : "—");
   setField("ip-intel-ptr",data.ptr.length ? data.ptr.join(", ") : (data.ptrError ? "Недоступно" : "PTR не опубликован"));
-  setField("ip-intel-type",conn.connection_type);
+  setField("ip-intel-type",conn.connection_type || "Источник не вернул тип подключения");
   const security = geo.security || {};
   const vpnFlag = security.isVpn ?? security.vpn;
   const torFlag = security.isTor ?? security.tor;
-  const securityText = [vpnFlag === true ? "VPN" : "",torFlag === true ? "Tor" : "",vpnFlag === false && torFlag === false ? "не отмечен базой" : ""].filter(Boolean).join(" · ");
-  setField("ip-intel-security",securityText);
+  const securityParts = [];
+  if (typeof vpnFlag === "boolean") securityParts.push(vpnFlag ? "VPN обнаружен базой" : "VPN не обнаружен базой");
+  if (typeof torFlag === "boolean") securityParts.push(torFlag ? "Tor обнаружен базой" : "Tor не обнаружен базой");
+  setField("ip-intel-security",securityParts.length ? securityParts.join(" · ") : "Нет данных о VPN/Tor в ответе API");
   setField("ip-intel-country",[geo.flag?.flag_Icon,geo.flag?.emoji,geo.country].filter(Boolean).filter((value,index,array)=>array.indexOf(value)===index).join(" "));
   setField("ip-intel-region",geo.region);
   setField("ip-intel-city",geo.city);
   const hasGeoCoordinates = geo.latitude !== null && geo.latitude !== undefined && geo.latitude !== "" && geo.longitude !== null && geo.longitude !== undefined && geo.longitude !== "" && Number.isFinite(Number(geo.latitude)) && Number.isFinite(Number(geo.longitude));
   setField("ip-intel-coords",hasGeoCoordinates ? Number(geo.latitude).toFixed(4) + ", " + Number(geo.longitude).toFixed(4) : "");
-  setField("ip-intel-accuracy",Number.isFinite(Number(geo.accuracy_radius)) && geo.accuracy_radius !== null && Number(geo.accuracy_radius) > 0 ? "±" + geo.accuracy_radius + " km" : (data.geo ? "Источник не публикует радиус точности" : ""));
+  const rawRadius = geo.accuracy_radius;
+  const accuracyRadius = rawRadius === null || rawRadius === undefined || rawRadius === "" ? NaN : Number(rawRadius);
+  const accuracyText = Number.isFinite(accuracyRadius) && accuracyRadius > 0
+    ? "±" + accuracyRadius + " km (оценка источника)"
+    : (geo.city ? "База указывает город; числовой радиус ошибки не предоставлен"
+      : geo.region ? "База указывает регион; числовой радиус ошибки не предоставлен"
+      : geo.country ? "База указывает страну; числовой радиус ошибки не предоставлен"
+      : "Источник не предоставил сведения о точности");
+  setField("ip-intel-accuracy",data.geo ? accuracyText : "");
   setField("ip-intel-timezone",timeZone);
   updateMap(data.geo);
 }
