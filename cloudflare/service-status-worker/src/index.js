@@ -1,5 +1,6 @@
 const CHECK_INTERVAL_SECONDS = 300;
 const RETENTION_DAYS = 365;
+const DETAILED_RETENTION_DAYS = 30;
 const PROBE_TIMEOUT_MS = 8000;
 const STATUS_TIMEOUT_MS = 7000;
 const MAX_CONCURRENT_SERVICES = 6;
@@ -1153,7 +1154,7 @@ async function runScheduledChecks(env, scheduledTime, servicesToCheck=SERVICES) 
 }
 async function compactAndCleanup(env, nowSeconds=Math.floor(Date.now()/1000)) {
   if (!env.DB) throw new Error("Missing D1 binding: DB");
-  const rawCutoff = nowSeconds - 30*86400;
+  const rawCutoff = Math.floor((nowSeconds - DETAILED_RETENTION_DAYS*86400)/86400)*86400;
   const retentionCutoff = nowSeconds - RETENTION_DAYS*86400;
   const result = await env.DB.batch([
     env.DB.prepare(
@@ -1182,6 +1183,8 @@ async function getHealth(env) {
     service_count:SERVICES.length,
     interval_minutes:CHECK_INTERVAL_SECONDS/60,
     retention_days:RETENTION_DAYS,
+    detailed_retention_days:DETAILED_RETENTION_DAYS,
+    history_granularity:{recent_seconds:CHECK_INTERVAL_SECONDS,daily_after_days:DETAILED_RETENTION_DAYS},
     last_check_at:row?.last_check_at ?? null,
     monitoring_location:"Cloudflare Worker execution region; single vantage point",
     uptime_definition:"HTTP endpoint reachable (status < 500), excluding official major-outage state"
@@ -1239,7 +1242,7 @@ async function getHistory(env, url) {
     // Older than 30 days is kept as one daily rollup per service. The most
     // recent 30 days remain at five-minute resolution and are grouped daily
     // only for long-range charts.
-    const rawFrom = Math.max(from,to-30*86400);
+    const rawFrom = Math.floor((to-DETAILED_RETENTION_DAYS*86400)/86400)*86400;
     const dailyFrom = Math.floor(from/86400)*86400;
     query = await env.DB.prepare(
       "SELECT bucket_at, SUM(checks) AS checks, SUM(successful) AS successful, " +
