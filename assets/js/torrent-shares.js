@@ -76,37 +76,4 @@
   sortCards();
   loadStats();
 
-  function initCursorGlow(){
-    const glow=document.querySelector(".cursor-glow");
-    if(!glow)return;
-
-    let targetX=0,targetY=0,currentX=0,currentY=0,frameId=0,hasPosition=false;
-    function animate(){
-      const dx=targetX-currentX,dy=targetY-currentY;
-      currentX+=dx*0.09;
-      currentY+=dy*0.09;
-      glow.style.transform="translate3d("+currentX+"px,"+currentY+"px,0) translate(-50%,-50%)";
-      if(Math.abs(dx)+Math.abs(dy)>0.2)frameId=requestAnimationFrame(animate);
-      else frameId=0;
-    }
-    function onMouseMove(event){
-      targetX=event.clientX;
-      targetY=event.clientY;
-      if(!hasPosition){
-        currentX=targetX;
-        currentY=targetY;
-        hasPosition=true;
-      }
-      glow.classList.add("is-visible");
-      if(!frameId)frameId=requestAnimationFrame(animate);
-    }
-    function hideGlow(){
-      glow.classList.remove("is-visible");
-    }
-    window.addEventListener("mousemove",onMouseMove,{passive:true});
-    window.addEventListener("blur",hideGlow);
-    document.documentElement.addEventListener("mouseleave",hideGlow);
-    document.addEventListener("visibilitychange",()=>{if(document.hidden)hideGlow();});
-  }
-  initCursorGlow();
 })();
