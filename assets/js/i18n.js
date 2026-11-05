@@ -71,6 +71,10 @@ const map={
 "Стандартная HTTP / TLS / QUIC + WARP":"Standard HTTP / TLS / QUIC + WARP",
 "Только WireGuard / WARP":"WireGuard / WARP only",
 "Все утилиты":"All utilities",
+"Укажи TCP-порты или отключи дополнительный TCP-фильтр.":"Enter TCP ports or disable the additional TCP filter.",
+"+ Добавить WARP WireGuard":"+ Add WARP WireGuard",
+"+ Добавить MASQUE без 443":"+ Add MASQUE without 443",
+
 
 "Определение и копирование публичных IPv4 и IPv6 адресов.":"Detect and copy public IPv4 and IPv6 addresses.",
 "Запрос A, AAAA, MX, TXT, NS и других DNS-записей через DoH.":"Query A, AAAA, MX, TXT, NS and other DNS records over DoH.",
