@@ -40,6 +40,7 @@ const map={
 "У WireGuard WARP нет стандартного TCP-порта 2408/500: туннель использует UDP. Здесь можно задать собственные TCP/TLS-порты для отдельного сервиса.":"WireGuard WARP has no standard TCP ports 2408/500: the tunnel uses UDP. Enter custom TCP/TLS ports for a separate service here.",
 "Например: 2053, 2083, 8443":"For example: 2053, 2083, 8443",
 "Подставить номера WARP":"Fill in WARP port numbers",
+"Повторить номера в TCP":"Repeat the numbers in TCP",
 "Режим обработки будет экспериментальным; эти порты не становятся от этого штатными TCP-портами WARP.":"Handling is experimental; these do not become standard WARP TCP ports.",
 "3. Результат":"3. Output",
 "Предпросмотр обновляется при изменении настроек. Файл сохраняется локально через браузер.":"The preview updates when settings change. The file is saved locally by your browser.",
