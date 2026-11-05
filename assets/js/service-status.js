@@ -1047,6 +1047,7 @@ const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => Array.from(root.querySelectorAll(selector));
 const state = {
   data: null,
+  historyCache: {},
   services: CATALOG.map(item => ({...item,status:"unknown",latest:null,uptime_24h:null,active_incidents:0})),
   incidents: [],
   health: null,
@@ -1282,7 +1283,7 @@ function historyResponse(serviceId, range) {
   const now = Number(state.data.last_check_at || state.data.generated_at || Math.floor(Date.now()/1000));
   const exactFrom = now - settings.seconds;
   const from = settings.bucket===86400 ? Math.ceil(exactFrom/86400)*86400 : exactFrom;
-  const stored = state.data.history?.[serviceId]?.[settings.source] || [];
+  const stored = state.historyCache?.[serviceId]?.[settings.source] || [];
   const rawPoints = stored.filter(point => Number(point[0]) >= from && Number(point[0]) <= now);
   const points = rawPoints.map(point => {
     const checks = Number(point[1] || 0);
@@ -1330,7 +1331,16 @@ async function loadHistoryChart(which) {
     container.innerHTML='<div class="ss-empty-state">История появится после первой автоматической проверки GitHub Actions.</div>';
     return;
   }
+  container.innerHTML='<div class="ss-empty-state">Загружаю историю измерений…</div>';
   try {
+    if(!state.historyCache[serviceId]){
+      const historyUrl="/data/service-status/history/"+encodeURIComponent(serviceId)+".json?nocache="+Date.now();
+      const response=await fetch(historyUrl,{headers:{Accept:"application/json","Cache-Control":"no-cache"},cache:"no-store"});
+      if(!response.ok)throw new Error("HTTP "+response.status);
+      const payload=await response.json();
+      if(!payload || payload.service_id!==serviceId || !payload.history)throw new Error("Файл истории имеет неверный формат.");
+      state.historyCache[serviceId]=payload.history;
+    }
     const result=historyResponse(serviceId,range);
     if(sequence!==chartSequence[which])return;
     renderChart(container,result);
@@ -1352,6 +1362,7 @@ async function loadHistoryChart(which) {
     container.innerHTML='<div class="ss-empty-state">Ошибка загрузки истории: '+escapeHtml(error.message)+'</div>';
   }
 }
+
 function setRange(which,range) {
   if(which==="overview")state.overviewRange=range;else state.historyRange=range;
   $$('.ss-range-group[data-range-group="'+which+'"] button').forEach(button=>button.classList.toggle("is-active",button.dataset.range===range));
@@ -1369,8 +1380,9 @@ async function loadAll({quiet=false}={}) {
     });
     if(!response.ok)throw new Error("HTTP "+response.status);
     const data=await response.json();
-    if(!data || !Array.isArray(data.services) || !data.history)throw new Error("Некорректный файл данных мониторинга.");
+    if(!data || !Array.isArray(data.services) || !data.schema_version)throw new Error("Некорректный файл данных мониторинга.");
     state.data=data;
+    state.historyCache={};
     state.health={
       service_count:Number(data.summary?.service_count || data.services.length),
       interval_minutes:Number(data.interval_seconds || 300)/60,
