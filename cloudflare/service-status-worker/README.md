@@ -29,7 +29,7 @@ For each service, the Worker:
 4. Saves the result in D1 and updates the current service state.
 5. Opens an incident after two consecutive non-operational checks and resolves it after two consecutive operational checks.
 
-Structured official status feeds are configured for Cloudflare, GitHub (also used for GitHub Copilot), Discord, OpenAI, Anthropic/Claude, xAI, Perplexity, DeepSeek, Mistral, Cohere, Hugging Face and OpenRouter. AWS, Azure and other providers have their official status pages linked where available; those pages are not treated as parsed JSON feeds unless a supported endpoint is configured. Other official status pages are linked from service cards when available, but are not scraped if a structured feed is not configured.
+Structured official status feeds are configured for Cloudflare, GitHub (also used for GitHub Copilot), Discord, OpenAI, Anthropic/Claude, xAI, Perplexity, DeepSeek, Mistral, Cohere, Hugging Face, OpenRouter and Roblox. AWS, Azure and other providers have their official status pages linked where available; those pages are not treated as parsed JSON feeds unless a supported endpoint is configured. Other official status pages are linked from service cards when available, but are not scraped if a structured feed is not configured.
 
 The Worker does not accept arbitrary probe URLs, so it cannot be used as an open URL-fetch proxy. Its public API is read-only.
 
