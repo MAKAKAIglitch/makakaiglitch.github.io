@@ -9,7 +9,7 @@ const CATALOG = [
     "symbol": "TG",
     "category": "communication",
     "description": "Telegram Web — доступность веб-клиента",
-    "website": "https://web.telegram.org/a/",
+    "website": "https://web.telegram.org/",
     "status_page_url": null
   },
   {
@@ -18,7 +18,7 @@ const CATALOG = [
     "symbol": "YT",
     "category": "media",
     "description": "YouTube — веб-сайт и видеоплатформа",
-    "website": "https://www.youtube.com/generate_204",
+    "website": "https://www.youtube.com/",
     "status_page_url": null
   },
   {
@@ -27,7 +27,7 @@ const CATALOG = [
     "symbol": "G",
     "category": "search",
     "description": "Поисковая система Google",
-    "website": "https://www.google.com/generate_204",
+    "website": "https://www.google.com/",
     "status_page_url": null
   },
   {
@@ -54,7 +54,7 @@ const CATALOG = [
     "symbol": "DC",
     "category": "communication",
     "description": "Discord — веб-клиент и Gateway",
-    "website": "https://discord.com/api/v10/gateway",
+    "website": "https://discord.com/",
     "status_page_url": "https://discordstatus.com/"
   },
   {
@@ -81,7 +81,7 @@ const CATALOG = [
     "symbol": "ND",
     "category": "infrastructure",
     "description": "NextDNS — тестовый endpoint",
-    "website": "https://test.nextdns.io/",
+    "website": "https://nextdns.io/",
     "status_page_url": null
   },
   {
@@ -162,7 +162,7 @@ const CATALOG = [
     "symbol": "SA",
     "category": "development",
     "description": "Публичный endpoint Steam Web API",
-    "website": "https://api.steampowered.com/ISteamWebAPIUtil/GetServerInfo/v1/",
+    "website": "https://steamcommunity.com/dev",
     "status_page_url": null
   },
   {
