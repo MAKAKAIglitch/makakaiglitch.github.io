@@ -820,6 +820,13 @@ const map={
 ,"Сервис":"Service"
 ,"Service Status Monitor":"Service Status Monitor"
 ,"Мониторинг Telegram, YouTube, Google, Cloudflare и других сервисов: uptime, задержка HTTP, годовая история и журнал инцидентов.":"Monitor Telegram, YouTube, Google, Cloudflare and more: uptime, HTTP latency, one-year history and incident log."
+,"Официальный статус API":"Official status API"
+,"Недоступен":"Unavailable"
+,"норма":"Operational"
+,"minor":"Minor issues"
+,"major":"Major outage"
+,"critical":"Critical outage"
+,"maintenance":"Maintenance"
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
