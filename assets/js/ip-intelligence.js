@@ -148,9 +148,15 @@ async function getData(ip) {
 }
 function updateMap(geo) {
   const mapNode = $("ip-intel-map");
-  if (!geo || !Number.isFinite(Number(geo.latitude)) || !Number.isFinite(Number(geo.longitude)) || !window.L) {
+  const hasLatitude = geo?.latitude !== null && geo?.latitude !== undefined && geo?.latitude !== "";
+  const hasLongitude = geo?.longitude !== null && geo?.longitude !== undefined && geo?.longitude !== "";
+  if (!geo || !hasLatitude || !hasLongitude || !Number.isFinite(Number(geo.latitude)) || !Number.isFinite(Number(geo.longitude)) || !window.L) {
     mapStatus.textContent = t(window.L ? "Координаты для карты не получены." : "Библиотека карты не загрузилась.");
     if (mapNode) mapNode.classList.add("is-unavailable");
+    if (map && marker) map.removeLayer(marker);
+    if (map && accuracyCircle) map.removeLayer(accuracyCircle);
+    marker = null;
+    accuracyCircle = null;
     return;
   }
   mapNode.classList.remove("is-unavailable");
@@ -167,6 +173,7 @@ function updateMap(geo) {
   } else map.setView([lat,lon],zoom);
   if (marker) map.removeLayer(marker);
   if (accuracyCircle) map.removeLayer(accuracyCircle);
+  accuracyCircle = null;
   marker = L.marker([lat,lon]).addTo(map);
   marker.bindPopup(t("Примерная геолокация IP") + (hasRadius ? " · ±" + radius + " km" : ""));
   if (hasRadius) {
@@ -179,8 +186,9 @@ function updateMap(geo) {
 function render(ip,data) {
   const geo = data.geo || {};
   const conn = geo.connection || {};
-  const timeZone = geo.timezone?.time_zone || "";
-  const asn = conn.asn_number ? "AS" + conn.asn_number : "";
+  const timeZone = geo.timezone?.time_zone || geo.timezone?.id || "";
+  const asnNumber = conn.asn_number ?? conn.asn;
+  const asn = asnNumber ? (String(asnNumber).startsWith("AS") ? String(asnNumber) : "AS" + asnNumber) : "";
   const asns = data.bgp?.asns || [];
   setField("ip-intel-address",ip);
   setField("ip-intel-asn",asn || (asns.length ? "AS" + asns.join(", AS") : ""));
@@ -194,13 +202,15 @@ function render(ip,data) {
   setField("ip-intel-ptr",data.ptr.length ? data.ptr.join(", ") : (data.ptrError ? "Недоступно" : "PTR не опубликован"));
   setField("ip-intel-type",conn.connection_type);
   const security = geo.security || {};
-  const securityText = [security.isVpn === true ? "VPN" : "",security.isTor === true ? "Tor" : "",security.isVpn === false && security.isTor === false ? "не отмечен базой" : ""].filter(Boolean).join(" · ");
+  const vpnFlag = security.isVpn ?? security.vpn;
+  const torFlag = security.isTor ?? security.tor;
+  const securityText = [vpnFlag === true ? "VPN" : "",torFlag === true ? "Tor" : "",vpnFlag === false && torFlag === false ? "не отмечен базой" : ""].filter(Boolean).join(" · ");
   setField("ip-intel-security",securityText);
-  setField("ip-intel-country",[geo.flag?.flag_Icon,geo.country].filter(Boolean).join(" "));
+  setField("ip-intel-country",[geo.flag?.flag_Icon,geo.flag?.emoji,geo.country].filter(Boolean).filter((value,index,array)=>array.indexOf(value)===index).join(" "));
   setField("ip-intel-region",geo.region);
   setField("ip-intel-city",geo.city);
   setField("ip-intel-coords",Number.isFinite(Number(geo.latitude)) && Number.isFinite(Number(geo.longitude)) ? Number(geo.latitude).toFixed(4) + ", " + Number(geo.longitude).toFixed(4) : "");
-  setField("ip-intel-accuracy",Number.isFinite(Number(geo.accuracy_radius)) && Number(geo.accuracy_radius) > 0 ? "±" + geo.accuracy_radius + " km" : "");
+  setField("ip-intel-accuracy",Number.isFinite(Number(geo.accuracy_radius)) && geo.accuracy_radius !== null && Number(geo.accuracy_radius) > 0 ? "±" + geo.accuracy_radius + " km" : (data.geo ? "Источник не публикует радиус точности" : ""));
   setField("ip-intel-timezone",timeZone);
   updateMap(data.geo);
 }
