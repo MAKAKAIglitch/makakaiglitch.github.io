@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0b0e13">
+<meta name="description" content="IP intelligence: ASN, ISP, BGP prefix, RIR, reverse DNS and approximate geolocation on OpenStreetMap.">
+<title>IP Intelligence — MAKAKAIglitch</title>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-network-intelligence">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="/assets/js/global-search.js?v=20261105-search-v8" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-network-tools-v2" defer></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+<script src="/assets/js/ip-intelligence.js?v=20261105-ip-intelligence-v1" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="site-shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
+<nav class="main-nav" aria-label="Основная навигация"><a class="nav-link" href="/"><span>Repositories</span></a><a class="nav-link is-active" href="/tools/"><span>Utilities</span></a><a class="nav-link" href="/library/"><span>Library</span></a></nav>
+<a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+</header>
+<main class="main-content tool-page-main ip-intel-page">
+<a class="utility-back" href="/tools/">← <span>Все утилиты</span></a>
+<section class="intro tools-intro"><div class="eyebrow"><span class="status-dot"></span> NETWORK / INTELLIGENCE</div><h1>IP Intelligence</h1><p>ASN, организация, провайдер, BGP-маршрут, RIR, reverse DNS и примерная геолокация IP</p></section>
+<section class="tool-detail-wrap ip-intel-wrap">
+<article class="tool-detail-card tool-card">
+<div class="tool-card-heading"><span class="tool-icon">IP+</span><div><h2>Информация об IP-адресе</h2><p>Можно проверить свой адрес или ввести любой публичный IPv4 / IPv6</p></div></div>
+<form id="ip-intel-form" class="ip-intel-form">
+<label class="tool-field-label" for="ip-intel-input">IP-адрес</label>
+<div class="ip-intel-input-row"><input class="tool-input" id="ip-intel-input" name="ip" type="text" inputmode="text" spellcheck="false" autocomplete="off" placeholder="8.8.8.8 или 2001:4860:4860::8888"><button class="tool-button" id="ip-intel-submit" type="submit">Найти</button></div>
+<div class="tool-actions"><button class="tool-button secondary" id="ip-intel-my-ip" type="button">Мой IP</button><button class="tool-button secondary" id="ip-intel-copy" type="button" disabled>Копировать IP</button></div>
+</form>
+<p class="tool-status" id="ip-intel-status" role="status" aria-live="polite">Определяем текущий публичный IP…</p>
+</article>
+</section>
+<section class="ip-intel-grid">
+<article class="tool-detail-card tool-card ip-intel-card">
+<div class="tool-card-heading"><div><h2>Сетевые данные</h2><p>Регистрация адреса и глобальная маршрутизация</p></div></div>
+<dl class="ip-intel-list">
+<div><dt>IP-адрес</dt><dd id="ip-intel-address">—</dd></div>
+<div><dt>ASN</dt><dd id="ip-intel-asn">—</dd></div>
+<div><dt>Организация ASN</dt><dd id="ip-intel-asn-org">—</dd></div>
+<div><dt>Провайдер (ISP)</dt><dd id="ip-intel-isp">—</dd></div>
+<div><dt>Организация</dt><dd id="ip-intel-org">—</dd></div>
+<div><dt>BGP-префикс</dt><dd id="ip-intel-prefix">—</dd></div>
+<div><dt>BGP origin ASN</dt><dd id="ip-intel-origin">—</dd></div>
+<div><dt>RIR</dt><dd id="ip-intel-rir">—</dd></div>
+<div><dt>RDAP network</dt><dd id="ip-intel-rdap">—</dd></div>
+<div><dt>Reverse DNS (PTR)</dt><dd id="ip-intel-ptr">—</dd></div>
+<div><dt>Тип соединения</dt><dd id="ip-intel-type">—</dd></div>
+<div><dt>VPN / Tor detection</dt><dd id="ip-intel-security">—</dd></div>
+</dl>
+</article>
+<article class="tool-detail-card tool-card ip-intel-card">
+<div class="tool-card-heading"><div><h2>Географические данные</h2><p>Оценка местоположения по IP-базе, не GPS</p></div></div>
+<dl class="ip-intel-list">
+<div><dt>Страна</dt><dd id="ip-intel-country">—</dd></div>
+<div><dt>Регион</dt><dd id="ip-intel-region">—</dd></div>
+<div><dt>Город</dt><dd id="ip-intel-city">—</dd></div>
+<div><dt>Координаты</dt><dd id="ip-intel-coords">—</dd></div>
+<div><dt>Радиус точности</dt><dd id="ip-intel-accuracy">—</dd></div>
+<div><dt>Часовой пояс</dt><dd id="ip-intel-timezone">—</dd></div>
+</dl>
+<p class="tool-note">Геолокация IP приблизительна: обычно это город или область выхода провайдера / VPN. Радиус показывается только тогда, когда его сообщает база.</p>
+</article>
+</section>
+<section class="tool-detail-wrap ip-intel-map-wrap">
+<article class="tool-detail-card tool-card">
+<div class="tool-card-heading"><div><h2>Карта OpenStreetMap</h2><p>Центр оценки геолокации и её радиус точности</p></div></div>
+<div class="ip-intel-map-status" id="ip-intel-map-status">Ожидание координат…</div>
+<div id="ip-intel-map" class="ip-intel-map" aria-label="Карта примерной геолокации IP"></div>
+<div class="ip-intel-map-legend"><span class="ip-intel-map-dot"></span><span>Примерная область IP-адреса; круг показывает известный радиус погрешности.</span></div>
+</article>
+</section>
+<p class="network-privacy-note">Источники: IPWHOis для ISP и геоданных, RIPEstat RIS для BGP, IANA RDAP bootstrap для RIR и RDAP, Google Public DNS для PTR. Запросы отправляются этим внешним сервисам напрямую из браузера.</p>
+</main>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities / IP Intelligence</span><span>Network intelligence</span></footer>
+</div>
+</body></html>
