@@ -146,7 +146,7 @@ function parseDnsRows(payload) {
 function delay(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 async function dnsLeakCheck() {
   const id = await textRequest("https://bash.ws/id", 8000);
-  if (!/^[a-z0-9]{8,64}$/i.test(id)) throw new Error("The DNS test service returned an invalid test ID.");
+  if (!/^[a-z0-9-]{8,64}$/i.test(id)) throw new Error("The DNS test service returned an invalid test ID.");
   const images = [];
   for (let i = 1; i <= 12; i++) {
     const image = new Image();
@@ -212,9 +212,9 @@ function compareResults(current) {
   setRow("vpn-webrtc", rtcState, rtcText);
   const baselineDns = new Set((baseline.dns?.dns || []).map(item => item.ip));
   const unchangedDns = current.dns.dns.filter(item => baselineDns.has(item.ip));
-  const dnsState = current.dns.error ? "unknown" : (unchangedDns.length ? "warning" : "success");
+  const dnsState = current.dns.error ? "unknown" : (unchangedDns.length ? "warning" : "info");
   const dnsText = current.dns.error ? current.dns.error :
-    (current.dns.dns.length ? (unchangedDns.length ? "Сохранились DNS-резолверы из контрольного теста: " + unchangedDns.map(x => x.ip).join(", ") : "Набор обнаруженных DNS-резолверов изменился.") : "DNS-резолверы не обнаружены.");
+    (current.dns.dns.length ? (unchangedDns.length ? "Те же DNS-резолверы видны после включения VPN: " + unchangedDns.map(x => x.ip).join(", ") + ". Это повод проверить маршрут DNS, но само совпадение IP не доказывает утечку." : "Набор DNS-резолверов отличается от контрольного. Это не является самостоятельным доказательством отсутствия утечки.") : "DNS-резолверы не обнаружены.");
   setRow("vpn-dns", dnsState, dnsText);
 }
 async function run(mode) {
@@ -234,7 +234,16 @@ async function run(mode) {
       compareResults(snapshot);
       setStatus(baseline ? "Проверка завершена. Сравни предупреждения с исходным результатом." : "Проверка завершена. Сохрани результат без VPN, чтобы получить сравнение.", "success");
     }
-    if (mode === "baseline") compareResults(snapshot);
+    if (mode === "baseline") {
+      setRow("vpn-ipv4", snapshot.ips.ipv4 ? "info" : "unknown",
+        snapshot.ips.ipv4 ? "Контрольный IPv4: " + snapshot.ips.ipv4 : "IPv4 недоступен в этой сети");
+      setRow("vpn-ipv6", snapshot.ips.ipv6 ? "info" : "unknown",
+        snapshot.ips.ipv6 ? "Контрольный IPv6: " + snapshot.ips.ipv6 : "IPv6 не обнаружен; это не ошибка само по себе");
+      setRow("vpn-webrtc", snapshot.rtc.error ? "unknown" : "info",
+        snapshot.rtc.public.length ? "Контрольные WebRTC-кандидаты: " + snapshot.rtc.public.join(", ") : snapshot.rtc.error || "Публичных WebRTC-кандидатов не обнаружено");
+      setRow("vpn-dns", snapshot.dns.error ? "unknown" : "info",
+        snapshot.dns.dns.length ? "Контрольных DNS-резолверов: " + snapshot.dns.dns.length : snapshot.dns.error || "DNS-резолверы не обнаружены");
+    }
     const dnsItems = snapshot.dns.dns || [];
     $("vpn-dns-servers").hidden = !dnsItems.length;
     renderList("vpn-dns-list", dnsItems, item => [item.ip, item.asn, item.city].filter(Boolean).join(" · "));
