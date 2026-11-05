@@ -333,6 +333,7 @@ const map={
 ,"AmneziaWG 2.0 с дополнительными J/S/H параметрами. I1/CPS-подпись здесь не добавляется.":"AmneziaWG 2.0 with additional J/S/H parameters. An I1/CPS signature is not added here."
 ,"Обычный WireGuard без параметров AmneziaWG.":"Standard WireGuard without AmneziaWG parameters."
 
+,"Расчёт времени скачивания по размеру файла и скорости интернета с поддержкой Мбит/с и МБ/с.":"Estimate download time from file size and internet speed, with Mbit/s and MB/s support."
 ,"Рассчитай, сколько времени займёт скачивание файла при заданном размере и скорости соединения.":"Estimate how long a file download will take at the selected file size and connection speed."
 ,"Параметры загрузки":"Download parameters"
 ,"Укажи размер файла и скорость скачивания.":"Enter the file size and download speed."
