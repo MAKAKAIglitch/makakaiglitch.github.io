@@ -1225,7 +1225,7 @@ const SERVICES = [
     "website": "https://www.ozon.ru/",
     "probe_url": "https://www.ozon.ru/",
     "status_api_url": null,
-    "status_page_url": "https://ozon.statuspage.io/"
+    "status_page_url": null
   }
 ];
 
