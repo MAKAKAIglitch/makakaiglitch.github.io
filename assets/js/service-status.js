@@ -124,9 +124,10 @@ function renderServiceCard(service) {
   const checked = latest.checked_at ? formatDate(latest.checked_at) : "Нет измерений";
   const incidentCount = Number(service.active_incidents || 0);
   const statusSummary = latest.status_summary ? '<div class="ss-service-meta"><span>'+escapeHtml(latest.status_summary)+'</span></div>' : "";
+  const officialIndicator = ({none:"норма",minor:"minor",major:"major",critical:"critical",maintenance:"maintenance"})[latest.status_indicator] || latest.status_indicator || "unknown";
   const officialStatus = latest.status_api_available
-    ? '<div class="ss-service-official"><span>Official status API</span><strong>'+escapeHtml(latest.status_indicator || "unknown")+'</strong></div>'
-    : (service.status_page_url ? '<div class="ss-service-official is-muted"><span>Official status API</span><strong>Not available</strong></div>' : "");
+    ? '<div class="ss-service-official"><span>Официальный статус API</span><strong>'+escapeHtml(officialIndicator)+'</strong></div>'
+    : (service.status_page_url ? '<div class="ss-service-official is-muted"><span>Официальный статус API</span><strong>Недоступен</strong></div>' : "");
   return '<button class="ss-service-card" type="button" data-service="'+escapeHtml(service.id)+'" aria-label="'+escapeHtml(service.name)+': '+escapeHtml(statusLabel(status))+'">'+
     '<div class="ss-service-top"><div class="ss-service-name-wrap"><span class="ss-service-symbol">'+escapeHtml(service.symbol || service.name.slice(0,2))+'</span><span class="ss-service-name">'+escapeHtml(service.name)+'</span></div><span class="ss-status '+escapeHtml(status)+'">'+escapeHtml(statusLabel(status))+'</span></div>'+
     '<div class="ss-service-description">'+escapeHtml(service.description || "")+'</div>'+
