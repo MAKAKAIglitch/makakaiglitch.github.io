@@ -333,6 +333,31 @@ const map={
 ,"AmneziaWG 2.0 с дополнительными J/S/H параметрами. I1/CPS-подпись здесь не добавляется.":"AmneziaWG 2.0 with additional J/S/H parameters. An I1/CPS signature is not added here."
 ,"Обычный WireGuard без параметров AmneziaWG.":"Standard WireGuard without AmneziaWG parameters."
 
+,"Рассчитай, сколько времени займёт скачивание файла при заданном размере и скорости соединения.":"Estimate how long a file download will take at the selected file size and connection speed."
+,"Параметры загрузки":"Download parameters"
+,"Укажи размер файла и скорость скачивания.":"Enter the file size and download speed."
+,"Размер файла":"File size"
+,"Скорость загрузки":"Download speed"
+,"Единица размера файла":"File size unit"
+,"Единица скорости":"Speed unit"
+,"Примерное время скачивания":"Estimated download time"
+,"Скорость в байтах":"Speed in bytes"
+,"Размер в байтах":"Size in bytes"
+,"Рассчитать":"Calculate"
+,"Сбросить":"Reset"
+,"Расчёт выполняется прямо в браузере.":"The calculation runs directly in your browser."
+,"Быстрый выбор":"Quick presets"
+,"Готовые размеры файлов и скорости.":"Common file sizes and connection speeds."
+,"Скорость соединения":"Connection speed"
+,"Биты и байты — не одно и то же":"Bits and bytes are not the same"
+,"Провайдеры обычно указывают скорость в Mbit/s (Мбит/с), а браузеры и загрузчики часто показывают MB/s (МБ/с). В одном байте 8 бит, поэтому 100 Mbit/s — это максимум 12.5 MB/s до учёта накладных расходов.":"Internet providers usually advertise speeds in Mbit/s, while browsers and download clients often show MB/s. One byte contains 8 bits, so 100 Mbit/s equals a maximum of 12.5 MB/s before overhead."
+,"Расчёт полностью локальный: размер файла и скорость не отправляются на сервер. Реальное время зависит от нагрузки сети, сервера и протокольных накладных расходов.":"The calculation is fully local: file size and speed are not sent to a server. Actual time depends on network and server load and protocol overhead."
+,"Укажи корректный размер файла.":"Enter a valid file size."
+,"Скорость должна быть больше нуля.":"Speed must be greater than zero."
+,"Неизвестная единица измерения.":"Unknown measurement unit."
+,"Слишком большое значение для расчёта.":"The value is too large to calculate."
+,"Расчёт обновлён. Скорость считается постоянной.":"Estimate updated. Speed is assumed to remain constant."
+
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
@@ -343,6 +368,7 @@ const titleMap={
 "/tools/ip-check/":{ru:"IP Check — MAKAKAIglitch",en:"IP Check — MAKAKAIglitch"},
 "/tools/dns-lookup/":{ru:"DNS Lookup — MAKAKAIglitch",en:"DNS Lookup — MAKAKAIglitch"},
 "/tools/dns-tester/":{ru:"Тестер DNS-серверов — MAKAKAIglitch",en:"DNS Server Tester — MAKAKAIglitch"},
+"/tools/download-time/":{ru:"Время загрузки файла — MAKAKAIglitch",en:"Download Time Calculator — MAKAKAIglitch"},
 "/library/":{ru:"Библиотека — MAKAKAIglitch",en:"Library — MAKAKAIglitch"},
 "/library/torrent/":{ru:"Torrent — Библиотека — MAKAKAIglitch",en:"Torrent — Library — MAKAKAIglitch"},
 "/library/torrent/shares/":{ru:"Раздачи — Torrent — MAKAKAIglitch",en:"Shares — Torrent — MAKAKAIglitch"},
