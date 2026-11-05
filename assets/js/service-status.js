@@ -978,6 +978,69 @@ const CATALOG = [
     "probe_url": "https://mspbank.ru/",
     "status_api_url": null,
     "status_page_url": null
+  },
+  {
+    "id": "openstreetmap",
+    "name": "OpenStreetMap",
+    "symbol": "OSM",
+    "category": "mapping",
+    "description": "OpenStreetMap — главная карта и веб-интерфейс",
+    "website": "https://www.openstreetmap.org/",
+    "status_page_url": null
+  },
+  {
+    "id": "nominatim",
+    "name": "Nominatim",
+    "symbol": "NOM",
+    "category": "mapping",
+    "description": "Nominatim — поиск адресов и геокодирование OpenStreetMap",
+    "website": "https://nominatim.openstreetmap.org/",
+    "status_page_url": null
+  },
+  {
+    "id": "beacondb",
+    "name": "BeaconDB",
+    "symbol": "BDB",
+    "category": "mapping",
+    "description": "BeaconDB — открытая база Wi-Fi и геолокационных данных",
+    "website": "https://beacondb.net/",
+    "status_page_url": null
+  },
+  {
+    "id": "roblox",
+    "name": "Roblox",
+    "symbol": "RBX",
+    "category": "gaming",
+    "description": "Roblox — сайт и игровая платформа",
+    "website": "https://www.roblox.com/",
+    "status_page_url": "https://status.roblox.com/"
+  },
+  {
+    "id": "rockstar",
+    "name": "Rockstar Games",
+    "symbol": "RG",
+    "category": "gaming",
+    "description": "Rockstar Games — сайт, аккаунты и игровые сервисы",
+    "website": "https://www.rockstargames.com/",
+    "status_page_url": "https://support.rockstargames.com/servicestatus"
+  },
+  {
+    "id": "wildberries",
+    "name": "Wildberries",
+    "symbol": "WB",
+    "category": "commerce",
+    "description": "Wildberries — маркетплейс и веб-магазин",
+    "website": "https://www.wildberries.ru/",
+    "status_page_url": null
+  },
+  {
+    "id": "ozon_marketplace",
+    "name": "Ozon",
+    "symbol": "OZ",
+    "category": "commerce",
+    "description": "Ozon — маркетплейс и веб-магазин",
+    "website": "https://www.ozon.ru/",
+    "status_page_url": "https://ozon.statuspage.io/"
   }
 ];
 
@@ -1033,7 +1096,7 @@ function setConnection(message, kind="") {
   $("#ss-live-label").textContent = kind==="ok" ? "Worker API подключён" : kind==="error" ? "Ошибка подключения API" : "Мониторинг ожидает подключения API";
 }
 function categoryLabel(category) {
-  return ({platform:"Платформы",infrastructure:"Инфраструктура",communication:"Связь",media:"Медиа",development:"Разработка",search:"Поисковики",ai:"ИИ-сервисы",russian:"Российские сервисы",finance:"Банки и платежи"})[category] || "Сервис";
+  return ({platform:"Платформы",infrastructure:"Инфраструктура",communication:"Связь",media:"Медиа",development:"Разработка",search:"Поисковики",ai:"ИИ-сервисы",russian:"Российские сервисы",finance:"Банки и платежи",mapping:"Карты и геоданные",gaming:"Игры и игровые сервисы",commerce:"Магазины и маркетплейсы"})[category] || "Сервис";
 }
 function statusLabel(status) {
   return ({operational:"Работает",degraded:"Нестабильно",outage:"Сбой",maintenance:"Техработы",unknown:"Нет данных"})[status] || "Нет данных";
