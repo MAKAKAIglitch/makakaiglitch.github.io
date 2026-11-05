@@ -12,7 +12,6 @@ on:
     types: [completed]
 
 permissions:
-  actions: write
   contents: read
   pages: write
   id-token: write
@@ -60,25 +59,12 @@ jobs:
         with:
           path: .
 
-      - name: Force-cancel the orphaned Pages deployment
+      - name: Cancel the orphaned GitHub Pages deployment
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api --method POST "repos/${GITHUB_REPOSITORY}/actions/runs/42087198056/force-cancel" || true
-          for attempt in $(seq 1 12); do
-            status=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/42087198056" --jq .status)
-            if [ "$status" = "completed" ]; then
-              echo "The orphaned Pages workflow run is completed."
-              break
-            fi
-            echo "Waiting for orphaned Pages run to stop (attempt $attempt/12; status=$status)."
-            sleep 5
-          done
-          if [ "$status" != "completed" ]; then
-            echo "::error::The old Pages deployment is still active; refusing to start another deployment."
-            exit 1
-          fi
-
+          gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/deployments/c1f5e3542a0afa6d35c192be5b5e271150ac02e4/cancel"
+          echo "Cancelled the stale GitHub Pages deployment."
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5.0.1
