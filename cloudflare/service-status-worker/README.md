@@ -7,7 +7,7 @@
 ## Active GitHub Actions architecture
 
 - The scheduled workflow is `.github/workflows/deploy.yml`; it runs the monitor at a five-minute cadence and publishes the site with GitHub Pages.
-- The shared 111-service catalog lives in `data/service-status-catalog.json`.
+- The shared 107-service catalog lives in `data/service-status-catalog.json`.
 - `scripts/service_status_monitor.py` performs direct HTTPS GET checks and reads configured public Status API feeds.
 - `data/service-status.json` contains the current service states and incidents.
 - `data/service-status/history/<service-id>.json` contains history for an individual service. The frontend lazy-loads only the chart selected by the visitor.
@@ -34,7 +34,7 @@ The fixed catalog contains **107 monitored endpoints**:
 - Banks and payments: 26 major and regional Russian bank websites (Sber, VTB, T-Bank, Alfa-Bank, Gazprombank, Sovcombank, PSB, Rosselkhozbank, MKB, MTS Bank, DOM.RF, Zenit, Ak Bars, Bank Saint Petersburg, Uralsib, Modulbank, Absolut, BCS, UBRR, Bank Rossiya, UniCredit, Avers, Chelindbank, Ozon Bank, Tochka and MSP Bank) plus Mir and SBP.
 - Cloud, CDN and hosting: AWS, Google Cloud, Azure, Yandex Cloud, VK Cloud, Cloud.ru, Selectel, MWS, Timeweb, REG.RU, Beget, Rostelecom Cloud, CDNvideo, EdgeCenter, Qrator and NGENIX.
 - Games: Roblox and Rockstar Games.
-- Marketplaces: Ozon Bank remains monitored separately; the Ozon marketplace and Wildberries are excluded because VPN/datacenter access is restricted.
+- Marketplaces: the Ozon marketplace and Wildberries are excluded because VPN/datacenter IPs are restricted. Ozon Bank remains separately monitored in the bank category.
 - Other global platforms, communications, media and development services: Telegram, YouTube, Cloudflare, GitHub, Discord, Steam Store, Steam Community, Steam Web API, NextDNS, Reddit, X, Twitch, Spotify, Wikipedia, WhatsApp and Microsoft, plus Russian telecom operator websites.
 
 This is a curated set of 26 major and regional bank websites, not the complete register. The Bank of Russia's directory, updated 2026-11-02, lists 340 credit organizations and 1,793 website addresses (including non-bank credit organizations): https://www.cbr.ru/banking_sector/credit/cowebsites/.
