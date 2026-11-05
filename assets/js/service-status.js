@@ -161,11 +161,12 @@ function populateServiceSelects() {
 }
 function renderMetrics() {
   const total = state.services.length;
-  const operational = state.services.filter(service=>service.status==="operational").length;
+  const measured = state.services.filter(service=>service.latest);
+  const operational = measured.filter(service=>service.status==="operational").length;
   const upValues = state.services.map(service=>service.uptime_24h).filter(value=>value!==null && value!==undefined && Number.isFinite(Number(value)));
   const latencyValues = state.services.map(service=>service.latest?.latency_ms).filter(value=>value!==null && value!==undefined && Number.isFinite(Number(value)));
   $("#ss-total-services").textContent = String(total);
-  $("#ss-operational").textContent = String(operational);
+  $("#ss-operational").textContent = measured.length ? String(operational) : "—";
   $("#ss-uptime").textContent = upValues.length ? (upValues.reduce((a,b)=>a+Number(b),0)/upValues.length).toFixed(2)+"%" : "—";
   $("#ss-latency").textContent = latencyValues.length ? Math.round(latencyValues.reduce((a,b)=>a+Number(b),0)/latencyValues.length)+" ms" : "—";
 }
