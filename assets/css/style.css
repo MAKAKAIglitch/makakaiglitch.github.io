@@ -51,6 +51,39 @@ button, input, select { font: inherit; }
 .ambient-one { top: 15%; left: -260px; background: #5366bd; }
 .ambient-two { right: -280px; bottom: 5%; background: #347d91; opacity: 0.12; }
 
+/* Soft cursor-following light, only on the torrent shares page */
+body.torrent-shares-page .cursor-glow {
+  position: fixed;
+  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 480px;
+  height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(116, 148, 255, 0.14) 0%,
+    rgba(96, 132, 232, 0.075) 26%,
+    rgba(76, 112, 202, 0.035) 48%,
+    transparent 72%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transform: translate3d(-1000px, -1000px, 0) translate(-50%, -50%);
+  transition: opacity 700ms ease;
+  will-change: transform, opacity;
+  mix-blend-mode: screen;
+}
+body.torrent-shares-page .cursor-glow.is-visible {
+  opacity: 0.9;
+}
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  body.torrent-shares-page .cursor-glow {
+    display: none;
+    transition: none;
+  }
+}
+
 /* Slow ambient light movement on the torrent shares page */
 @keyframes shares-light-drift-one {
   0% { transform: translate3d(0, 0, 0) scale(1); }
