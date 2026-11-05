@@ -684,7 +684,7 @@ const map={
 "Оригинальные файлы загружаются из Flowseal при выборе стратегии. Сохраняются исходные параметры выбранного .bat.":"Original files are loaded from Flowseal when a strategy is selected. The chosen .bat parameters are preserved.",
 "Например: ALT, FAKE TLS, SIMPLE FAKE...":"For example: ALT, FAKE TLS, SIMPLE FAKE...",
 "22 оригинальных конфигурации":"22 original configurations",
-"22 оригинальных профиля Flowseal для zapret 1, отдельный режим zapret 2 и дополнительные порты WARP.":"22 original Flowseal profiles for zapret 1, a separate zapret 2 mode and additional WARP ports."
+"22 оригинальных профиля Flowseal для zapret 1, отдельный режим zapret 2 и дополнительные порты WARP.":"22 original Flowseal profiles for zapret 1, a separate zapret 2 mode and additional WARP ports.",
 "BAT · Оригинальный Flowseal / winws.exe":"BAT · Original Flowseal / winws.exe",
 "Сохрани BAT в корневую папку Flowseal, рядом с service.bat. Проверь, что все перечисленные bin-файлы есть в твоей установленной сборке. Оригинальный general.bat не заменяется.":"Save the BAT in the Flowseal root folder next to service.bat. Check that all listed bin files exist in your installed build. The original general.bat is not replaced.",
 "Оригинальные файлы загружаются из Flowseal при выборе стратегии. Сохраняются исходные параметры выбранного .bat.":"Original files are loaded from Flowseal when a strategy is selected. The chosen .bat parameters are preserved.",
