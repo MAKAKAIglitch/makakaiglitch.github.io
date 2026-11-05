@@ -392,17 +392,6 @@ const SERVICES = [
     "status_page_url": null
   },
   {
-    "id": "yandex_mail",
-    "name": "Яндекс Почта",
-    "category": "russian",
-    "symbol": "YM",
-    "description": "Почтовый сервис Яндекса",
-    "website": "https://mail.yandex.ru/",
-    "probe_url": "https://mail.yandex.ru/",
-    "status_api_url": null,
-    "status_page_url": null
-  },
-  {
     "id": "yandex_disk",
     "name": "Яндекс Диск",
     "category": "russian",
@@ -465,17 +454,6 @@ const SERVICES = [
     "description": "Социальная сеть Одноклассники",
     "website": "https://ok.ru/",
     "probe_url": "https://ok.ru/",
-    "status_api_url": null,
-    "status_page_url": null
-  },
-  {
-    "id": "max",
-    "name": "MAX",
-    "category": "russian",
-    "symbol": "MX",
-    "description": "Мессенджер MAX",
-    "website": "https://max.ru/",
-    "probe_url": "https://max.ru/",
     "status_api_url": null,
     "status_page_url": null
   },
@@ -1204,28 +1182,6 @@ const SERVICES = [
     "probe_url": "https://www.rockstargames.com/",
     "status_api_url": null,
     "status_page_url": "https://support.rockstargames.com/servicestatus"
-  },
-  {
-    "id": "wildberries",
-    "name": "Wildberries",
-    "symbol": "WB",
-    "category": "commerce",
-    "description": "Wildberries — маркетплейс и веб-магазин",
-    "website": "https://www.wildberries.ru/",
-    "probe_url": "https://www.wildberries.ru/",
-    "status_api_url": null,
-    "status_page_url": null
-  },
-  {
-    "id": "ozon_marketplace",
-    "name": "Ozon",
-    "symbol": "OZ",
-    "category": "commerce",
-    "description": "Ozon — маркетплейс и веб-магазин",
-    "website": "https://www.ozon.ru/",
-    "probe_url": "https://www.ozon.ru/",
-    "status_api_url": null,
-    "status_page_url": null
   }
 ];
 
