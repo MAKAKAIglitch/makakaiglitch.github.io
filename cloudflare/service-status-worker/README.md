@@ -56,16 +56,16 @@ The Worker does not accept arbitrary probe URLs, so it cannot be used as an open
 
 ## Cloudflare Free plan-aware scheduling
 
-A single Worker invocation is limited to 50 external subrequests on the Workers Free plan. The 111 endpoints are therefore divided into three stable groups of 37 services each. Each group runs every five minutes, staggered one minute apart:
+A single Worker invocation is limited to 50 external subrequests on the Workers Free plan. The 107 endpoints are therefore divided into three stable groups of 36, 36 and 35 services. Each group runs every five minutes, staggered one minute apart:
 
 - `*/5 * * * *` — group 0
 - `1-59/5 * * * *` — group 1
 - `2-59/5 * * * *` — group 2
 - `57 3 * * *` — daily history compaction and retention cleanup
 
-A service is still checked every five minutes. Each batch uses at most 37 direct probes plus up to seven official Status API requests, remaining below the 50-subrequest Free-plan ceiling. The Worker limits concurrent outgoing connections to six.
+A service is still checked every five minutes. Each batch uses at most 36 direct probes plus up to seven official Status API requests, remaining below the 50-subrequest Free-plan ceiling. The Worker limits concurrent outgoing connections to six.
 
-With 111 services and a five-minute interval, the system performs up to 31,968 HTTP probes/day. The D1 writes include one probe row and one service-state upsert per service/check (about 63,936 row writes/day, excluding rare incident changes and daily rollups). Cloudflare plan limits can change; check your account's Workers and D1 usage.
+With 107 services and a five-minute interval, the system performs up to 30,816 HTTP probes/day. The D1 writes include one probe row and one service-state upsert per service/check (about 61,632 row writes/day, excluding rare incident changes and daily rollups). Cloudflare plan limits can change; check your account's Workers and D1 usage.
 
 ## History and storage
 
