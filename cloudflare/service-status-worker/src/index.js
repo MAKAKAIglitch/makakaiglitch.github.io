@@ -156,7 +156,11 @@ async function runScheduledChecks(env, scheduledTime) {
   ).all();
   const oldStates = new Map((stateResult.results || []).map(row=>[row.service_id,row]));
   const results = await mapLimit(SERVICES,MAX_CONCURRENT_SERVICES,checkService);
-  const statements = [];
+
+  const probeRows = [];
+  const stateRows = [];
+  const incidentsToOpen = [];
+  const incidentsToClose = [];
 
   for (const result of results) {
     const serviceId = result.service.id;
@@ -174,26 +178,57 @@ async function runScheduledChecks(env, scheduledTime) {
       const message = result.errorCode
         ? "Проверочный endpoint не ответил: " + result.errorCode
         : (result.statusSummary || (result.health === "maintenance" ? "Официальная status page сообщает о технических работах." : "Состояние сервиса отличается от нормального."));
-      statements.push(env.DB.prepare(
-        "INSERT INTO incidents (id, service_id, started_at, ended_at, severity, message, source) VALUES (?, ?, ?, NULL, ?, ?, ?)"
-      ).bind(incidentId,serviceId,checkedAt,severity,cleanText(message,400),result.statusApiAvailable ? "probe+status_api" : "http_probe"));
+      incidentsToOpen.push([
+        incidentId,serviceId,checkedAt,severity,cleanText(message,400),
+        result.statusApiAvailable ? "probe+status_api" : "http_probe"
+      ]);
     } else if (!isBad && incidentId && nextGood >= 2) {
-      statements.push(env.DB.prepare(
-        "UPDATE incidents SET ended_at = ? WHERE id = ? AND ended_at IS NULL"
-      ).bind(checkedAt,incidentId));
+      incidentsToClose.push(incidentId);
       incidentId = null;
     }
 
-    statements.push(env.DB.prepare(
-      "INSERT INTO probe_results (service_id, checked_at, latency_ms, up, http_status, error_code, health_status, status_indicator, status_summary, status_api_available) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-    ).bind(
-      serviceId,checkedAt,result.latencyMs,result.up ? 1 : 0,result.httpStatus,result.errorCode,
-      result.health,result.statusIndicator,result.statusSummary,result.statusApiAvailable ? 1 : 0
-    ));
+    probeRows.push([
+      serviceId,checkedAt,result.latencyMs,result.up ? 1 : 0,result.httpStatus,
+      result.errorCode,result.health,result.statusIndicator,result.statusSummary,
+      result.statusApiAvailable ? 1 : 0
+    ]);
+    stateRows.push([serviceId,nextBad,nextGood,incidentId,result.health,checkedAt]);
+  }
 
+  const statements = [];
+  // D1 allows at most 100 bound parameters per statement. Keep each
+  // multi-row probe insert at 8 rows (80 parameters).
+  for (let offset=0; offset<probeRows.length; offset+=8) {
+    const chunk=probeRows.slice(offset,offset+8);
+    const values=chunk.map(()=>"(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").join(", ");
     statements.push(env.DB.prepare(
-      "INSERT INTO service_state (service_id, consecutive_bad, consecutive_good, current_incident_id, last_status, updated_at) VALUES (?, ?, ?, ?, ?, ?) ON CONFLICT(service_id) DO UPDATE SET consecutive_bad=excluded.consecutive_bad, consecutive_good=excluded.consecutive_good, current_incident_id=excluded.current_incident_id, last_status=excluded.last_status, updated_at=excluded.updated_at"
-    ).bind(serviceId,nextBad,nextGood,incidentId,result.health,checkedAt));
+      "INSERT INTO probe_results (service_id, checked_at, latency_ms, up, http_status, error_code, health_status, status_indicator, status_summary, status_api_available) VALUES " + values
+    ).bind(...chunk.flat()));
+  }
+
+  if (stateRows.length) {
+    const values=stateRows.map(()=>"(?, ?, ?, ?, ?, ?)").join(", ");
+    statements.push(env.DB.prepare(
+      "INSERT INTO service_state (service_id, consecutive_bad, consecutive_good, current_incident_id, last_status, updated_at) VALUES " + values +
+      " ON CONFLICT(service_id) DO UPDATE SET consecutive_bad=excluded.consecutive_bad, consecutive_good=excluded.consecutive_good, current_incident_id=excluded.current_incident_id, last_status=excluded.last_status, updated_at=excluded.updated_at"
+    ).bind(...stateRows.flat()));
+  }
+
+  // Incident rows have 6 bound values (ended_at is SQL NULL). Limit each
+  // insert to 14 rows to stay below D1's 100-parameter statement ceiling.
+  for (let offset=0; offset<incidentsToOpen.length; offset+=14) {
+    const chunk=incidentsToOpen.slice(offset,offset+14);
+    const values=chunk.map(()=>"(?, ?, ?, NULL, ?, ?, ?)").join(", ");
+    statements.push(env.DB.prepare(
+      "INSERT INTO incidents (id, service_id, started_at, ended_at, severity, message, source) VALUES " + values
+    ).bind(...chunk.flat()));
+  }
+
+  if (incidentsToClose.length) {
+    const placeholders=incidentsToClose.map(()=>"?").join(", ");
+    statements.push(env.DB.prepare(
+      "UPDATE incidents SET ended_at = ? WHERE ended_at IS NULL AND id IN (" + placeholders + ")"
+    ).bind(checkedAt,...incidentsToClose));
   }
 
   if (statements.length) await env.DB.batch(statements);
@@ -203,10 +238,11 @@ async function runScheduledChecks(env, scheduledTime) {
     checked_at:checkedAt,
     services:results.length,
     available:results.filter(item=>item.up).length,
-    incidents_opened:statements.length
+    incidents_opened:incidentsToOpen.length,
+    incidents_closed:incidentsToClose.length,
+    d1_statements:statements.length
   }));
 }
-
 async function cleanupOldData(env, nowSeconds=Math.floor(Date.now()/1000)) {
   if (!env.DB) throw new Error("Missing D1 binding: DB");
   const cutoff = nowSeconds - RETENTION_DAYS*86400;
