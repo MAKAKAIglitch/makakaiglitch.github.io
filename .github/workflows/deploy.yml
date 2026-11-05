@@ -59,12 +59,30 @@ jobs:
         with:
           path: .
 
-      - name: Cancel the orphaned GitHub Pages deployment
+      - name: Cancel and verify the orphaned GitHub Pages deployment
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/deployments/c1f5e3542a0afa6d35c192be5b5e271150ac02e4/cancel"
-          echo "Cancelled the stale GitHub Pages deployment."
+          deployment="repos/${GITHUB_REPOSITORY}/pages/deployments/c1f5e3542a0afa6d35c192be5b5e271150ac02e4"
+          gh api --method POST "${deployment}/cancel"
+          for attempt in $(seq 1 12); do
+            status=$(gh api "${deployment}" --jq .status)
+            echo "Old Pages deployment status: ${status} (attempt ${attempt}/12)."
+            case "${status}" in
+              in_progress|deploying|building|queued|pending)
+                sleep 5
+                ;;
+              *)
+                break
+                ;;
+            esac
+          done
+          case "${status}" in
+            in_progress|deploying|building|queued|pending)
+              echo "::error::The old Pages deployment is still active; refusing to create a second deployment."
+              exit 1
+              ;;
+          esac
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5.0.1
