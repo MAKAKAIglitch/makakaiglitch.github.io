@@ -257,7 +257,7 @@ const SERVICES = [
     "website": "https://gemini.google.com/",
     "probe_url": "https://gemini.google.com/",
     "status_api_url": null,
-    "status_page_url": "https://status.cloud.google.com/"
+    "status_page_url": null
   },
   {
     "id": "xai",
@@ -323,7 +323,7 @@ const SERVICES = [
     "website": "https://groq.com/",
     "probe_url": "https://groq.com/",
     "status_api_url": null,
-    "status_page_url": "https://groqstatus.com/"
+    "status_page_url": null
   },
   {
     "id": "huggingface",
@@ -356,7 +356,7 @@ const SERVICES = [
     "website": "https://cursor.com/",
     "probe_url": "https://cursor.com/",
     "status_api_url": null,
-    "status_page_url": "https://status.cursor.com/"
+    "status_page_url": null
   },
   {
     "id": "gigachat",
