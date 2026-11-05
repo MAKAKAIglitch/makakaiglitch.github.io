@@ -49,7 +49,7 @@ USER_AGENT = (
 PAGES_BASE_URL = os.environ.get(
     "SERVICE_STATUS_PAGES_URL", "https://makakaiglitch.github.io"
 ).rstrip("/")
-SNAPSHOT_URL = f"{PAGES_BASE_URL}/data/service-status.json"
+SNAPSHOT_URL = f"{PAGES_BASE_URL}/data/service-status-state.json"
 
 
 def clean_text(value: Any, limit: int = 240) -> str | None:
@@ -555,7 +555,7 @@ def main() -> int:
             json.dumps(
                 {"service_id": service_id, "generated_at": snapshot["generated_at"], "history": ranges},
                 separators=(",", ":"),
-            ) + "\\n",
+            ) + "\n",
             encoding="utf-8",
         )
         history_temp.replace(history_path)
