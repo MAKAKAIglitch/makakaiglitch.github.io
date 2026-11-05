@@ -362,11 +362,11 @@
       profile.disabled = false;
       groups.forEach(group => {
         const optgroup = document.createElement("optgroup");
-        optgroup.label = group.name;
+        optgroup.label = t(group.name);
         group.entries.forEach(entry => {
           const option = document.createElement("option");
           option.value = entry.file;
-          option.textContent = entry.label + (entry.warning ? " ⚠" : "");
+          option.textContent = t(entry.label) + (entry.warning ? " ⚠" : "");
           optgroup.appendChild(option);
         });
         profile.appendChild(optgroup);
@@ -436,7 +436,7 @@
         if (!entry) throw new Error("Выбери оригинальную стратегию Flowseal.");
         status.textContent = t("Загружаю оригинальную стратегию Flowseal…");
         status.dataset.state = "loading";
-        setProfileInfo(entry.warning || t("Загружаю оригинальный файл ") + entry.file + "…");
+        setProfileInfo(entry.warning ? t(entry.warning) : t("Загружаю оригинальный файл ") + entry.file + "…");
         $("zapret-source-link").href = flowsealProfileUrl(entry);
         const template = await loadFlowsealProfile(entry);
         if (request !== renderRequest) return false;
@@ -449,7 +449,7 @@
           : t("В исходном профиле не обнаружены зависимости .bin.");
         $("zapret-profile-dependencies").textContent = depText;
         setProfileInfo(entry.warning
-          ? entry.warning + " " + t("Оригинальные параметры сохранены; WARP-порты добавлены отдельно.")
+          ? t(entry.warning) + " " + t("Оригинальные параметры сохранены; WARP-порты добавлены отдельно.")
           : t("Загружен оригинальный ") + entry.file + t(". Его параметры и порядок правил сохранены; добавлены только выбранные фильтры портов."));
         $("zapret-profile-info").dataset.state = entry.warning ? "warning" : "info";
         outputType.textContent = t("BAT · Оригинальный Flowseal / winws.exe");
