@@ -192,7 +192,7 @@ function render(ip,data) {
   const asns = data.bgp?.asns || [];
   setField("ip-intel-address",ip);
   setField("ip-intel-asn",asn || (asns.length ? "AS" + asns.join(", AS") : ""));
-  setField("ip-intel-asn-org",conn.asn_org);
+  setField("ip-intel-asn-org",conn.asn_org || conn.org);
   setField("ip-intel-isp",conn.isp);
   setField("ip-intel-org",conn.org);
   setField("ip-intel-prefix",data.bgp?.prefix || (data.bgpError ? "Недоступно" : "Не найден в BGP"));
@@ -209,7 +209,8 @@ function render(ip,data) {
   setField("ip-intel-country",[geo.flag?.flag_Icon,geo.flag?.emoji,geo.country].filter(Boolean).filter((value,index,array)=>array.indexOf(value)===index).join(" "));
   setField("ip-intel-region",geo.region);
   setField("ip-intel-city",geo.city);
-  setField("ip-intel-coords",Number.isFinite(Number(geo.latitude)) && Number.isFinite(Number(geo.longitude)) ? Number(geo.latitude).toFixed(4) + ", " + Number(geo.longitude).toFixed(4) : "");
+  const hasGeoCoordinates = geo.latitude !== null && geo.latitude !== undefined && geo.latitude !== "" && geo.longitude !== null && geo.longitude !== undefined && geo.longitude !== "" && Number.isFinite(Number(geo.latitude)) && Number.isFinite(Number(geo.longitude));
+  setField("ip-intel-coords",hasGeoCoordinates ? Number(geo.latitude).toFixed(4) + ", " + Number(geo.longitude).toFixed(4) : "");
   setField("ip-intel-accuracy",Number.isFinite(Number(geo.accuracy_radius)) && geo.accuracy_radius !== null && Number(geo.accuracy_radius) > 0 ? "±" + geo.accuracy_radius + " km" : (data.geo ? "Источник не публикует радиус точности" : ""));
   setField("ip-intel-timezone",timeZone);
   updateMap(data.geo);
