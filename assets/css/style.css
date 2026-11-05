@@ -1292,6 +1292,24 @@ kbd {
 .share-refresh-label[data-state="pending"] { color: #d0b27d; }
 .share-grid { align-items: stretch; }
 .share-card { align-items: flex-start; }
+.share-card-tags {
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+  min-width: 0;
+}
+.share-demand-high {
+  color: #d9b77d;
+  border-color: rgba(217, 183, 125, 0.22);
+  background: rgba(217, 183, 125, 0.07);
+}
+.share-demand-medium {
+  color: #9eb8df;
+  border-color: rgba(158, 184, 223, 0.2);
+  background: rgba(158, 184, 223, 0.06);
+}
 .share-stats {
   display: flex;
   flex-wrap: wrap;
