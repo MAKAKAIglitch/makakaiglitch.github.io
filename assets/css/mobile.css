@@ -1,0 +1,582 @@
+/* Mobile layout layer.
+   Loaded after style.css and intentionally limited to narrow viewports.
+   Desktop rules are untouched. */
+@media (max-width: 720px) {
+  html {
+    scroll-padding-top: 118px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-width: 320px;
+    overflow-x: hidden;
+  }
+
+  .site-shell {
+    width: calc(100% - 24px);
+    max-width: 640px;
+  }
+
+  /* Two-row header: identity/actions above, navigation below. */
+  .topbar {
+    position: sticky;
+    top: max(8px, env(safe-area-inset-top));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand actions"
+      "nav nav";
+    align-items: center;
+    gap: 8px 10px;
+    min-height: 0;
+    margin-top: 8px;
+    padding: 9px 10px 8px;
+    border-radius: 15px;
+  }
+
+  .brand {
+    grid-area: brand;
+    min-width: 0;
+    gap: 8px;
+  }
+
+  .brand-mark {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+  }
+
+  .brand-name {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .main-nav {
+    grid-area: nav;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 100%;
+    min-width: 0;
+    gap: 5px;
+    padding: 4px;
+    border: 1px solid rgba(220, 230, 255, 0.07);
+    border-radius: 11px;
+    background: rgba(5, 9, 15, 0.24);
+  }
+
+  .nav-link {
+    display: inline-flex;
+    width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 5px;
+    border-radius: 8px;
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .nav-link svg {
+    width: 15px;
+    height: 15px;
+    flex: 0 0 15px;
+  }
+
+  .topbar-actions,
+  .topbar > .github-link {
+    grid-area: actions;
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-self: end;
+    gap: 7px;
+  }
+
+  .topbar-actions .github-link {
+    justify-self: auto;
+    gap: 4px;
+    font-size: 10px;
+  }
+
+  .github-link {
+    font-size: 10px;
+    white-space: nowrap;
+  }
+
+  .github-link svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  .global-search-trigger {
+    display: inline-grid;
+    width: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    place-items: center;
+    padding: 0;
+    border-radius: 10px;
+  }
+
+  .global-search-trigger svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .global-search-trigger kbd,
+  .global-search-trigger .global-search-label {
+    display: none;
+  }
+
+  .language-switcher {
+    margin: 0;
+  }
+
+  .language-select {
+    min-width: 43px;
+    min-height: 38px;
+    padding: 0 5px;
+    font-size: 10px;
+  }
+
+  .main-content {
+    width: 100%;
+    padding: 43px 0 48px;
+  }
+
+  .intro {
+    margin-bottom: 25px;
+  }
+
+  .intro h1 {
+    font-size: clamp(27px, 8vw, 38px);
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+  }
+
+  .intro p {
+    max-width: 100%;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+    font-size: 9px;
+  }
+
+  .toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-box {
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+  }
+
+  .sort-control {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .sort-control select {
+    min-width: 0;
+    max-width: none;
+    flex: 1;
+    min-height: 40px;
+  }
+
+  .repository-grid,
+  .utilities-grid,
+  .tools-grid,
+  .network-tool-grid,
+  .download-time-grid,
+  .dns-server-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .repo-card {
+    padding: 15px 14px 13px;
+  }
+
+  .repo-card-top,
+  .repo-detail-header,
+  .repo-modal-header {
+    min-width: 0;
+    align-items: flex-start;
+    gap: 9px;
+  }
+
+  .repo-name,
+  .repo-description,
+  .repo-detail-row dd,
+  .repo-release-asset,
+  .utility-card-description {
+    overflow-wrap: anywhere;
+  }
+
+  .repo-meta {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+  }
+
+  .repo-card-actions,
+  .library-actions,
+  .tool-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .repo-release-link,
+  .tool-button,
+  .retry-button,
+  .library-action {
+    min-height: 40px;
+    font-size: 10px;
+  }
+
+  .utility-card {
+    min-width: 0;
+    gap: 11px;
+    padding: 14px;
+  }
+
+  .utility-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+  }
+
+  .utility-card-main {
+    min-width: 0;
+  }
+
+  .utility-card-top {
+    gap: 8px;
+  }
+
+  .utility-card-top strong {
+    overflow-wrap: anywhere;
+  }
+
+  .tool-detail-wrap,
+  .tool-page-main,
+  .dns-tester-card {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .tool-detail-card,
+  .tool-card {
+    min-width: 0;
+    padding: 15px;
+  }
+
+  .tool-detail-card .tool-card-heading {
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tool-field-label {
+    margin-top: 14px;
+    font-size: 11px;
+  }
+
+  /* 16px prevents automatic input zoom on iOS Safari. */
+  .tool-input,
+  .tool-textarea,
+  .global-search-input,
+  .sort-control select {
+    font-size: 16px;
+  }
+
+  .tool-input {
+    min-height: 44px;
+  }
+
+  .tool-textarea {
+    min-height: 130px;
+  }
+
+  .tool-actions > button {
+    flex: 1 1 auto;
+  }
+
+  .utility-tabs,
+  .dns-protocol-tabs,
+  .library-tracker-tabs {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    flex-wrap: nowrap;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .utility-tab,
+  .dns-protocol-tab {
+    min-height: 38px;
+    flex: 0 0 auto;
+    white-space: nowrap;
+  }
+
+  .dns-query-fields {
+    grid-template-columns: minmax(0, 1fr) 112px;
+    gap: 8px;
+  }
+
+  .dns-server-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .download-field-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+
+  .download-input-row {
+    grid-template-columns: minmax(0, 1fr) 112px;
+  }
+
+  .download-result {
+    padding: 15px;
+  }
+
+  .download-result > strong {
+    font-size: clamp(25px, 7vw, 34px);
+  }
+
+  .download-result-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .share-sort-row {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 9px;
+  }
+
+  .share-sort-row .sort-control {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .share-refresh-label {
+    text-align: left;
+  }
+
+  .share-stats {
+    gap: 8px 11px;
+  }
+
+  .library-panel-heading,
+  .magnet-result-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .magnet-warning {
+    padding: 12px;
+    line-height: 1.65;
+  }
+
+  .warp-quick-head {
+    gap: 10px;
+  }
+
+  .warp-quick-mark {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+  }
+
+  .warp-auto-settings,
+  .warp-auto-toggles,
+  .warp-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .warp-panel,
+  .warp-manual-details .warp-workspace {
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .warp-setting-help {
+    min-height: 0;
+  }
+
+  .warp-output,
+  .library-preview,
+  pre {
+    max-width: 100%;
+    overflow: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .repo-detail-modal {
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top));
+    padding: 15px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .repo-detail-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .repo-detail-list {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .global-search-overlay {
+    align-items: flex-start;
+    padding: max(10px, env(safe-area-inset-top)) 10px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .global-search-dialog {
+    width: 100%;
+    max-height: calc(100dvh - 20px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    border-radius: 14px;
+  }
+
+  .global-search-head {
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .global-search-input {
+    min-width: 0;
+    min-height: 42px;
+  }
+
+  .global-search-results {
+    max-height: 65dvh;
+    overscroll-behavior: contain;
+  }
+
+  .footer {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: calc(20px + env(safe-area-inset-bottom));
+    overflow-wrap: anywhere;
+  }
+
+  button,
+  a,
+  select,
+  input {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (max-width: 420px) {
+  .site-shell {
+    width: calc(100% - 20px);
+  }
+
+  .topbar {
+    gap: 7px 6px;
+    padding: 8px;
+  }
+
+  .brand-name {
+    font-size: 10px;
+  }
+
+  .topbar-actions,
+  .topbar > .github-link {
+    gap: 5px;
+  }
+
+  .nav-link {
+    gap: 4px;
+    padding: 0 3px;
+    font-size: 9px;
+  }
+
+  .nav-link svg {
+    width: 14px;
+    height: 14px;
+    flex-basis: 14px;
+  }
+
+  .intro h1 {
+    font-size: clamp(25px, 8vw, 32px);
+  }
+
+  .tool-card,
+  .tool-detail-card {
+    padding: 13px;
+  }
+
+  .download-input-row {
+    grid-template-columns: minmax(0, 1fr) 100px;
+  }
+
+  .download-result-details {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .repo-detail-stats {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 360px) {
+  .brand-name {
+    display: none;
+  }
+
+  .global-search-trigger {
+    width: 36px;
+    min-width: 36px;
+    min-height: 36px;
+  }
+
+  .language-select {
+    min-width: 40px;
+    min-height: 36px;
+  }
+
+  .nav-link {
+    gap: 3px;
+    font-size: 8px;
+  }
+
+  .nav-link svg {
+    width: 13px;
+    height: 13px;
+    flex-basis: 13px;
+  }
+
+  .repo-card-actions .repo-release-link {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .utility-card,
+  .repo-card,
+  .nav-link,
+  .tool-button,
+  .download-preset {
+    scroll-behavior: auto;
+    transition: none !important;
+  }
+}
