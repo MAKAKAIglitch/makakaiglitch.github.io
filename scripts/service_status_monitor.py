@@ -25,7 +25,7 @@ from urllib.parse import urlencode, urlsplit
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
-WORKER_SOURCE = ROOT / "cloudflare" / "service-status-worker" / "src" / "index.js"
+CATALOG_PATH = ROOT / "data" / "service-status-catalog.json"
 OUTPUT_PATH = ROOT / "data" / "service-status.json"
 
 INTERVAL_SECONDS = 300
@@ -59,13 +59,7 @@ def clean_text(value: Any, limit: int = 240) -> str | None:
 
 
 def load_catalog() -> list[dict[str, Any]]:
-    source = WORKER_SOURCE.read_text(encoding="utf-8")
-    marker = "const SERVICES = ["
-    start = source.find(marker)
-    if start < 0:
-        raise RuntimeError(f"Could not find {marker!r} in {WORKER_SOURCE}")
-    payload = source[start + len("const SERVICES = "):].lstrip()
-    catalog, _ = json.JSONDecoder().raw_decode(payload)
+    catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
     if not isinstance(catalog, list) or not catalog:
         raise RuntimeError("The service catalog is empty or invalid.")
     ids = [item.get("id") for item in catalog]
@@ -86,7 +80,6 @@ def load_catalog() -> list[dict[str, Any]]:
                     f"Service {item['id']} has an invalid HTTPS status_api_url."
                 )
     return catalog
-
 
 def open_request(url: str, timeout: int, accept: str):
     request = Request(
