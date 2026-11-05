@@ -9,6 +9,7 @@ containing monitoring data are required.
 from __future__ import annotations
 
 import argparse
+import gzip
 import json
 import math
 import os
@@ -225,12 +226,15 @@ def load_previous_snapshot() -> dict[str, Any]:
             "Cache-Control": "no-cache, no-store",
             "Pragma": "no-cache",
             "User-Agent": USER_AGENT,
+            "Accept-Encoding": "gzip",
         },
         method="GET",
     )
     try:
         with urlopen(request, timeout=20) as response:
             raw = response.read(MAX_SNAPSHOT_BYTES + 1)
+            if response.headers.get("Content-Encoding", "").lower() == "gzip":
+                raw = gzip.decompress(raw)
         if len(raw) > MAX_SNAPSHOT_BYTES:
             raise RuntimeError("The previously published snapshot is too large.")
         data = json.loads(raw.decode("utf-8"))
