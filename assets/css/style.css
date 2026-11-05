@@ -1991,3 +1991,6 @@ body.modal-open{overflow:hidden}
   .zapret-output-meta { align-items: flex-start; flex-direction: column; }
   .zapret-output-text { min-height: 290px; }
 }
+
+.zapret-warp-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 10px; }
+.zapret-warp-actions .tool-button { min-height: 30px; padding: 0 10px; font-size: 9px; }
