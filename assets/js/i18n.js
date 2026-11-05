@@ -550,10 +550,18 @@ function detect(){
 }
 let lang=detect();
 function translateString(value){
- let result=String(value);
+ // Preserve proper brand names: the RU dictionary entry "Открыть" must not
+ // rewrite the "Open" prefix inside "OpenStreetMap".
+ const brandTokens=[];
+ let result=String(value).replace(/OpenStreetMap/g,()=>{
+  const token="\uE000OSM"+brandTokens.length+"\uE001";
+  brandTokens.push(token);
+  return token;
+ });
  const pairs=lang===EN?Object.entries(map):Object.entries(reverse);
  pairs.sort((a,b)=>b[0].length-a[0].length);
  for(const [from,to] of pairs)if(from)result=result.split(from).join(to);
+ brandTokens.forEach((token,index)=>{result=result.split(token).join("OpenStreetMap");});
  return result;
 }
 function t(value){return translateString(value);}
