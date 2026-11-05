@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/assets/css/service-status.css?v=20261105-v5">
 <script src="/assets/js/global-search.js?v=20261105-global-ambient" defer></script>
 <script src="/assets/js/i18n.js?v=20261105-service-status-v5" defer></script>
-<script src="/assets/js/service-status.js?v=20261105-v5" defer></script>
+<script src="/assets/js/service-status.js?v=20261105-github-actions-v1" defer></script>
 </head>
 <body>
 <div class="ambient ambient-one" aria-hidden="true"></div>
@@ -35,13 +35,13 @@
 
 <section class="ss-panel ss-top-panel" aria-label="Состояние мониторинга">
 <div class="ss-topline">
-<div class="ss-live-indicator"><span class="ss-live-dot" id="ss-live-dot"></span><span id="ss-live-label">Мониторинг ожидает подключения API</span></div>
+<div class="ss-live-indicator"><span class="ss-live-dot" id="ss-live-dot"></span><span id="ss-live-label">GitHub Actions · автоматические проверки</span></div>
 <div class="ss-top-actions">
-<span class="ss-updated" id="ss-last-update">Данные ещё не получены</span>
+<span class="ss-updated" id="ss-last-update">Ожидание первой проверки GitHub Actions</span>
 <button class="ss-icon-button" id="ss-refresh" type="button" title="Обновить данные" aria-label="Обновить данные"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.4-3"/></svg></button>
 </div>
 </div>
-<div class="ss-connection-note" id="ss-connection-note" role="status">Подключи Worker API во вкладке «Настройки», чтобы получать реальные измерения и накапливать историю.</div>
+<div class="ss-connection-note" id="ss-connection-note" role="status">GitHub Actions автоматически проверяет сервисы. Первые результаты и история появятся после первого успешного запуска рабочего процесса.</div>
 <nav class="ss-tabs" role="tablist" aria-label="Разделы мониторинга">
 <button class="ss-tab is-active" type="button" role="tab" aria-selected="true" data-tab="overview">Обзор</button>
 <button class="ss-tab" type="button" role="tab" aria-selected="false" data-tab="services">Сервисы</button>
@@ -65,7 +65,7 @@
 <div class="ss-card-heading"><div><h2>Задержка и доступность</h2><p id="ss-overview-chart-caption">Выбери сервис, чтобы посмотреть историю измерений</p></div>
 <div class="ss-chart-controls"><select id="ss-overview-service" aria-label="Сервис для графика"></select><div class="ss-range-group" data-range-group="overview"><button class="is-active" data-range="24h" type="button">24 ч</button><button data-range="7d" type="button">7 д</button><button data-range="30d" type="button">30 д</button></div></div></div>
 <div class="ss-chart-legend"><span><i class="ss-legend-latency"></i>HTTP latency (ms)</span><span><i class="ss-legend-uptime"></i>Доступность (%)</span></div>
-<div class="ss-chart" id="ss-overview-chart"><div class="ss-empty-state">История появится после подключения Worker и первых проверок.</div></div>
+<div class="ss-chart" id="ss-overview-chart"><div class="ss-empty-state">История появится после первой автоматической проверки GitHub Actions.</div></div>
 <div class="ss-chart-foot" id="ss-overview-chart-foot">Левая шкала — миллисекунды; правая — доступность в процентах.</div>
 </article>
 <div class="ss-section-heading"><div><h2>Последние инциденты</h2><p>Автоматически обнаруженные проблемы доступности</p></div><button class="ss-text-button" type="button" data-open-tab="incidents">Журнал инцидентов →</button></div>
@@ -83,13 +83,13 @@
 </section>
 
 <section class="ss-tab-panel" id="ss-tab-history" data-panel="history" role="tabpanel" hidden>
-<div class="ss-section-heading"><div><h2>История измерений</h2><p>Пятиминутные точки за 30 дней и дневная история до 365 дней</p></div><span class="ss-count" id="ss-history-period-label">24 часа</span></div>
+<div class="ss-section-heading"><div><h2>История измерений</h2><p>5-минутные точки за 24 часа, 15-минутные за 7 дней, часовые за 30 дней и дневная история до 365 дней</p></div><span class="ss-count" id="ss-history-period-label">24 часа</span></div>
 <article class="ss-card ss-chart-card ss-history-card">
 <div class="ss-card-heading"><div><h3>Совмещённый график</h3><p>Две независимые шкалы и общая временная ось</p></div>
 <div class="ss-chart-controls"><select id="ss-history-service" aria-label="Сервис истории"></select></div></div>
 <div class="ss-range-group ss-range-group-wide" data-range-group="history"><button class="is-active" data-range="24h" type="button">24 часа</button><button data-range="7d" type="button">7 дней</button><button data-range="30d" type="button">30 дней</button><button data-range="90d" type="button">90 дней</button><button data-range="365d" type="button">365 дней</button></div>
 <div class="ss-chart-legend"><span><i class="ss-legend-latency"></i>HTTP latency (ms)</span><span><i class="ss-legend-uptime"></i>Uptime (%)</span></div>
-<div class="ss-chart ss-chart-tall" id="ss-history-chart"><div class="ss-empty-state">Подключи API, чтобы загрузить историю.</div></div>
+<div class="ss-chart ss-chart-tall" id="ss-history-chart"><div class="ss-empty-state">История появится после первого запуска мониторинга.</div></div>
 <div class="ss-history-summary" id="ss-history-summary"><div><span>Uptime за период</span><strong>—</strong></div><div><span>Средняя задержка</span><strong>—</strong></div><div><span>Проверок</span><strong>—</strong></div><div><span>Покрытие мониторингом</span><strong>—</strong></div></div>
 <div class="ss-chart-foot">Uptime считается по результатам сохранённых проверок. Покрытие показывает долю ожидаемых проверок, реально попавших в историю.</div>
 </article>
@@ -107,26 +107,24 @@
 <article class="ss-card"><span class="ss-info-icon">HTTP</span><h3>Доступность</h3><p>Worker запрашивает проверочный HTTPS-адрес сервиса. Сохраняются HTTP-код, результат запроса и время получения заголовков ответа.</p></article>
 <article class="ss-card"><span class="ss-info-icon">ms</span><h3>Задержка</h3><p>HTTP latency включает сетевой путь, установление соединения при необходимости и ожидание ответа сервера. Это не чистый ICMP RTT и не измерение из твоего домашнего роутера.</p></article>
 <article class="ss-card"><span class="ss-info-icon">API</span><h3>Официальные статусы</h3><p>Для GitHub, Cloudflare, Discord и OpenAI дополнительно опрашиваются официальные Status API. Они показываются отдельно от сетевого ответа.</p></article>
-<article class="ss-card"><span class="ss-info-icon">365d</span><h3>История и uptime</h3><p>За последние 30 дней сохраняются отдельные пятиминутные измерения. Более старые данные сжимаются в дневные агрегаты с uptime и средней, минимальной и максимальной HTTP latency. Пропуски расписания снижают покрытие и не считаются успешными проверками.</p></article>
+<article class="ss-card"><span class="ss-info-icon">365d</span><h3>История и uptime</h3><p>За 24 часа сохраняются 5-минутные измерения, за 7 дней — 15-минутные агрегаты, за 30 дней — часовые, за 365 дней — дневные. Пропуски расписания снижают покрытие и не считаются успешными проверками.</p></article>
 </div>
-<div class="ss-card ss-method-card"><p>В монитор добавлены 26 крупных и региональных банков, а также Мир и СБП. Полный официальный перечень Банка России шире: на 02.11.2026 в нём указаны 340 кредитных организаций и 1 793 сайта — включая небанковские кредитные организации. <a href="https://www.cbr.ru/banking_sector/credit/cowebsites/" target="_blank" rel="noopener noreferrer">Открыть реестр Банка России ↗</a>. Проверка банков в этом мониторе измеряет доступность публичного сайта, а не доступность переводов, карт, СБП или личного кабинета.</p><h3>Проверки без API</h3><p>Для OpenStreetMap, BeaconDB, Wildberries, Ozon и Rockstar монитор делает обычный HTTPS GET к публичной странице. Отдельный API сервиса не требуется: фиксируются HTTP-ответ, код и время отклика. Для Roblox такая проверка тоже основная, а официальный Status API добавлен лишь как дополнительный источник. Это показывает доступность сайта/endpoint, но не гарантирует работу входа, платежей, матчмейкинга, геопоиска или других внутренних функций.</p><h3>Откуда выполняются проверки</h3><p>Плановые запросы идут из Cloudflare Worker. Это одна точка наблюдения, а не глобальная сеть зондов и не проверка из сети каждого пользователя. Региональная блокировка, проблемы отдельного провайдера или DNS могут отличаться от результата Worker.</p><h3>Как определяется инцидент</h3><p>Одиночный неудачный запрос записывается как неуспешная точка. Инцидент открывается после двух последовательных проблемных проверок и закрывается после двух последовательных нормальных проверок. Поэтому краткие сетевые всплески не превращаются в длинные инциденты.</p><h3>Что означает HTTP-код</h3><p>Ответы 2xx и 3xx считаются доступными. Ответы 4xx означают, что узел ответил, но запрос ограничен или отклонён; они отмечаются как деградация. Ошибки сети, тайм-ауты и ответы 5xx считаются недоступностью проверочного endpoint.</p></div>
+<div class="ss-card ss-method-card"><p>В монитор добавлены 26 крупных и региональных банков, а также Мир и СБП. Полный официальный перечень Банка России шире: на 02.11.2026 в нём указаны 340 кредитных организаций и 1 793 сайта — включая небанковские кредитные организации. <a href="https://www.cbr.ru/banking_sector/credit/cowebsites/" target="_blank" rel="noopener noreferrer">Открыть реестр Банка России ↗</a>. Проверка банков в этом мониторе измеряет доступность публичного сайта, а не доступность переводов, карт, СБП или личного кабинета.</p><h3>Проверки без API</h3><p>Для OpenStreetMap, BeaconDB, Wildberries, Ozon и Rockstar монитор делает обычный HTTPS GET к публичной странице. Отдельный API сервиса не требуется: фиксируются HTTP-ответ, код и время отклика. Для Roblox такая проверка тоже основная, а официальный Status API добавлен лишь как дополнительный источник. Это показывает доступность сайта/endpoint, но не гарантирует работу входа, платежей, матчмейкинга, геопоиска или других внутренних функций.</p><h3>Откуда выполняются проверки</h3><p>Плановые запросы выполняются GitHub Actions на стандартном облачном runner. Это одна точка наблюдения, а не глобальная сеть зондов и не проверка из сети каждого пользователя. Региональная блокировка, проблемы отдельного провайдера или DNS могут отличаться от результата проверки.</p><h3>Как определяется инцидент</h3><p>Одиночный неудачный запрос записывается как неуспешная точка. Инцидент открывается после двух последовательных проблемных проверок и закрывается после двух последовательных нормальных проверок. Поэтому краткие сетевые всплески не превращаются в длинные инциденты.</p><h3>Что означает HTTP-код</h3><p>Ответы 2xx и 3xx считаются доступными. Ответы 4xx означают, что узел ответил, но запрос ограничен или отклонён; они отмечаются как деградация. Ошибки сети, тайм-ауты и ответы 5xx считаются недоступностью проверочного endpoint.</p></div>
 </section>
 
 <section class="ss-tab-panel" id="ss-tab-settings" data-panel="settings" role="tabpanel" hidden>
-<div class="ss-section-heading"><div><h2>Настройки мониторинга</h2><p>Подключение API и параметры истории</p></div></div>
+<div class="ss-section-heading"><div><h2>Настройки мониторинга</h2><p>Автоматизация и параметры хранения данных</p></div></div>
 <article class="ss-card ss-settings-card">
-<label class="ss-field-label" for="ss-api-url">URL Cloudflare Worker API</label>
-<input class="ss-input" id="ss-api-url" type="url" placeholder="https://service-status-monitor.example.workers.dev" autocomplete="url" spellcheck="false">
-<p class="ss-field-help">Вставь адрес Worker после его развёртывания. Адрес хранится только в localStorage этого браузера и не отправляется в репозиторий.</p>
-<div class="ss-settings-actions"><button class="ss-primary-button" id="ss-save-api" type="button">Сохранить и подключить</button><button class="ss-secondary-button" id="ss-test-api" type="button">Проверить соединение</button></div>
-<p class="ss-settings-message" id="ss-settings-message" role="status" aria-live="polite"></p>
+<p>Мониторинг полностью запускается через GitHub Actions. Ручное подключение API, Cloudflare Worker, база данных и секретные ключи не требуются.</p>
 <div class="ss-settings-divider"></div>
-<div class="ss-config-grid"><div><span>Интервал опроса</span><strong>5 минут</strong></div><div><span>Детальная история</span><strong>30 дней</strong></div><div><span>Дневная история</span><strong>365 дней</strong></div><div><span>Сервисов</span><strong>111</strong></div></div>
+<div class="ss-config-grid"><div><span>Расписание</span><strong>Каждые 5 минут</strong></div><div><span>Детализация</span><strong>5 мин / 24 ч</strong></div><div><span>История</span><strong>365 дней</strong></div><div><span>Сервисов</span><strong>111</strong></div></div>
+<p class="ss-field-help">Данные формируются в JSON и публикуются на GitHub Pages вместе с сайтом. Между запусками история берётся из предыдущей опубликованной версии.</p>
+<div class="ss-settings-actions"><a class="ss-primary-button" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io/actions/workflows/deploy.yml" target="_blank" rel="noopener noreferrer">Открыть GitHub Actions ↗</a></div>
 </article>
-<article class="ss-card ss-setup-card"><h3>Подключение серверной части</h3><p>В репозитории находится готовый Cloudflare Worker, схема базы D1 и инструкция развёртывания.</p><ol><li>Создай базу D1 в Cloudflare.</li><li>Впиши полученный database_id в wrangler.toml.</li><li>Выполни SQL-схему и разверни Worker.</li><li>Скопируй адрес Worker в поле выше.</li></ol><a href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io/tree/main/cloudflare/service-status-worker" target="_blank" rel="noopener noreferrer">Открыть файлы Worker в GitHub ↗</a></article>
+<article class="ss-card ss-setup-card"><h3>Как работает мониторинг</h3><p>GitHub Actions выполняет HTTPS-проверки 111 сервисов, измеряет время ответа, получает дополнительные официальные статусы там, где есть публичный Status API, обновляет историю и публикует JSON на GitHub Pages.</p><p>Стандартные GitHub-hosted runners в публичных репозиториях бесплатны. Расписание GitHub Actions может иногда задерживаться из-за нагрузки платформы.</p><a href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io/blob/main/scripts/service_status_monitor.py" target="_blank" rel="noopener noreferrer">Открыть сборщик данных ↗</a></article>
 </section>
 </main>
-<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities / Service Status</span><span id="ss-footer-state">Network monitoring</span></footer>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities / Service Status</span><span id="ss-footer-state">GitHub Actions · 5 min · 365 days</span></footer>
 </div>
 </body>
 </html>
