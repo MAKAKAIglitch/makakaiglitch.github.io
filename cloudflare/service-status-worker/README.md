@@ -20,12 +20,13 @@ You need a Cloudflare account with Workers and D1 enabled, and Node.js/npm avail
 
 From this directory:
 
+First create a D1 database in the Cloudflare dashboard (Workers & Pages → Storage & databases → D1). Name it exactly `makakaiglitch-service-status`. Copy its database ID.
+
+Then, from this directory, log in and replace `REPLACE_WITH_D1_DATABASE_ID` in `wrangler.toml` with the ID shown in the dashboard:
+
 ```sh
 npx wrangler@latest login
-npx wrangler@latest d1 create makakaiglitch-service-status
 ```
-
-Copy the `database_id` from the command output into `wrangler.toml`, replacing `REPLACE_WITH_D1_DATABASE_ID`.
 
 Apply the schema to the remote database:
 
