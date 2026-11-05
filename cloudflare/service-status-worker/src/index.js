@@ -1461,7 +1461,7 @@ async function getHistory(env, url) {
   const to=Math.floor(Date.now()/1000);
   const exactFrom=to-range.seconds;
   const from=(rangeKey==="90d" || rangeKey==="365d")
-    ? Math.floor(exactFrom/86400)*86400
+    ? Math.ceil(exactFrom/86400)*86400
     : exactFrom;
   let query;
   if (rangeKey === "90d" || rangeKey === "365d") {
@@ -1496,7 +1496,7 @@ async function getHistory(env, url) {
   const failed=checks-successful;
   const weightedLatency=rows.reduce((sum,row)=>sum+(Number(row.avg_latency_ms||0)*Number(row.latency_samples||0)),0);
   const totalLatencySamples=rows.reduce((sum,row)=>sum+Number(row.latency_samples||0),0);
-  const expected=Math.max(1,Math.ceil(range.seconds/CHECK_INTERVAL_SECONDS));
+  const expected=Math.max(1,Math.ceil((to-from)/CHECK_INTERVAL_SECONDS));
   const coveragePct=Math.min(100,checks/expected*100);
   return json({
     service_id:serviceId,range:rangeKey,bucket_seconds:range.bucket,from,to,
