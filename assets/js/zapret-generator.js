@@ -236,7 +236,7 @@
     }
     if (ports.masqueOnly.length) {
       args.push(
-        "--filter-udp=" + ports.masqueOnly.join(",") + " --filter-l7=quic --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=6 --new"
+        "--filter-udp=" + ports.masque.join(",") + " --filter-l7=quic --payload=quic_initial --lua-desync=fake:blob=fake_default_quic:repeats=6 --new"
       );
     }
 
@@ -293,13 +293,13 @@
         '<option value="alt2">Flowseal ALT2 — другой split offset</option>' +
         '<option value="simple">Flowseal SIMPLE FAKE ALT</option>';
       profile.value = ["general", "alt2", "simple"].includes(value) ? value : "general";
-      $("zapret-version-note").textContent = "Профили Flowseal рассчитаны на его Windows-сборку: winws.exe, папки bin и lists, service.bat. В шаблонах используются имена файлов из bin.";
+      $("zapret-version-note").textContent = "Профили Flowseal требуют winws.exe, bin, lists и service.bat. Для WARP здесь используется общий unknown-UDP приём из GameFilter — он экспериментальный и не распознаёт WireGuard отдельно.";
     } else {
       profile.innerHTML =
         '<option value="balanced">Стандартная HTTP / TLS / QUIC + WARP</option>' +
         '<option value="wireguard">Только WireGuard / WARP</option>';
       profile.value = value === "wireguard" ? "wireguard" : "balanced";
-      $("zapret-version-note").textContent = "Для zapret 2 нужен winws2.exe и Lua-файлы из Windows bundle bol-van/zapret-win-bundle. Это не конфиг для Flowseal winws.exe.";
+      $("zapret-version-note").textContent = "Нужны winws2.exe и Lua-файлы из Windows bundle. WARP WireGuard распознаётся отдельно через --filter-l7=wireguard и --payload=wireguard_initiation; это не конфиг Flowseal winws.exe.";
     }
     render();
   }
