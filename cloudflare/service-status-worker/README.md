@@ -1,6 +1,27 @@
-# Service Status Monitor — Cloudflare Worker
+# Service Status Monitor — legacy Cloudflare Worker
 
-This Worker powers the Service Status page at `/tools/service-status/`.
+> **This is no longer the active backend for the public monitor.** The live page at
+> [Service Status](/tools/service-status/) now uses GitHub Actions and GitHub Pages.
+> No Cloudflare Worker or D1 database is required for the active setup.
+
+## Active GitHub Actions architecture
+
+- The scheduled workflow is `.github/workflows/deploy.yml`; it runs the monitor at a five-minute cadence and publishes the site with GitHub Pages.
+- The shared 111-service catalog lives in `data/service-status-catalog.json`.
+- `scripts/service_status_monitor.py` performs direct HTTPS GET checks and reads configured public Status API feeds.
+- `data/service-status.json` contains the current service states and incidents.
+- `data/service-status/history/<service-id>.json` contains history for an individual service. The frontend lazy-loads only the chart selected by the visitor.
+- `data/service-status-state.json` is the public persisted snapshot used by the next Actions run to preserve rolling aggregates and incident state. It contains no secrets or visitor identifiers.
+- The history uses 5-minute buckets for 24 hours, 15-minute buckets for 7 days, hourly buckets for 30 days, and daily buckets for up to 365 days.
+- The first successful scheduled run initializes the history. Earlier measurements are not fabricated.
+
+The schedule is managed by GitHub Actions and can occasionally be delayed by GitHub load. Standard GitHub-hosted runners are free for this public repository. The monitor is a single observation point from a GitHub-hosted runner, not a worldwide probe network or a measurement from each visitor's ISP.
+
+The catalog is stored separately so the Actions collector does not need to parse this legacy Worker source. Keep `data/service-status-catalog.json` as the source of truth for the active monitor.
+
+## Legacy Worker
+
+The remainder of this directory is retained as an optional alternative backend. It is not called by the live GitHub Pages frontend and its Cron triggers are not part of the active monitor. The files and deployment instructions below are kept for reference only.
 
 ## Monitored catalog
 
