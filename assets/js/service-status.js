@@ -318,15 +318,6 @@ const CATALOG = [
     "status_page_url": null
   },
   {
-    "id": "yandex_mail",
-    "name": "Яндекс Почта",
-    "symbol": "YM",
-    "category": "russian",
-    "description": "Почтовый сервис Яндекса",
-    "website": "https://mail.yandex.ru/",
-    "status_page_url": null
-  },
-  {
     "id": "yandex_disk",
     "name": "Яндекс Диск",
     "symbol": "YD",
@@ -378,15 +369,6 @@ const CATALOG = [
     "category": "russian",
     "description": "Социальная сеть Одноклассники",
     "website": "https://ok.ru/",
-    "status_page_url": null
-  },
-  {
-    "id": "max",
-    "name": "MAX",
-    "symbol": "MX",
-    "category": "russian",
-    "description": "Мессенджер MAX",
-    "website": "https://max.ru/",
     "status_page_url": null
   },
   {
@@ -1022,24 +1004,6 @@ const CATALOG = [
     "description": "Rockstar Games — сайт, аккаунты и игровые сервисы",
     "website": "https://www.rockstargames.com/",
     "status_page_url": "https://support.rockstargames.com/servicestatus"
-  },
-  {
-    "id": "wildberries",
-    "name": "Wildberries",
-    "symbol": "WB",
-    "category": "commerce",
-    "description": "Wildberries — маркетплейс и веб-магазин",
-    "website": "https://www.wildberries.ru/",
-    "status_page_url": null
-  },
-  {
-    "id": "ozon_marketplace",
-    "name": "Ozon",
-    "symbol": "OZ",
-    "category": "commerce",
-    "description": "Ozon — маркетплейс и веб-магазин",
-    "website": "https://www.ozon.ru/",
-    "status_page_url": null
   }
 ];
 
