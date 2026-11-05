@@ -4,6 +4,7 @@
   const t = value => window.siteI18n?.t(value) || value;
   const engine = $("zapret-engine");
   const profile = $("zapret-profile");
+  const profileSearch = $("zapret-profile-search");
   const warpWireGuard = $("zapret-warp-wireguard");
   const warpMasque = $("zapret-warp-masque");
   const quic = $("zapret-quic");
