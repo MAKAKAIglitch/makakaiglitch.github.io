@@ -12,7 +12,7 @@ const SERVICES = [
     "category": "communication",
     "symbol": "TG",
     "description": "Telegram Web — доступность веб-клиента",
-    "website": "https://web.telegram.org/a/",
+    "website": "https://web.telegram.org/",
     "probe_url": "https://web.telegram.org/a/",
     "status_api_url": null,
     "status_page_url": null
@@ -23,7 +23,7 @@ const SERVICES = [
     "category": "media",
     "symbol": "YT",
     "description": "YouTube — веб-сайт и видеоплатформа",
-    "website": "https://www.youtube.com/generate_204",
+    "website": "https://www.youtube.com/",
     "probe_url": "https://www.youtube.com/generate_204",
     "status_api_url": null,
     "status_page_url": null
@@ -34,7 +34,7 @@ const SERVICES = [
     "category": "search",
     "symbol": "G",
     "description": "Поисковая система Google",
-    "website": "https://www.google.com/generate_204",
+    "website": "https://www.google.com/",
     "probe_url": "https://www.google.com/generate_204",
     "status_api_url": null,
     "status_page_url": null
@@ -67,7 +67,7 @@ const SERVICES = [
     "category": "communication",
     "symbol": "DC",
     "description": "Discord — веб-клиент и Gateway",
-    "website": "https://discord.com/api/v10/gateway",
+    "website": "https://discord.com/",
     "probe_url": "https://discord.com/api/v10/gateway",
     "status_api_url": "https://discordstatus.com/api/v2/summary.json",
     "status_page_url": "https://discordstatus.com/"
@@ -100,7 +100,7 @@ const SERVICES = [
     "category": "infrastructure",
     "symbol": "ND",
     "description": "NextDNS — тестовый endpoint",
-    "website": "https://test.nextdns.io/",
+    "website": "https://nextdns.io/",
     "probe_url": "https://test.nextdns.io/",
     "status_api_url": null,
     "status_page_url": null
@@ -199,7 +199,7 @@ const SERVICES = [
     "category": "development",
     "symbol": "SA",
     "description": "Публичный endpoint Steam Web API",
-    "website": "https://api.steampowered.com/ISteamWebAPIUtil/GetServerInfo/v1/",
+    "website": "https://steamcommunity.com/dev",
     "probe_url": "https://api.steampowered.com/ISteamWebAPIUtil/GetServerInfo/v1/",
     "status_api_url": null,
     "status_page_url": null
