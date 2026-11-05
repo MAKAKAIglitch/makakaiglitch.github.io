@@ -365,7 +365,7 @@
     engine.value = "v1";
     warpWireGuard.checked = true;
     warpMasque.checked = false;
-    quic.checked = true;
+    quic.checked = false;
     customTcpEnabled.checked = false;
     customTcpInput.value = "";
     profile.value = "general";
