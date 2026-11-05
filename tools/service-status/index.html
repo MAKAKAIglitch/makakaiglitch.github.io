@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0e13">
+<meta name="description" content="Мониторинг доступности популярных интернет-сервисов, HTTP latency, uptime и история инцидентов до 365 дней.">
+<title>Service Status Monitor — MAKAKAIglitch</title>
+<link rel="stylesheet" href="/assets/css/style.css?v=20261105-global-ambient">
+<link rel="stylesheet" href="/assets/css/service-status.css?v=20261105-v1">
+<script src="/assets/js/global-search.js?v=20261105-global-ambient" defer></script>
+<script src="/assets/js/i18n.js?v=20261105-service-status-v1" defer></script>
+<script src="/assets/js/service-status.js?v=20261105-v1" defer></script>
+</head>
+<body>
+<div class="ambient ambient-one" aria-hidden="true"></div>
+<div class="ambient ambient-two" aria-hidden="true"></div>
+<div class="site-shell">
+<header class="topbar">
+<a class="brand" href="/" aria-label="MAKAKAIglitch — главная"><span class="brand-mark">m.</span><span class="brand-name">MAKAKAIglitch</span></a>
+<nav class="main-nav" aria-label="Основная навигация">
+<a class="nav-link" href="/"><span>Repositories</span></a>
+<a class="nav-link is-active" href="/tools/" aria-current="page"><span>Utilities</span></a>
+<a class="nav-link" href="/library/"><span>Library</span></a>
+</nav>
+<a class="github-link" href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io" target="_blank" rel="noopener noreferrer"><span>GitHub</span></a>
+</header>
+<main class="main-content tool-page-main ss-page">
+<a class="utility-back" href="/tools/">← <span>Все утилиты</span></a>
+<section class="intro tools-intro">
+<div class="eyebrow"><span class="status-dot"></span> NETWORK / UPTIME MONITORING</div>
+<h1>Service Status</h1>
+<p>Мониторинг доступности сервисов, задержки ответа, аптайма и сетевых инцидентов за период до одного года.</p>
+</section>
+
+<section class="ss-panel ss-top-panel" aria-label="Состояние мониторинга">
+<div class="ss-topline">
+<div class="ss-live-indicator"><span class="ss-live-dot" id="ss-live-dot"></span><span id="ss-live-label">Мониторинг ожидает подключения API</span></div>
+<div class="ss-top-actions">
+<span class="ss-updated" id="ss-last-update">Данные ещё не получены</span>
+<button class="ss-icon-button" id="ss-refresh" type="button" title="Обновить данные" aria-label="Обновить данные"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M5.6 9A7 7 0 0 1 18 6l2 6M4 12l2 6a7 7 0 0 0 12.4-3"/></svg></button>
+</div>
+</div>
+<div class="ss-connection-note" id="ss-connection-note" role="status">Подключи Worker API во вкладке «Настройки», чтобы получать реальные измерения и накапливать историю.</div>
+<nav class="ss-tabs" role="tablist" aria-label="Разделы мониторинга">
+<button class="ss-tab is-active" type="button" role="tab" aria-selected="true" data-tab="overview">Обзор</button>
+<button class="ss-tab" type="button" role="tab" aria-selected="false" data-tab="services">Сервисы</button>
+<button class="ss-tab" type="button" role="tab" aria-selected="false" data-tab="history">История и графики</button>
+<button class="ss-tab" type="button" role="tab" aria-selected="false" data-tab="incidents">Инциденты</button>
+<button class="ss-tab" type="button" role="tab" aria-selected="false" data-tab="diagnostics">Диагностика</button>
+<button class="ss-tab" type="button" role="tab" aria-selected="false" data-tab="settings">Настройки</button>
+</nav>
+</section>
+
+<section class="ss-tab-panel is-active" id="ss-tab-overview" data-panel="overview" role="tabpanel">
+<div class="ss-metric-grid" id="ss-overview-metrics">
+<article class="ss-metric"><span>Сервисов под наблюдением</span><strong id="ss-total-services">16</strong><small>Каталог мониторинга</small></article>
+<article class="ss-metric"><span>Работают нормально</span><strong id="ss-operational">—</strong><small>По последней проверке</small></article>
+<article class="ss-metric"><span>Средний uptime за 24 ч</span><strong id="ss-uptime">—</strong><small>По сохранённым измерениям</small></article>
+<article class="ss-metric"><span>Средняя задержка</span><strong id="ss-latency">—</strong><small>HTTP response time</small></article>
+</div>
+<div class="ss-section-heading"><div><h2>Состояние сервисов</h2><p>Последний ответ мониторинга и текущие инциденты</p></div><button class="ss-text-button" type="button" data-open-tab="services">Все сервисы →</button></div>
+<div class="ss-service-grid" id="ss-overview-services"></div>
+<article class="ss-card ss-chart-card">
+<div class="ss-card-heading"><div><h2>Задержка и доступность</h2><p id="ss-overview-chart-caption">Выбери сервис, чтобы посмотреть историю измерений</p></div>
+<div class="ss-chart-controls"><select id="ss-overview-service" aria-label="Сервис для графика"></select><div class="ss-range-group" data-range-group="overview"><button class="is-active" data-range="24h" type="button">24 ч</button><button data-range="7d" type="button">7 д</button><button data-range="30d" type="button">30 д</button></div></div></div>
+<div class="ss-chart-legend"><span><i class="ss-legend-latency"></i>HTTP latency (ms)</span><span><i class="ss-legend-uptime"></i>Доступность (%)</span></div>
+<div class="ss-chart" id="ss-overview-chart"><div class="ss-empty-state">История появится после подключения Worker и первых проверок.</div></div>
+<div class="ss-chart-foot" id="ss-overview-chart-foot">Левая шкала — миллисекунды; правая — доступность в процентах.</div>
+</article>
+<div class="ss-section-heading"><div><h2>Последние инциденты</h2><p>Автоматически обнаруженные проблемы доступности</p></div><button class="ss-text-button" type="button" data-open-tab="incidents">Журнал инцидентов →</button></div>
+<div class="ss-incident-list" id="ss-overview-incidents"><div class="ss-empty-state">Инциденты пока не зарегистрированы.</div></div>
+</section>
+
+<section class="ss-tab-panel" id="ss-tab-services" data-panel="services" role="tabpanel" hidden>
+<div class="ss-section-heading ss-service-heading"><div><h2>Все сервисы</h2><p>Официальный статус и доступность проверочного HTTPS-адреса</p></div><span class="ss-count" id="ss-service-count">16 сервисов</span></div>
+<div class="ss-filters">
+<label class="ss-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.2 4.2"/></svg><input id="ss-service-search" type="search" placeholder="Найти сервис..." autocomplete="off"></label>
+<select id="ss-category-filter" aria-label="Категория"><option value="all">Все категории</option><option value="platform">Платформы</option><option value="infrastructure">Инфраструктура</option><option value="communication">Связь</option><option value="media">Медиа</option><option value="development">Разработка</option></select>
+<select id="ss-status-filter" aria-label="Состояние"><option value="all">Любое состояние</option><option value="operational">Работает</option><option value="degraded">Нестабильно</option><option value="outage">Сбой</option><option value="unknown">Нет данных</option></select>
+</div>
+<div class="ss-service-grid ss-service-grid-large" id="ss-all-services"></div>
+</section>
+
+<section class="ss-tab-panel" id="ss-tab-history" data-panel="history" role="tabpanel" hidden>
+<div class="ss-section-heading"><div><h2>История измерений</h2><p>До 365 дней сохранённых точек uptime и HTTP latency</p></div><span class="ss-count" id="ss-history-period-label">24 часа</span></div>
+<article class="ss-card ss-chart-card ss-history-card">
+<div class="ss-card-heading"><div><h3>Совмещённый график</h3><p>Две независимые шкалы и общая временная ось</p></div>
+<div class="ss-chart-controls"><select id="ss-history-service" aria-label="Сервис истории"></select></div></div>
+<div class="ss-range-group ss-range-group-wide" data-range-group="history"><button class="is-active" data-range="24h" type="button">24 часа</button><button data-range="7d" type="button">7 дней</button><button data-range="30d" type="button">30 дней</button><button data-range="90d" type="button">90 дней</button><button data-range="365d" type="button">365 дней</button></div>
+<div class="ss-chart-legend"><span><i class="ss-legend-latency"></i>HTTP latency (ms)</span><span><i class="ss-legend-uptime"></i>Uptime (%)</span></div>
+<div class="ss-chart ss-chart-tall" id="ss-history-chart"><div class="ss-empty-state">Подключи API, чтобы загрузить историю.</div></div>
+<div class="ss-history-summary" id="ss-history-summary"><div><span>Uptime за период</span><strong>—</strong></div><div><span>Средняя задержка</span><strong>—</strong></div><div><span>Проверок</span><strong>—</strong></div><div><span>Покрытие мониторингом</span><strong>—</strong></div></div>
+<div class="ss-chart-foot">Uptime считается по результатам сохранённых проверок. Покрытие показывает долю ожидаемых проверок, реально попавших в историю.</div>
+</article>
+</section>
+
+<section class="ss-tab-panel" id="ss-tab-incidents" data-panel="incidents" role="tabpanel" hidden>
+<div class="ss-section-heading"><div><h2>Журнал инцидентов</h2><p>События, подтверждённые несколькими последовательными проверками</p></div><select id="ss-incident-period" aria-label="Период инцидентов"><option value="7">7 дней</option><option value="30" selected>30 дней</option><option value="90">90 дней</option><option value="365">365 дней</option></select></div>
+<div class="ss-incident-summary" id="ss-incident-summary"></div>
+<div class="ss-incident-list ss-incident-list-full" id="ss-incidents"><div class="ss-empty-state">Журнал загрузится после подключения API.</div></div>
+</section>
+
+<section class="ss-tab-panel" id="ss-tab-diagnostics" data-panel="diagnostics" role="tabpanel" hidden>
+<div class="ss-section-heading"><div><h2>Методика измерений</h2><p>Что именно проверяется и как читать результаты</p></div></div>
+<div class="ss-info-grid">
+<article class="ss-card"><span class="ss-info-icon">HTTP</span><h3>Доступность</h3><p>Worker запрашивает проверочный HTTPS-адрес сервиса. Сохраняются HTTP-код, результат запроса и время получения заголовков ответа.</p></article>
+<article class="ss-card"><span class="ss-info-icon">ms</span><h3>Задержка</h3><p>HTTP latency включает сетевой путь, установление соединения при необходимости и ожидание ответа сервера. Это не чистый ICMP RTT и не измерение из твоего домашнего роутера.</p></article>
+<article class="ss-card"><span class="ss-info-icon">API</span><h3>Официальные статусы</h3><p>Для GitHub, Cloudflare, Discord и OpenAI дополнительно опрашиваются официальные Status API. Они показываются отдельно от сетевого ответа.</p></article>
+<article class="ss-card"><span class="ss-info-icon">365d</span><h3>История и uptime</h3><p>Проверки сохраняются в D1. При пропусках расписания покрытие снижается: отсутствие измерения не считается успешной проверкой.</p></article>
+</div>
+<div class="ss-card ss-method-card"><h3>Откуда выполняются проверки</h3><p>Плановые запросы идут из Cloudflare Worker. Это одна точка наблюдения, а не глобальная сеть зондов и не проверка из сети каждого пользователя. Региональная блокировка, проблемы отдельного провайдера или DNS могут отличаться от результата Worker.</p><h3>Как определяется инцидент</h3><p>Одиночный неудачный запрос записывается как неуспешная точка. Инцидент открывается после двух последовательных проблемных проверок и закрывается после двух последовательных нормальных проверок. Поэтому краткие сетевые всплески не превращаются в длинные инциденты.</p><h3>Что означает HTTP-код</h3><p>Ответы 2xx и 3xx считаются доступными. Ответы 4xx означают, что узел ответил, но запрос ограничен или отклонён; они отмечаются как деградация. Ошибки сети, тайм-ауты и ответы 5xx считаются недоступностью проверочного endpoint.</p></div>
+</section>
+
+<section class="ss-tab-panel" id="ss-tab-settings" data-panel="settings" role="tabpanel" hidden>
+<div class="ss-section-heading"><div><h2>Настройки мониторинга</h2><p>Подключение API и параметры истории</p></div></div>
+<article class="ss-card ss-settings-card">
+<label class="ss-field-label" for="ss-api-url">URL Cloudflare Worker API</label>
+<input class="ss-input" id="ss-api-url" type="url" placeholder="https://service-status-monitor.example.workers.dev" autocomplete="url" spellcheck="false">
+<p class="ss-field-help">Вставь адрес Worker после его развёртывания. Адрес хранится только в localStorage этого браузера и не отправляется в репозиторий.</p>
+<div class="ss-settings-actions"><button class="ss-primary-button" id="ss-save-api" type="button">Сохранить и подключить</button><button class="ss-secondary-button" id="ss-test-api" type="button">Проверить соединение</button></div>
+<p class="ss-settings-message" id="ss-settings-message" role="status" aria-live="polite"></p>
+<div class="ss-settings-divider"></div>
+<div class="ss-config-grid"><div><span>Интервал опроса</span><strong>5 минут</strong></div><div><span>Срок хранения</span><strong>365 дней</strong></div><div><span>Точек на один сервис за год</span><strong>105 120</strong></div><div><span>Транспорт</span><strong>HTTPS / HTTP</strong></div></div>
+</article>
+<article class="ss-card ss-setup-card"><h3>Подключение серверной части</h3><p>В репозитории находится готовый Cloudflare Worker, схема базы D1 и инструкция развёртывания.</p><ol><li>Создай базу D1 в Cloudflare.</li><li>Впиши полученный database_id в wrangler.toml.</li><li>Выполни SQL-схему и разверни Worker.</li><li>Скопируй адрес Worker в поле выше.</li></ol><a href="https://github.com/MAKAKAIglitch/makakaiglitch.github.io/tree/main/cloudflare/service-status-worker" target="_blank" rel="noopener noreferrer">Открыть файлы Worker в GitHub ↗</a></article>
+</section>
+</main>
+<footer class="footer"><span>MAKAKAIglitch <span class="footer-separator">/</span> Utilities / Service Status</span><span id="ss-footer-state">Network monitoring</span></footer>
+</div>
+</body>
+</html>
