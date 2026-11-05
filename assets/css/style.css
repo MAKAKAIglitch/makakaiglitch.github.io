@@ -57,29 +57,28 @@ body.torrent-shares-page .cursor-glow {
   z-index: 0;
   top: 0;
   left: 0;
-  width: 480px;
-  height: 480px;
+  width: 500px;
+  height: 500px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(116, 148, 255, 0.14) 0%,
-    rgba(96, 132, 232, 0.075) 26%,
-    rgba(76, 112, 202, 0.035) 48%,
+    rgba(125, 158, 255, 0.19) 0%,
+    rgba(105, 143, 242, 0.10) 25%,
+    rgba(83, 122, 220, 0.045) 48%,
     transparent 72%
   );
   opacity: 0;
   pointer-events: none;
   transform: translate3d(-1000px, -1000px, 0) translate(-50%, -50%);
-  transition: opacity 700ms ease;
+  transition: opacity 650ms ease;
   will-change: transform, opacity;
   mix-blend-mode: screen;
 }
 body.torrent-shares-page .cursor-glow.is-visible {
-  opacity: 0.9;
+  opacity: 0.88;
 }
-@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+@media (prefers-reduced-motion: reduce) {
   body.torrent-shares-page .cursor-glow {
-    display: none;
     transition: none;
   }
 }
