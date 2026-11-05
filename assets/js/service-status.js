@@ -1381,8 +1381,9 @@ async function loadAll({quiet=false}={}) {
     if(!response.ok)throw new Error("HTTP "+response.status);
     const data=await response.json();
     if(!data || !Array.isArray(data.services) || !data.schema_version)throw new Error("Некорректный файл данных мониторинга.");
+    const snapshotChanged=!state.data || state.data.generated_at!==data.generated_at;
     state.data=data;
-    state.historyCache={};
+    if(snapshotChanged)state.historyCache={};
     state.health={
       service_count:Number(data.summary?.service_count || data.services.length),
       interval_minutes:Number(data.interval_seconds || 300)/60,
