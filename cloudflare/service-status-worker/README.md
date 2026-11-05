@@ -4,18 +4,21 @@ This Worker powers the Service Status page at `/tools/service-status/`.
 
 ## Monitored catalog
 
-The fixed catalog contains **104 monitored endpoints**:
+The fixed catalog contains **111 monitored endpoints**:
 
 - Search: Google Search, Yandex Search, Bing and DuckDuckGo.
+- Maps and geodata: OpenStreetMap, Nominatim and BeaconDB.
 - AI: OpenAI, Claude, Gemini, Grok, Perplexity, DeepSeek, Mistral, Cohere, Groq, Hugging Face, OpenRouter, Cursor, GigaChat, Yandex AI, GitHub Copilot, Amazon Bedrock, Azure OpenAI, Fireworks AI, Together AI, Midjourney, ElevenLabs, Replicate, Runway, Windsurf, Stability AI and Luma AI.
 - Russian services: Yandex, Yandex Mail, Yandex Disk, VK, Mail.ru, Dzen, RuTube, Odnoklassniki, MAX and Gosuslugi.
 - Banks and payments: 26 major and regional Russian bank websites (Sber, VTB, T-Bank, Alfa-Bank, Gazprombank, Sovcombank, PSB, Rosselkhozbank, MKB, MTS Bank, DOM.RF, Zenit, Ak Bars, Bank Saint Petersburg, Uralsib, Modulbank, Absolut, BCS, UBRR, Bank Rossiya, UniCredit, Avers, Chelindbank, Ozon Bank, Tochka and MSP Bank) plus Mir and SBP.
 - Cloud, CDN and hosting: AWS, Google Cloud, Azure, Yandex Cloud, VK Cloud, Cloud.ru, Selectel, MWS, Timeweb, REG.RU, Beget, Rostelecom Cloud, CDNvideo, EdgeCenter, Qrator and NGENIX.
+- Games: Roblox and Rockstar Games.
+- Marketplaces: Wildberries and Ozon (Ozon's marketplace, separate from Ozon Bank).
 - Other global platforms, communications, media and development services: Telegram, YouTube, Cloudflare, GitHub, Discord, Steam Store, Steam Community, Steam Web API, NextDNS, Reddit, X, Twitch, Spotify, Wikipedia, WhatsApp and Microsoft, plus Russian telecom operator websites.
 
 This is a curated set of 26 major and regional bank websites, not the complete register. The Bank of Russia's directory, updated 2026-11-02, lists 340 credit organizations and 1,793 website addresses (including non-bank credit organizations): https://www.cbr.ru/banking_sector/credit/cowebsites/.
 
-For most bank entries the monitor checks the public website endpoint only. It does **not** authenticate, access private accounts, or verify card authorization, transfers, payment processing, SBP transactions or mobile-app backends. A reachable website is not proof that every banking function is operational.
+OpenStreetMap, Nominatim, BeaconDB, Wildberries, Ozon and Rockstar are checked with ordinary HTTPS GET requests to their public pages; no service-specific API is required for those checks. Roblox is also checked directly over HTTPS, with its official status feed as a supplementary data source. For most bank entries the monitor checks the public website endpoint only. It does **not** authenticate, access private accounts, or verify card authorization, transfers, payment processing, SBP transactions or mobile-app backends. A reachable website is not proof that every banking function is operational.
 
 ## What each scheduled check does
 
@@ -32,16 +35,16 @@ The Worker does not accept arbitrary probe URLs, so it cannot be used as an open
 
 ## Cloudflare Free plan-aware scheduling
 
-A single Worker invocation is limited to 50 external subrequests on the Workers Free plan. The 104 endpoints are therefore divided into three stable groups of 35, 35 and 34 services. Each group runs every five minutes, staggered one minute apart:
+A single Worker invocation is limited to 50 external subrequests on the Workers Free plan. The 111 endpoints are therefore divided into three stable groups of 37 services each. Each group runs every five minutes, staggered one minute apart:
 
 - `*/5 * * * *` — group 0
 - `1-59/5 * * * *` — group 1
 - `2-59/5 * * * *` — group 2
 - `57 3 * * *` — daily history compaction and retention cleanup
 
-A service is still checked every five minutes. Each batch uses at most 35 direct probes plus up to seven official Status API requests, remaining below the 50-subrequest Free-plan ceiling. The Worker limits concurrent outgoing connections to six.
+A service is still checked every five minutes. Each batch uses at most 37 direct probes plus up to seven official Status API requests, remaining below the 50-subrequest Free-plan ceiling. The Worker limits concurrent outgoing connections to six.
 
-With 104 services and a five-minute interval, the system performs up to 29,952 HTTP probes/day. The D1 writes include one probe row and one service-state upsert per service/check (about 59,904 row writes/day, excluding rare incident changes and daily rollups). Cloudflare plan limits can change; check your account's Workers and D1 usage.
+With 111 services and a five-minute interval, the system performs up to 31,968 HTTP probes/day. The D1 writes include one probe row and one service-state upsert per service/check (about 63,936 row writes/day, excluding rare incident changes and daily rollups). Cloudflare plan limits can change; check your account's Workers and D1 usage.
 
 ## History and storage
 
