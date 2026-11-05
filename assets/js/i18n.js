@@ -45,6 +45,9 @@ const map={
 "Предпросмотр обновляется при изменении настроек. Файл сохраняется локально через браузер.":"The preview updates when settings change. The file is saved locally by your browser.",
 "Для zapret 1 сохрани .bat в корневую папку Flowseal, рядом с service.bat. Не заменяй general.bat — используй отдельный файл.":"For zapret 1, save the .bat into the Flowseal root folder next to service.bat. Do not replace general.bat — use a separate file.",
 "Для zapret 2 нужен winws2.exe и Lua-файлы из Windows bundle bol-van/zapret-win-bundle. Это не конфиг для Flowseal winws.exe.":"Zapret 2 requires winws2.exe and Lua files from the bol-van/zapret-win-bundle Windows bundle. This is not a config for Flowseal winws.exe.",
+"Профили Flowseal требуют winws.exe, bin, lists и service.bat. Для WARP здесь используется общий unknown-UDP приём из GameFilter — он экспериментальный и не распознаёт WireGuard отдельно.":"Flowseal profiles require winws.exe, bin, lists and service.bat. WARP uses the generic unknown-UDP GameFilter method here — it is experimental and does not identify WireGuard separately.",
+"Нужны winws2.exe и Lua-файлы из Windows bundle. WARP WireGuard распознаётся отдельно через --filter-l7=wireguard и --payload=wireguard_initiation; это не конфиг Flowseal winws.exe.":"Requires winws2.exe and Lua files from the Windows bundle. WARP WireGuard is identified separately via --filter-l7=wireguard and --payload=wireguard_initiation; this is not a Flowseal winws.exe config.",
+
 "Что важно знать о WARP":"WARP port notes",
 "Порты разделены по протоколам и не смешиваются в один список.":"Ports are separated by protocol and are not mixed into one list.",
 "Для TCP":"For TCP",
