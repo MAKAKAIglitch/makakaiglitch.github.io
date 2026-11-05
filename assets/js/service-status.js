@@ -1004,6 +1004,141 @@ const CATALOG = [
     "description": "Rockstar Games — сайт, аккаунты и игровые сервисы",
     "website": "https://www.rockstargames.com/",
     "status_page_url": "https://support.rockstargames.com/servicestatus"
+  },
+  {
+    "id": "epic_games",
+    "name": "Epic Games",
+    "symbol": "EPIC",
+    "category": "gaming",
+    "description": "Epic Games — Epic Games Store, Epic Online Services и игровые сервисы",
+    "website": "https://store.epicgames.com/",
+    "status_page_url": "https://status.epicgames.com/"
+  },
+  {
+    "id": "gitlab",
+    "name": "GitLab",
+    "symbol": "GL",
+    "category": "development",
+    "description": "GitLab.com — Git, CI/CD, Pages, Package Registry и Container Registry",
+    "website": "https://gitlab.com/",
+    "status_page_url": "https://status.gitlab.com/"
+  },
+  {
+    "id": "npm_registry",
+    "name": "npm Registry",
+    "symbol": "NPM",
+    "category": "development",
+    "description": "npm Registry — получение и публикация JavaScript-пакетов",
+    "website": "https://www.npmjs.com/",
+    "status_page_url": "https://status.npmjs.org/"
+  },
+  {
+    "id": "pypi",
+    "name": "PyPI",
+    "symbol": "PY",
+    "category": "development",
+    "description": "PyPI — Python Package Index и загрузка Python-пакетов",
+    "website": "https://pypi.org/",
+    "status_page_url": "https://status.python.org/"
+  },
+  {
+    "id": "adguard_dns",
+    "name": "AdGuard DNS",
+    "symbol": "ADG",
+    "category": "infrastructure",
+    "description": "AdGuard DNS — публичный DNS-резолвер, проверка через JSON DoH API",
+    "website": "https://adguard-dns.io/",
+    "status_page_url": "https://status.adguard.com/"
+  },
+  {
+    "id": "quad9_dns",
+    "name": "Quad9 DNS",
+    "symbol": "Q9",
+    "category": "infrastructure",
+    "description": "Quad9 DNS — официальная uptime-панель; проверяется доступность панели, не DNS-разрешение с runner",
+    "website": "https://quad9.net/",
+    "status_page_url": "https://uptime.quad9.net/"
+  },
+  {
+    "id": "ripe_ncc",
+    "name": "RIPE NCC",
+    "symbol": "RIPE",
+    "category": "infrastructure",
+    "description": "RIPE NCC — RIPEstat, RIPE Database, RPKI, RIPE Atlas и DNSMON",
+    "website": "https://www.ripe.net/",
+    "status_page_url": "https://status.ripe.net/"
+  },
+  {
+    "id": "digitalocean",
+    "name": "DigitalOcean",
+    "symbol": "DO",
+    "category": "infrastructure",
+    "description": "DigitalOcean — облачная платформа, API, App Platform и managed services",
+    "website": "https://www.digitalocean.com/",
+    "status_page_url": "https://status.digitalocean.com/"
+  },
+  {
+    "id": "akamai",
+    "name": "Akamai",
+    "symbol": "AK",
+    "category": "infrastructure",
+    "description": "Akamai — CDN, Edge, DNS, security и cloud infrastructure",
+    "website": "https://www.akamai.com/",
+    "status_page_url": "https://www.akamaistatus.com/"
+  },
+  {
+    "id": "bunny",
+    "name": "Bunny.net",
+    "symbol": "BN",
+    "category": "infrastructure",
+    "description": "Bunny.net — CDN, DNS, Storage, Stream и edge services",
+    "website": "https://bunny.net/",
+    "status_page_url": "https://status.bunny.net/"
+  },
+  {
+    "id": "riot_games",
+    "name": "Riot Games",
+    "symbol": "RIOT",
+    "category": "gaming",
+    "description": "Riot Games — статус League of Legends, VALORANT и других игр (страница региона North America)",
+    "website": "https://www.riotgames.com/",
+    "status_page_url": "https://status.riotgames.com/?locale=en-us"
+  },
+  {
+    "id": "ea_servers",
+    "name": "EA Servers",
+    "symbol": "EA",
+    "category": "gaming",
+    "description": "EA Servers — EA app, EA Play, Apex Legends, Battlefield и EA SPORTS",
+    "website": "https://www.ea.com/",
+    "status_page_url": "https://help.ea.com/en/server-status/"
+  },
+  {
+    "id": "playstation_network",
+    "name": "PlayStation Network",
+    "symbol": "PSN",
+    "category": "gaming",
+    "description": "PlayStation Network — официальная страница состояния сети PlayStation с выбором региона",
+    "website": "https://www.playstation.com/",
+    "status_page_url": "https://status.playstation.com/corp/"
+  },
+  {
+    "id": "xbox_network",
+    "name": "Xbox Network",
+    "symbol": "XB",
+    "category": "gaming",
+    "description": "Xbox Network — Xbox Live, вход, профиль, multiplayer и сервисы Xbox",
+    "website": "https://www.xbox.com/",
+    "status_page_url": "https://support.xbox.com/en-US/xbox-live-status"
+  },
+  {
+    "id": "overpass_api",
+    "name": "Overpass API",
+    "symbol": "OVP",
+    "category": "mapping",
+    "description": "Overpass API — выполнение минимального запроса к данным OpenStreetMap",
+    "website": "https://wiki.openstreetmap.org/wiki/Overpass_API",
+    "status_page_url": "https://wiki.openstreetmap.org/wiki/Overpass_API/status"
   }
 ];
 
