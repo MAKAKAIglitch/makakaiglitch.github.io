@@ -46,6 +46,18 @@ OpenStreetMap, Nominatim, BeaconDB and Rockstar are checked with ordinary HTTPS 
 
 GitLab's Trust & Safety documentation explicitly permits VPN use, with a caveat for access from trade-restricted regions. Epic Games documents proxy configuration for its launcher. Quad9 supports use alongside VPN clients, but its documentation warns that many VPN apps override system DNS; configure Quad9 in the VPN client's custom DNS settings when needed. EA's connection troubleshooting recommends disabling VPN for unstable EA SPORTS FC connections because of additional latency; this is a troubleshooting recommendation, not evidence of a universal account-access ban. No blanket VPN ban was identified in the official material reviewed for the other newly added status pages. Any particular VPN exit IP, region, account or game server can still behave differently.
 
+## GitHub Pages deployment recovery
+
+The monitor checks services and builds the JSON snapshot in GitHub Actions before publishing. If the collection and artifact-upload steps succeed but `actions/deploy-pages` returns HTTP 400 with `due to in progress deployment`, the failure is in GitHub Pages deployment state, not in the service probes.
+
+One-time recovery:
+1. Open **Repository Settings → Pages → Build and deployment → Source**.
+2. Temporarily select **Deploy from a branch**, choose `main` and `/(root)`, then save.
+3. Return to the same setting, select **GitHub Actions**, and save.
+4. Open the workflow and run it manually, or wait for the next scheduled run.
+
+This changes the Pages publishing mode temporarily; it does not create or switch repository branches. If Pages still reports the same stale deployment after the source reset, the remaining lock is on GitHub's side and should be reported to [GitHub Support](https://support.github.com/) with the failed run URL and the stale deployment SHA.
+
 ## What each scheduled check does
 
 For each service, the Worker:

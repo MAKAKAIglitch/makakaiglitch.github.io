@@ -13,7 +13,6 @@ on:
 
 permissions:
   contents: read
-  deployments: write
   pages: write
   id-token: write
 
@@ -24,7 +23,7 @@ concurrency:
 jobs:
   deploy:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
-    timeout-minutes: 8
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -60,58 +59,6 @@ jobs:
         with:
           path: .
 
-      - name: Release orphaned GitHub Pages and deployment records
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          stale_sha="c1f5e3542a0afa6d35c192be5b5e271150ac02e4"
-          pages_deployment="repos/${GITHUB_REPOSITORY}/pages/deployments/${stale_sha}"
-          gh api --method POST "${pages_deployment}/cancel"
-          for attempt in $(seq 1 12); do
-            pages_state=$(gh api "${pages_deployment}" --jq .status)
-            echo "Old Pages deployment status: ${pages_state} (attempt ${attempt}/12)."
-            case "${pages_state}" in
-              in_progress|deploying|building|queued|pending)
-                sleep 5
-                ;;
-              *)
-                break
-                ;;
-            esac
-          done
-          case "${pages_state}" in
-            in_progress|deploying|building|queued|pending)
-              echo "::error::The old Pages deployment is still active."
-              exit 1
-              ;;
-          esac
-
-          deployment_ids=$(gh api "repos/${GITHUB_REPOSITORY}/deployments?sha=${stale_sha}&environment=github-pages&per_page=100" --jq '.[].id')
-          if [ -z "${deployment_ids}" ]; then
-            echo "::error::No matching github-pages deployment record was found for the stale SHA."
-            exit 1
-          fi
-
-          for deployment_id in ${deployment_ids}; do
-            deployment="repos/${GITHUB_REPOSITORY}/deployments/${deployment_id}"
-            previous_state=$(gh api "${deployment}/statuses?per_page=1" --jq '.[0].state // "none"')
-            echo "Deployment ${deployment_id}: previous state=${previous_state}."
-            if [ "${previous_state}" != "inactive" ]; then
-              gh api --method POST "${deployment}/statuses" \
-                -f state=inactive \
-                -f description="Marking an orphaned GitHub Pages deployment inactive during recovery."
-            fi
-            verified_state=$(gh api "${deployment}/statuses?per_page=1" --jq '.[0].state // "none"')
-            if [ "${verified_state}" != "inactive" ]; then
-              echo "::error::Deployment ${deployment_id} did not become inactive (state=${verified_state})."
-              exit 1
-            fi
-            gh api --method DELETE "${deployment}"
-            echo "Removed inactive orphaned deployment ${deployment_id}."
-          done
-
-          echo "Waiting 20 seconds for GitHub Pages to release the stale deployment lock."
-          sleep 20
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5.0.1
