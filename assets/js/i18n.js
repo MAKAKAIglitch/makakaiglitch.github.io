@@ -550,17 +550,19 @@ function detect(){
 }
 let lang=detect();
 function translateString(value){
- // Preserve proper brand names: the RU dictionary entry "Открыть" must not
- // rewrite the "Open" prefix inside "OpenStreetMap".
+ const pairs=lang===EN?Object.entries(map):Object.entries(reverse);
+ pairs.sort((a,b)=>b[0].length-a[0].length);
+ let result=String(value);
+ // Translate complete phrases containing the map brand first, then protect
+ // the brand itself from shorter dictionary entries such as "Open" → "Открыть".
+ for(const [from,to] of pairs)if(from.includes("OpenStreetMap"))result=result.split(from).join(to);
  const brandTokens=[];
- let result=String(value).replace(/OpenStreetMap/g,()=>{
-  const token="\uE000OSM"+brandTokens.length+"\uE001";
+ result=result.replace(/OpenStreetMap/g,()=>{
+  const token="\\uE000OSM"+brandTokens.length+"\\uE001";
   brandTokens.push(token);
   return token;
  });
- const pairs=lang===EN?Object.entries(map):Object.entries(reverse);
- pairs.sort((a,b)=>b[0].length-a[0].length);
- for(const [from,to] of pairs)if(from)result=result.split(from).join(to);
+ for(const [from,to] of pairs)if(from&&!from.includes("OpenStreetMap"))result=result.split(from).join(to);
  brandTokens.forEach((token,index)=>{result=result.split(token).join("OpenStreetMap");});
  return result;
 }
