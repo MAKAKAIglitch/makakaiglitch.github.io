@@ -83,6 +83,10 @@ jobs:
               exit 1
               ;;
           esac
+          if [ "${status}" = "deployment_cancelled" ]; then
+            echo "Waiting 15 seconds for GitHub Pages to release the cancelled deployment lock."
+            sleep 15
+          fi
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5.0.1
