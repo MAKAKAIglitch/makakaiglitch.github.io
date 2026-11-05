@@ -1,7 +1,6 @@
 (() => {
 "use strict";
 
-const STORAGE_KEY = "makakaiglitch.serviceStatus.api.v1";
 const CATALOG = [
   {
     "id": "telegram",
@@ -1047,7 +1046,7 @@ const CATALOG = [
 const $ = (selector, root=document) => root.querySelector(selector);
 const $$ = (selector, root=document) => Array.from(root.querySelectorAll(selector));
 const state = {
-  apiBase: readSavedApi(),
+  data: null,
   services: CATALOG.map(item => ({...item,status:"unknown",latest:null,uptime_24h:null,active_incidents:0})),
   incidents: [],
   health: null,
@@ -1060,31 +1059,8 @@ const state = {
 let refreshTimer = null;
 let chartSequence = {overview:0,history:0};
 
-function readSavedApi() {
-  try { return localStorage.getItem(STORAGE_KEY) || ""; } catch { return ""; }
-}
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, ch => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]));
-}
-function normaliseBase(value) {
-  const url = new URL(String(value || "").trim());
-  if (url.protocol !== "https:" && !(url.protocol === "http:" && ["localhost","127.0.0.1"].includes(url.hostname))) {
-    throw new Error("Для Worker API требуется HTTPS.");
-  }
-  return url.origin;
-}
-function apiUrl(path) { return state.apiBase.replace(/\/$/,"") + path; }
-async function apiGet(path, timeoutMs=12000) {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
-  try {
-    const response = await fetch(apiUrl(path), {method:"GET",headers:{Accept:"application/json"},cache:"no-store",signal:controller.signal});
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(payload.error || ("HTTP " + response.status));
-    return payload;
-  } finally {
-    clearTimeout(timer);
-  }
 }
 function setConnection(message, kind="") {
   const note = $("#ss-connection-note");
@@ -1093,7 +1069,7 @@ function setConnection(message, kind="") {
   note.classList.toggle("is-ok",kind==="ok");
   $("#ss-live-dot").classList.toggle("is-live",kind==="ok");
   $("#ss-live-dot").classList.toggle("is-error",kind==="error");
-  $("#ss-live-label").textContent = kind==="ok" ? "Worker API подключён" : kind==="error" ? "Ошибка подключения API" : "Мониторинг ожидает подключения API";
+  $("#ss-live-label").textContent = kind==="ok" ? "GitHub Actions активен" : kind==="error" ? "Данные мониторинга устарели" : "GitHub Actions ожидает первую проверку";
 }
 function categoryLabel(category) {
   return ({platform:"Платформы",infrastructure:"Инфраструктура",communication:"Связь",media:"Медиа",development:"Разработка",search:"Поисковики",ai:"ИИ-сервисы",russian:"Российские сервисы",finance:"Банки и платежи",mapping:"Карты и геоданные",gaming:"Игры и игровые сервисы",commerce:"Магазины и маркетплейсы"})[category] || "Сервис";
@@ -1224,17 +1200,12 @@ function renderIncidentSummary(incidents) {
   $("#ss-incident-summary").innerHTML = '<div><span>Всего событий</span><strong>'+incidents.length+'</strong></div><div><span>Активные</span><strong>'+active+'</strong></div><div><span>Серьёзные сбои</span><strong>'+severe+'</strong></div>';
 }
 async function loadIncidents() {
-  if (!state.apiBase) return;
-  try {
-    const days = $("#ss-incident-period")?.value || "30";
-    const result = await apiGet("/api/incidents?days="+encodeURIComponent(days));
-    state.incidents = result.incidents || [];
-    renderIncidents($("#ss-incidents"),state.incidents);
-    renderIncidentSummary(state.incidents);
-    renderIncidents($("#ss-overview-incidents"),state.incidents,4);
-  } catch (error) {
-    $("#ss-incidents").innerHTML = '<div class="ss-empty-state">Не удалось получить журнал: '+escapeHtml(error.message)+'</div>';
-  }
+  const days = Number($("#ss-incident-period")?.value || 30);
+  const cutoff = Math.floor(Date.now()/1000) - days*86400;
+  const filtered = state.incidents.filter(item => Number(item.started_at || 0) >= cutoff);
+  renderIncidents($("#ss-incidents"),filtered);
+  renderIncidentSummary(filtered);
+  renderIncidents($("#ss-overview-incidents"),state.incidents,4);
 }
 function linePath(points, accessor, x, y, bucketSeconds=0) {
   let path="", drawing=false, previousTimestamp=null;
@@ -1256,7 +1227,7 @@ function linePath(points, accessor, x, y, bucketSeconds=0) {
 function renderChart(container, response) {
   const points = response.points || [];
   if (!points.length) {
-    container.innerHTML = '<div class="ss-empty-state">Для выбранного периода ещё нет сохранённых измерений. Новые точки появятся после плановых проверок Worker.</div>';
+    container.innerHTML = '<div class="ss-empty-state">Для выбранного периода ещё нет сохранённых измерений. История начнёт заполняться после следующих запусков GitHub Actions.</div>';
     return;
   }
   const W=960,H=350,left=66,right=66,top=24,bottom=49,plotW=W-left-right,plotH=H-top-bottom;
@@ -1299,22 +1270,72 @@ function renderChart(container, response) {
     '</svg>';
   $("#"+(container.id==="ss-history-chart"?"ss-history-summary":"ss-overview-chart-foot")).dataset.coverage=coverage;
 }
+function historyResponse(serviceId, range) {
+  const settings = {
+    "24h": {seconds:86400,bucket:300,source:"24h"},
+    "7d": {seconds:604800,bucket:900,source:"7d"},
+    "30d": {seconds:2592000,bucket:3600,source:"30d"},
+    "90d": {seconds:7776000,bucket:86400,source:"365d"},
+    "365d": {seconds:31536000,bucket:86400,source:"365d"}
+  }[range];
+  if (!settings || !state.data) throw new Error("История пока недоступна.");
+  const now = Number(state.data.last_check_at || state.data.generated_at || Math.floor(Date.now()/1000));
+  const exactFrom = now - settings.seconds;
+  const from = settings.bucket===86400 ? Math.ceil(exactFrom/86400)*86400 : exactFrom;
+  const stored = state.data.history?.[serviceId]?.[settings.source] || [];
+  const rawPoints = stored.filter(point => Number(point[0]) >= from && Number(point[0]) <= now);
+  const points = rawPoints.map(point => {
+    const checks = Number(point[1] || 0);
+    const successful = Number(point[2] || 0);
+    const latencySum = Number(point[3] || 0);
+    const latencySamples = Number(point[4] || 0);
+    return {
+      timestamp:Number(point[0]),
+      checks,
+      successful,
+      failed:Math.max(0,checks-successful),
+      uptime_pct:checks ? Number((successful/checks*100).toFixed(2)) : null,
+      avg_latency_ms:latencySamples ? Number((latencySum/latencySamples).toFixed(2)) : null,
+      latency_samples:latencySamples,
+      min_latency_ms:point[5]===null ? null : Number(point[5]),
+      max_latency_ms:point[6]===null ? null : Number(point[6])
+    };
+  });
+  const checks = points.reduce((sum,point)=>sum+point.checks,0);
+  const successful = points.reduce((sum,point)=>sum+point.successful,0);
+  const latencySamples = points.reduce((sum,point)=>sum+point.latency_samples,0);
+  const latencySum = rawPoints.reduce((sum,point)=>sum+Number(point[3]||0),0);
+  const expected = Math.max(1,Math.ceil((now-from)/300));
+  return {
+    service_id:serviceId,
+    range,
+    bucket_seconds:settings.bucket,
+    from,
+    to:now,
+    checks,
+    successful,
+    failed:checks-successful,
+    uptime_pct:checks ? Number((successful/checks*100).toFixed(4)) : null,
+    coverage_pct:Number(Math.min(100,checks/expected*100).toFixed(2)),
+    avg_latency_ms:latencySamples ? Number((latencySum/latencySamples).toFixed(2)) : null,
+    points
+  };
+}
 async function loadHistoryChart(which) {
   const container = which==="history" ? $("#ss-history-chart") : $("#ss-overview-chart");
   const serviceId = which==="history" ? ($("#ss-history-service")?.value || state.historyService) : ($("#ss-overview-service")?.value || state.overviewService);
   const range = which==="history" ? state.historyRange : state.overviewRange;
   const sequence=++chartSequence[which];
-  if (!state.apiBase) {
-    container.innerHTML='<div class="ss-empty-state">Подключи Worker API во вкладке «Настройки», чтобы строить графики по настоящим измерениям.</div>';
+  if (!state.data) {
+    container.innerHTML='<div class="ss-empty-state">История появится после первой автоматической проверки GitHub Actions.</div>';
     return;
   }
-  container.innerHTML='<div class="ss-empty-state">Загружаю историю измерений…</div>';
   try {
-    const result=await apiGet("/api/history?service="+encodeURIComponent(serviceId)+"&range="+encodeURIComponent(range));
+    const result=historyResponse(serviceId,range);
     if(sequence!==chartSequence[which])return;
     renderChart(container,result);
     if(which==="history"){
-      $("#ss-history-period-label").textContent=({ "24h":"24 часа","7d":"7 дней","30d":"30 дней","90d":"90 дней","365d":"365 дней"})[range] || range;
+      $("#ss-history-period-label").textContent=({"24h":"24 часа","7d":"7 дней","30d":"30 дней","90d":"90 дней","365d":"365 дней"})[range] || range;
       const summary=$("#ss-history-summary");
       summary.innerHTML=[
         ["Uptime за период",formatPct(result.uptime_pct)],
@@ -1323,7 +1344,7 @@ async function loadHistoryChart(which) {
         ["Покрытие мониторингом",formatPct(result.coverage_pct)]
       ].map(([label,value])=>'<div><span>'+escapeHtml(label)+'</span><strong>'+escapeHtml(value)+'</strong></div>').join("");
     } else {
-      $("#ss-overview-chart-caption").textContent=(serviceById(serviceId)?.name || serviceId)+" · "+({ "24h":"24 часа","7d":"7 дней","30d":"30 дней"})[range];
+      $("#ss-overview-chart-caption").textContent=(serviceById(serviceId)?.name || serviceId)+" · "+({"24h":"24 часа","7d":"7 дней","30d":"30 дней"})[range];
       $("#ss-overview-chart-foot").textContent="Покрытие: "+formatPct(result.coverage_pct)+". Левая шкала — миллисекунды; правая — доступность.";
     }
   } catch(error) {
@@ -1337,77 +1358,54 @@ function setRange(which,range) {
   loadHistoryChart(which);
 }
 async function loadAll({quiet=false}={}) {
-  if(!state.apiBase) {
-    setConnection("Подключи Worker API во вкладке «Настройки», чтобы получать реальные измерения и накапливать историю.");
-    renderServices();renderMetrics();
-    $("#ss-overview-chart").innerHTML='<div class="ss-empty-state">История появится после подключения Worker и первых проверок.</div>';
-    $("#ss-overview-incidents").innerHTML='<div class="ss-empty-state">Инциденты пока не зарегистрированы.</div>';
-    return;
-  }
   if(state.loading)return;
   state.loading=true;
   if(!quiet)$("#ss-last-update").textContent="Обновляю…";
   try {
-    const [health,services,incidents]=await Promise.all([
-      apiGet("/api/health"),apiGet("/api/services"),apiGet("/api/incidents?days=7")
-    ]);
-    state.health=health;
-    state.services=(services.services || []).map(item=>({...item,...(CATALOG.find(c=>c.id===item.id)||{})}));
-    state.incidents=incidents.incidents || [];
-    renderServices();renderMetrics();
+    const response=await fetch("/data/service-status.json?nocache="+Date.now(),{
+      method:"GET",
+      headers:{Accept:"application/json","Cache-Control":"no-cache"},
+      cache:"no-store"
+    });
+    if(!response.ok)throw new Error("HTTP "+response.status);
+    const data=await response.json();
+    if(!data || !Array.isArray(data.services) || !data.history)throw new Error("Некорректный файл данных мониторинга.");
+    state.data=data;
+    state.health={
+      service_count:Number(data.summary?.service_count || data.services.length),
+      interval_minutes:Number(data.interval_seconds || 300)/60,
+      retention_days:Number(data.retention_days || 365),
+      last_check_at:Number(data.last_check_at || data.generated_at || 0)
+    };
+    state.services=data.services.map(item=>({...((CATALOG.find(c=>c.id===item.id)||{})),...item}));
+    state.incidents=Array.isArray(data.incidents) ? data.incidents : [];
+    renderServices();
+    renderMetrics();
     renderIncidents($("#ss-overview-incidents"),state.incidents,4);
-    const now=new Date();
-    $("#ss-last-update").textContent="Обновлено "+now.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
-    $("#ss-footer-state").textContent="Cron · "+(health.interval_minutes || 5)+" min · "+(health.retention_days || 365)+" days";
-    setConnection("Worker API подключён · "+(health.service_count || state.services.length)+" сервисов · проверки каждые "+(health.interval_minutes || 5)+" минут.", "ok");
+    const last=state.health.last_check_at;
+    const ageSeconds=last ? Math.max(0,Date.now()/1000-last) : Infinity;
+    const isStale=ageSeconds>15*60;
+    const checkedTime=last ? new Date(last*1000).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"}) : "нет";
+    $("#ss-last-update").textContent=last ? "Проверено "+checkedTime : "Данные ещё не получены";
+    $("#ss-footer-state").textContent="GitHub Actions · "+state.health.interval_minutes+" min · "+state.health.retention_days+" days";
+    const note=isStale
+      ? "Последняя проверка была "+Math.round(ageSeconds/60)+" мин назад. GitHub Actions может задерживать запуск; показаны последние сохранённые результаты."
+      : "Проверки выполняются GitHub Actions примерно каждые "+state.health.interval_minutes+" минут. История хранится до "+state.health.retention_days+" дней.";
+    setConnection(note,isStale ? "error" : "ok");
     if($("#ss-tab-overview").classList.contains("is-active"))loadHistoryChart("overview");
     if($("#ss-tab-history").classList.contains("is-active"))loadHistoryChart("history");
   } catch(error) {
-    setConnection("Не удалось получить данные Worker API: "+error.message+" Проверь URL, CORS, Worker и базу D1.","error");
+    setConnection("Не удалось загрузить опубликованные данные мониторинга: "+error.message+". Проверь запуск GitHub Actions.", "error");
     $("#ss-last-update").textContent="Ошибка загрузки";
-    if(!quiet)$("#ss-settings-message").textContent=error.message;
+    if(!quiet)$("#ss-overview-chart").innerHTML='<div class="ss-empty-state">Пока нет опубликованных измерений. Открой GitHub Actions и проверь первый запуск.</div>';
   } finally {
     state.loading=false;
   }
-}
-async function testApi() {
-  const input=$("#ss-api-url");
-  let base;
-  try { base=normaliseBase(input.value); }
-  catch(error) { showSettingsMessage(error.message,true); return; }
-  showSettingsMessage("Проверяю API…");
-  try {
-    const response=await fetch(base+"/api/health",{headers:{Accept:"application/json"},cache:"no-store"});
-    const data=await response.json();
-    if(!response.ok || !data.ok)throw new Error(data.error || "Worker API вернул ошибку.");
-    showSettingsMessage("Соединение успешно. Worker видит "+data.service_count+" сервисов; хранение "+data.retention_days+" дней.");
-  } catch(error) {
-    showSettingsMessage("Ошибка: "+error.message,true);
-  }
-}
-function showSettingsMessage(message,isError=false) {
-  const node=$("#ss-settings-message");
-  node.textContent=message;
-  node.classList.toggle("is-error",isError);
-}
-function saveApi() {
-  try {
-    const base=normaliseBase($("#ss-api-url").value);
-    state.apiBase=base;
-    try { localStorage.setItem(STORAGE_KEY,base); } catch {}
-    showSettingsMessage("Адрес сохранён в этом браузере. Подключаюсь…");
-    loadAll();
-    if(refreshTimer)clearInterval(refreshTimer);
-    refreshTimer=setInterval(()=>loadAll({quiet:true}),60000);
-  } catch(error) { showSettingsMessage(error.message,true); }
 }
 function bindEvents() {
   $$(".ss-tab").forEach(button=>button.addEventListener("click",()=>setTab(button.dataset.tab)));
   $$("[data-open-tab]").forEach(button=>button.addEventListener("click",()=>setTab(button.dataset.openTab)));
   $("#ss-refresh").addEventListener("click",()=>loadAll());
-  $("#ss-save-api").addEventListener("click",saveApi);
-  $("#ss-test-api").addEventListener("click",testApi);
-  $("#ss-api-url").value=state.apiBase;
   $("#ss-service-search").addEventListener("input",renderServices);
   $("#ss-category-filter").addEventListener("change",renderServices);
   $("#ss-status-filter").addEventListener("change",renderServices);
@@ -1428,10 +1426,6 @@ bindEvents();
 populateServiceSelects();
 renderServices();
 renderMetrics();
-if(state.apiBase) {
-  loadAll();
-  refreshTimer=setInterval(()=>loadAll({quiet:true}),60000);
-} else {
-  loadAll();
-}
+loadAll();
+refreshTimer=setInterval(()=>loadAll({quiet:true}),60000);
 })();
