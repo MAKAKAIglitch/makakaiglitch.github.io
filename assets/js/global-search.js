@@ -2,10 +2,10 @@
   "use strict";
   const PAGE_PATHS = [
     "/", "/tools/", "/tools/warp-generator/", "/tools/magnet-to-torrent/",
-    "/tools/ip-check/", "/tools/dns-lookup/", "/tools/dns-tester/", "/tools/download-time/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
+    "/tools/ip-check/", "/tools/dns-lookup/", "/tools/dns-tester/", "/tools/download-time/", "/tools/vpn-leak-test/", "/tools/ip-intelligence/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
   ];
   const REPOSITORY_SNAPSHOT = "/data/repositories.json";
-  const CACHE_KEY = "makakaiglitch.global-search.v7";
+  const CACHE_KEY = "makakaiglitch.global-search.v8";
   const CACHE_TTL = 5 * 60 * 1000;
   const MAX_RESULTS = 12;
   const topbar = document.querySelector(".topbar");
