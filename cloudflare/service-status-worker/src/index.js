@@ -69,7 +69,8 @@ async function checkProbe(service) {
       redirect: "follow",
       headers: {
         "accept": "text/html,application/json,text/plain,*/*",
-        "cache-control": "no-cache"
+        "cache-control": "no-cache",
+        "user-agent": "MAKAKAIglitch-ServiceStatus/1.0 (+https://makakaiglitch.github.io/tools/service-status/)"
       },
       signal: AbortSignal.timeout(PROBE_TIMEOUT_MS)
     });
@@ -94,7 +95,7 @@ async function checkStatusPage(service) {
     const response = await fetch(service.status_api_url, {
       method: "GET",
       redirect: "follow",
-      headers: {"accept":"application/json"},
+      headers: {"accept":"application/json","user-agent":"MAKAKAIglitch-ServiceStatus/1.0 (+https://makakaiglitch.github.io/tools/service-status/)"},
       signal: AbortSignal.timeout(STATUS_TIMEOUT_MS)
     });
     if (!response.ok) {
@@ -197,15 +198,6 @@ async function runScheduledChecks(env, scheduledTime) {
 
   if (statements.length) await env.DB.batch(statements);
 
-  const date = new Date((scheduledTime || Date.now()));
-  if (date.getUTCHours() === 3 && date.getUTCMinutes() === 0) {
-    const cutoff = checkedAt - RETENTION_DAYS*86400;
-    await env.DB.batch([
-      env.DB.prepare("DELETE FROM probe_results WHERE checked_at < ?").bind(cutoff),
-      env.DB.prepare("DELETE FROM incidents WHERE ended_at IS NOT NULL AND ended_at < ?").bind(cutoff)
-    ]);
-  }
-
   console.log(JSON.stringify({
     event:"service_status_checks_complete",
     checked_at:checkedAt,
@@ -213,6 +205,16 @@ async function runScheduledChecks(env, scheduledTime) {
     available:results.filter(item=>item.up).length,
     incidents_opened:statements.length
   }));
+}
+
+async function cleanupOldData(env, nowSeconds=Math.floor(Date.now()/1000)) {
+  if (!env.DB) throw new Error("Missing D1 binding: DB");
+  const cutoff = nowSeconds - RETENTION_DAYS*86400;
+  const result = await env.DB.batch([
+    env.DB.prepare("DELETE FROM probe_results WHERE checked_at < ?").bind(cutoff),
+    env.DB.prepare("DELETE FROM incidents WHERE ended_at IS NOT NULL AND ended_at < ?").bind(cutoff)
+  ]);
+  console.log(JSON.stringify({event:"service_status_retention_cleanup",cutoff,statements:result.length}));
 }
 
 async function getHealth(env) {
@@ -343,7 +345,11 @@ export default {
 
   async scheduled(controller, env) {
     try {
-      await runScheduledChecks(env,controller.scheduledTime);
+      if (controller.cron === "0 3 * * *") {
+        await cleanupOldData(env,Math.floor((controller.scheduledTime || Date.now())/1000));
+      } else {
+        await runScheduledChecks(env,controller.scheduledTime);
+      }
     } catch (error) {
       console.error("Scheduled monitor run failed:",error?.stack || error);
       throw error;
