@@ -48,6 +48,7 @@ const map={
 "Официальный торрент Gaijin Entertainment для Enlisted — загрузка идёт в фоне, страница остаётся открытой":"Official Gaijin Entertainment torrent for Enlisted — downloads in the background while this page stays open",
 "Сидеры":"Seeders","Личеры":"Leechers","Ожидаем статистику":"Waiting for statistics",
 "Сайт War Thunder ↗":"War Thunder website ↗","Сайт Enlisted ↗":"Enlisted website ↗",
+"Спрос: высокий":"Demand: High","Спрос: средний":"Demand: Medium",
 "Публичные трекеры и справочная информация для BitTorrent-клиента.":"Public trackers and reference information for a BitTorrent client.",
 "Публичные BitTorrent-трекеры":"Public BitTorrent trackers",
 "Списки announce URL из проекта ngosang/trackerslist. Выбери тип списка, чтобы загрузить его, скопировать или открыть исходный файл.":"Announce URL lists from ngosang/trackerslist. Choose a list type to load, copy or open the raw file.",
