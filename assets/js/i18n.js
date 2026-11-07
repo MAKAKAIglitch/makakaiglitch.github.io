@@ -1010,6 +1010,12 @@ const map={
 ,"Инструмент локализации":"Localization tool"
 ,"Находит отсутствующую русскую локализацию Minecraft-модов, оценивает покрытие переводом и экспортирует исходные языковые строки для подготовки перевода.":"Finds missing Russian localization in Minecraft mods, measures translation coverage and exports source language strings to prepare translations."
 
+,"Локализация":"Localization"
+,"Инструмент локализации":"Localization tool"
+,"Инструменты локализации":"Localization tools"
+,"В разработке · релиз не опубликован":"In development · no release published"
+,"Находит отсутствующую русскую локализацию Minecraft-модов, оценивает покрытие переводом и экспортирует исходные языковые строки для подготовки перевода.":"Finds missing Russian localization in Minecraft mods, measures translation coverage and exports source language strings to prepare translations."
+
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
@@ -1081,6 +1087,8 @@ const titleMap={
 ,"/minecraft/":{ru:"Проекты Minecraft — MAKAKAIglitch",en:"Minecraft Projects — MAKAKAIglitch"}
 ,"/minecraft/tabby/":{ru:"Tabby — Minecraft Projects — MAKAKAIglitch",en:"Tabby — Minecraft Projects — MAKAKAIglitch"}
 ,"/minecraft/savewatch/":{ru:"SaveWatch — Minecraft Projects — MAKAKAIglitch",en:"SaveWatch — Minecraft Projects — MAKAKAIglitch"}
+
+,"/minecraft/rusify/":{ru:"Rusify — Minecraft Projects — MAKAKAIglitch",en:"Rusify — Minecraft Projects — MAKAKAIglitch"}
 
 };
 function detect(){
