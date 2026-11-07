@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import datetime as dt
+from email.utils import parsedate_to_datetime
 import hashlib
 import ipaddress
 import json
@@ -150,6 +151,16 @@ def decode_torrent(data: bytes) -> dict[str, Any]:
                 if isinstance(candidate, bytes):
                     trackers.append(candidate.decode("utf-8", errors="replace").strip())
 
+    creation_date = metadata.get(b"creation date")
+    creation_date_iso = None
+    if isinstance(creation_date, int) and creation_date >= 0:
+        try:
+            creation_date_iso = dt.datetime.fromtimestamp(
+                creation_date, dt.timezone.utc
+            ).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+        except (OverflowError, OSError, ValueError):
+            creation_date_iso = None
+
     announce = metadata.get(b"announce")
     if isinstance(announce, bytes):
         trackers.append(announce.decode("utf-8", errors="replace").strip())
@@ -164,17 +175,31 @@ def decode_torrent(data: bytes) -> dict[str, Any]:
     return {
         "name": name or "Unknown torrent",
         "info_hash": info_hash,
+        "creation_date": creation_date_iso,
         "trackers": unique_trackers[:MAX_TRACKERS_PER_TORRENT],
     }
 
 
-def fetch_torrent(url: str) -> bytes:
+def parse_http_date(value: str | None) -> str | None:
+    if not value:
+        return None
+    try:
+        parsed = parsedate_to_datetime(value)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        return parsed.astimezone(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+    except (TypeError, ValueError, OverflowError):
+        return None
+
+
+def fetch_torrent(url: str) -> tuple[bytes, str | None]:
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "application/x-bittorrent, application/octet-stream, */*"})
     with urllib.request.urlopen(request, timeout=25) as response:
         data = response.read(MAX_TORRENT_BYTES + 1)
+        last_modified = parse_http_date(response.headers.get("Last-Modified"))
     if len(data) > MAX_TORRENT_BYTES:
         raise TorrentDataError("Gaijin torrent response exceeds the size limit")
-    return data
+    return data, last_modified
 
 
 def validate_tracker_url(raw_url: str):
@@ -323,6 +348,11 @@ def collect_game(game: dict[str, str], previous: dict[str, Any], checked_at: str
         "project": game["project"],
         "torrent_url": game["url"],
         "checked_at": checked_at,
+        "torrent_sha256": old.get("torrent_sha256"),
+        "torrent_last_modified_at": old.get("torrent_last_modified_at"),
+        "torrent_content_changed_at": old.get("torrent_content_changed_at"),
+        "torrent_first_seen_at": old.get("torrent_first_seen_at"),
+        "torrent_creation_date": None,
         "info_hash": old.get("info_hash"),
         "seeders": old.get("seeders"),
         "leechers": old.get("leechers"),
@@ -335,7 +365,26 @@ def collect_game(game: dict[str, str], previous: dict[str, Any], checked_at: str
     }
 
     try:
-        torrent = decode_torrent(fetch_torrent(game["url"]))
+        torrent_data, last_modified_at = fetch_torrent(game["url"])
+        torrent = decode_torrent(torrent_data)
+        torrent_sha256 = hashlib.sha256(torrent_data).hexdigest()
+        previous_sha256 = old.get("torrent_sha256")
+        previous_info_hash = old.get("info_hash")
+        content_changed_at = old.get("torrent_content_changed_at")
+        if previous_sha256 and previous_sha256 != torrent_sha256:
+            content_changed_at = checked_at
+        elif not previous_sha256 and previous_info_hash and previous_info_hash != torrent["info_hash"]:
+            # Migrate older records using the existing BitTorrent info hash as
+            # a limited fallback until a complete-file SHA-256 baseline exists.
+            content_changed_at = checked_at
+
+        base.update({
+            "torrent_sha256": torrent_sha256,
+            "torrent_last_modified_at": last_modified_at or old.get("torrent_last_modified_at"),
+            "torrent_content_changed_at": content_changed_at,
+            "torrent_first_seen_at": old.get("torrent_first_seen_at") or checked_at,
+            "torrent_creation_date": torrent.get("creation_date"),
+        })
         base["info_hash"] = torrent["info_hash"]
         base["torrent_name"] = torrent["name"]
         # Gaijin's current torrent metadata may omit announce URLs. Use the
@@ -441,10 +490,13 @@ def self_test():
     payload = encode({
         b"announce": b"udp://tracker.example.org:1337/announce",
         b"announce-list": [[b"udp://tracker.example.org:1337/announce"], [b"https://tracker.example.org/announce"]],
+        b"creation date": 1700000000,
         b"info": info,
     })
     decoded = decode_torrent(payload)
     assert decoded["name"] == "MAKAKAIglitch test torrent"
+    assert decoded["creation_date"] == "2023-11-14T22:13:20Z"
+    assert parse_http_date("Sat, 07 Nov 2026 08:00:00 GMT") == "2026-11-07T08:00:00Z"
     assert len(decoded["info_hash"]) == 40
     assert len(decoded["trackers"]) == 2
     merged_trackers = list(dict.fromkeys([*decoded["trackers"], *GAIJIN_TRACKERS]))
@@ -458,7 +510,7 @@ def self_test():
     original_fetch_torrent = fetch_torrent
     original_collect_tracker_stats = collect_tracker_stats
     try:
-        fetch_torrent = lambda _url: payload
+        fetch_torrent = lambda _url: (payload, None)
         collect_tracker_stats = lambda _trackers, _info_hash: ([], ["test tracker offline"])
 
         old_hash = "a" * 40
