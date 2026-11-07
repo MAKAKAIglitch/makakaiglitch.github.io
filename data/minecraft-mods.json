@@ -114,7 +114,9 @@
       "release_notes": {
         "ru": "Первый публичный релиз v1.0. В него входят панель вкладок, управление фоновыми подключениями, настройки Mod Menu, уведомления, повторное подключение и оптимизации горячих путей.",
         "en": "First public v1.0 release. It includes the tab bar, background connection management, Mod Menu settings, notifications, reconnect support and hot-path optimizations."
-      }
+      },
+      "author_name": "MAKAKAIglitch",
+      "author_url": "https://github.com/MAKAKAIglitch"
     },
     {
       "slug": "savewatch",
@@ -226,7 +228,9 @@
       "release_notes": {
         "ru": "В репозитории описана версия 0.1.0, но опубликованного GitHub Release с готовым JAR сейчас нет. Доступна сборка из исходников.",
         "en": "The repository documents version 0.1.0, but there is currently no published GitHub Release containing a JAR. Building from source is available."
-      }
+      },
+      "author_name": "MAKAKAIglitch",
+      "author_url": "https://github.com/MAKAKAIglitch"
     },
     {
       "slug": "rusify",
@@ -361,7 +365,9 @@
         "ru": "Версия 0.1.0 указана в конфигурации проекта. Публичного GitHub Release с готовым JAR пока нет. В README перечислены уже реализованные функции и план дальнейшей разработки.",
         "en": "Version 0.1.0 is set in the project configuration. There is no public GitHub Release with a ready-to-install JAR yet. The README lists implemented features and the development roadmap."
       },
-      "updated_at": "2026-11-07T11:51:31Z"
+      "updated_at": "2026-11-07T11:51:31Z",
+      "author_name": "MAKAKAIglitch",
+      "author_url": "https://github.com/MAKAKAIglitch"
     }
   ]
 }
