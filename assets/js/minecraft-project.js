@@ -91,12 +91,9 @@
       ? "v" + project.version
       : (project.version ? "v" + project.version + " · " : "") + text({ru:"без релиза",en:"unreleased"});
     $("project-release-notes").textContent = text(project.release_notes);
-    setSideLink("project-release-link", text({ru:"Все релизы ↗",en:"All releases ↗"}), project.releases_url);
+    setSideLink("project-author-link", text({ru:"Автор: " + (project.author_name || "GitHub"),en:"Author: " + (project.author_name || "GitHub")}) + " ↗", project.author_url);
     setSideLink("project-source-link", text({ru:"Репозиторий ↗",en:"Repository ↗"}), project.repo_url);
-    setSideLink("project-issues-link", text({ru:"Все Issues ↗",en:"All issues ↗"}), project.issues_url);
-    setSideLink("project-new-issue-link", text({ru:"Создать Issue ↗",en:"Create an issue ↗"}), project.new_issue_url);
-    setSideLink("project-pulls-link", text({ru:"Все Pull Requests ↗",en:"All pull requests ↗"}), project.pulls_url);
-    setSideLink("project-compare-link", text({ru:"Создать Pull Request ↗",en:"Create a pull request ↗"}), project.compare_url);
+    setSideLink("project-issues-link", text({ru:"Issues ↗",en:"Issues ↗"}), project.issues_url);
 
     const checksumCard = $("project-checksum-card");
     if (project.sha256) {
