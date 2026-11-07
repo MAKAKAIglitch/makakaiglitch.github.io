@@ -1006,6 +1006,10 @@ const map={
 ,"без релиза":"unreleased"
 ,"Исходный код":"Source code"
 
+,"Инструменты локализации":"Localization tools"
+,"Инструмент локализации":"Localization tool"
+,"Находит отсутствующую русскую локализацию Minecraft-модов, оценивает покрытие переводом и экспортирует исходные языковые строки для подготовки перевода.":"Finds missing Russian localization in Minecraft mods, measures translation coverage and exports source language strings to prepare translations."
+
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
