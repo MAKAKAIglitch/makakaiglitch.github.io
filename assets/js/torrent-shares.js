@@ -35,6 +35,33 @@
     const date=new Date(value);if(Number.isNaN(date.getTime()))return null;
     return new Intl.DateTimeFormat(locale(),{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit",timeZone:"UTC"}).format(date)+" UTC";
   }
+  function formatTorrentDate(value){
+    if(!value)return null;
+    const date=new Date(value);if(Number.isNaN(date.getTime()))return null;
+    return new Intl.DateTimeFormat(locale(),{day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"UTC"}).format(date)+" UTC";
+  }
+  function renderTorrentUpdate(card,item){
+    const node=card.querySelector('[data-stat="torrent-updated"]');
+    if(!node)return;
+    const candidates=[
+      {value:item?.torrent_last_modified_at,label:"Последнее изменение файла:",source:"server"},
+      {value:item?.torrent_content_changed_at,label:"Изменение обнаружено:",source:"detected"},
+      {value:item?.torrent_creation_date,label:"Дата создания торрент-файла:",source:"created"}
+    ].map(entry=>({...entry,time:entry.value?new Date(entry.value).getTime():NaN}))
+     .filter(entry=>Number.isFinite(entry.time))
+     .sort((a,b)=>b.time-a.time);
+    if(candidates.length){
+      const latest=candidates[0];
+      node.textContent=t(latest.label)+" "+formatTorrentDate(latest.value);
+      node.dataset.source=latest.source;
+      return;
+    }
+    const firstSeen=formatTorrentDate(item?.torrent_first_seen_at);
+    node.textContent=firstSeen
+      ?t("Дата изменения пока неизвестна")+" · "+t("Отслеживание с:")+" "+firstSeen
+      :t("Дата изменения пока неизвестна");
+    node.dataset.source="unknown";
+  }
   function renderGame(card,item){
     const seeders=Number.isInteger(item?.seeders)&&item.seeders>=0?item.seeders:null;
     const leechers=Number.isInteger(item?.leechers)&&item.leechers>=0?item.leechers:null;
@@ -55,6 +82,7 @@
       else if(total)stateNode.textContent=t("Ожидаем ответ от трекеров");
       else stateNode.textContent=t("Нет данных");
     }
+    renderTorrentUpdate(card,item);
   }
   async function loadStats(){
     try{
