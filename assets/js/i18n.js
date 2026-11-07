@@ -1135,6 +1135,12 @@ function buildMinecraftNav(){
   link.setAttribute("aria-current","page");
  }
  nav.appendChild(link);
+ if(!document.getElementById("minecraft-nav-responsive-style")){
+  const style=document.createElement("style");
+  style.id="minecraft-nav-responsive-style";
+  style.textContent="@media(max-width:560px){.main-nav .nav-link{gap:0;padding-left:7px;padding-right:7px;font-size:0}.main-nav .nav-link span{font-size:0}}";
+  document.head.appendChild(style);
+ }
 }
 function buildControl(){
  const top=document.querySelector(".topbar"),host=top?.querySelector(".topbar-actions")||top;
