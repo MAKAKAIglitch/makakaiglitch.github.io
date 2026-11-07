@@ -2,11 +2,11 @@
   "use strict";
   const PAGE_PATHS = [
     "/", "/tools/", "/tools/warp-generator/", "/tools/magnet-to-torrent/",
-    "/tools/ip-check/", "/tools/dns-lookup/", "/tools/dns-tester/", "/tools/download-time/", "/tools/vpn-leak-test/", "/tools/ip-intelligence/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/", "/minecraft/", "/minecraft/tabby/", "/minecraft/savewatch/"
+    "/tools/ip-check/", "/tools/dns-lookup/", "/tools/dns-tester/", "/tools/download-time/", "/tools/vpn-leak-test/", "/tools/ip-intelligence/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/", "/minecraft/", "/minecraft/tabby/", "/minecraft/savewatch/", "/minecraft/rusify/"
   ];
   const REPOSITORY_SNAPSHOT = "/data/repositories.json";
   const MINECRAFT_CATALOG = "/data/minecraft-mods.json";
-  const CACHE_KEY = "makakaiglitch.global-search.v9";
+  const CACHE_KEY = "makakaiglitch.global-search.v10";
   const CACHE_TTL = 5 * 60 * 1000;
   const MAX_RESULTS = 12;
   const topbar = document.querySelector(".topbar");
