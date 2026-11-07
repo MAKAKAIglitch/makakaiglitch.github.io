@@ -227,6 +227,132 @@
         "ru": "В репозитории описана версия 0.1.0, но опубликованного GitHub Release с готовым JAR сейчас нет. Доступна сборка из исходников.",
         "en": "The repository documents version 0.1.0, but there is currently no published GitHub Release containing a JAR. Building from source is available."
       }
+    },
+    {
+      "slug": "rusify",
+      "name": "Rusify",
+      "monogram": "RU",
+      "type": "localization",
+      "type_label": {
+        "ru": "Инструмент локализации",
+        "en": "Localization tool"
+      },
+      "summary": {
+        "ru": "Находит отсутствующую русскую локализацию Minecraft-модов, оценивает покрытие переводом и экспортирует исходные языковые строки для подготовки перевода.",
+        "en": "Finds missing Russian localization in Minecraft mods, measures translation coverage and exports source language strings to prepare translations."
+      },
+      "loader": "NeoForge",
+      "minecraft_versions": [
+        "1.21.1"
+      ],
+      "java": "21",
+      "status": "development",
+      "status_label": {
+        "ru": "В разработке · релиз не опубликован",
+        "en": "In development · no release published"
+      },
+      "version": "0.1.0",
+      "repo_url": "https://github.com/MAKAKAIglitch/Rusify",
+      "issues_url": "https://github.com/MAKAKAIglitch/Rusify/issues",
+      "new_issue_url": "https://github.com/MAKAKAIglitch/Rusify/issues/new",
+      "pulls_url": "https://github.com/MAKAKAIglitch/Rusify/pulls",
+      "compare_url": "https://github.com/MAKAKAIglitch/Rusify/compare",
+      "releases_url": "https://github.com/MAKAKAIglitch/Rusify/releases",
+      "latest_release_url": null,
+      "download_url": null,
+      "download_name": null,
+      "download_size": null,
+      "sha256": null,
+      "installation": {
+        "ru": [
+          "Скачай исходный код Rusify из GitHub.",
+          "Установи JDK 21 и Gradle.",
+          "В корне проекта выполни команду gradle build.",
+          "После успешной сборки JAR появится в build/libs/.",
+          "Помести JAR в папку mods профиля Minecraft Java Edition 1.21.1 с NeoForge 21.1.x.",
+          "Запусти клиент Minecraft, открой управление клавишами и нажми O.",
+          "Нажми «Сканировать», выбери мод и извлеки выбранные языковые файлы."
+        ],
+        "en": [
+          "Download the Rusify source code from GitHub.",
+          "Install JDK 21 and Gradle.",
+          "Run gradle build in the project root.",
+          "After a successful build, the JAR appears in build/libs/.",
+          "Place the JAR in the mods folder of a Minecraft Java Edition 1.21.1 profile using NeoForge 21.1.x.",
+          "Launch the Minecraft client, open the key bindings screen and press O.",
+          "Click Scan, select a mod and extract the selected language files."
+        ]
+      },
+      "features": [
+        {
+          "ru": "Сканирует JAR-файлы из папки mods, включая моды без языковых файлов.",
+          "en": "Scans JAR files in the mods folder, including mods without language files."
+        },
+        {
+          "ru": "Ищет assets/<namespace>/lang/en_us.json и ru_ru.json внутри каждого JAR.",
+          "en": "Looks for assets/<namespace>/lang/en_us.json and ru_ru.json inside each JAR."
+        },
+        {
+          "ru": "Показывает отсутствие языковых файлов, отсутствие русского, частичный или полный перевод.",
+          "en": "Reports missing language files, missing Russian, partial translations or complete translations."
+        },
+        {
+          "ru": "Считает покрытие по непустым строковым значениям и разделяет ключи по namespace, чтобы одинаковые ключи разных модов не смешивались.",
+          "en": "Measures coverage using non-empty string values and keeps keys separated by namespace so identical keys from different mods are not mixed."
+        },
+        {
+          "ru": "Экспортирует оригинальные en_us.json и существующие ru_ru.json в Rusify/exports.",
+          "en": "Exports original en_us.json files and existing ru_ru.json files to Rusify/exports."
+        },
+        {
+          "ru": "Не изменяет исходные JAR-файлы модификаций.",
+          "en": "Does not modify the original mod JAR files."
+        }
+      ],
+      "compatibility": [
+        {
+          "label": "Minecraft",
+          "value": "Java Edition 1.21.1"
+        },
+        {
+          "label": "Mod loader",
+          "value": "NeoForge 21.1.235+"
+        },
+        {
+          "label": "Java",
+          "value": "21"
+        },
+        {
+          "label": "Side",
+          "value": "Client-side"
+        }
+      ],
+      "limitations": [
+        {
+          "ru": "На текущем этапе проверяются языковые файлы внутри JAR модов. Переводы из активных resource packs пока не учитываются.",
+          "en": "At this stage, language files inside mod JARs are checked. Translations provided by active resource packs are not considered yet."
+        },
+        {
+          "ru": "Проверка пустых значений и более точная статистика покрытия находятся в плане разработки.",
+          "en": "Empty-value checks and more precise coverage statistics are on the roadmap."
+        },
+        {
+          "ru": "Автоматическое создание шаблонов ru_ru.json и поиск/фильтрация модов ещё не реализованы.",
+          "en": "Automatic ru_ru.json template generation and mod search/filtering are not implemented yet."
+        },
+        {
+          "ru": "Опубликованного GitHub Release с готовым JAR пока нет. Сборка выполняется из исходного кода.",
+          "en": "There is no published GitHub Release with a ready-to-install JAR yet. Build the project from source."
+        }
+      ],
+      "overview": {
+        "ru": "Rusify — open-source клиентский инструмент для Minecraft 1.21.1 на NeoForge. Он помогает находить моды без русской локализации, оценивать полноту существующего перевода и извлекать языковые файлы, чтобы подготовить их к переводу. Исходные JAR-файлы не изменяются.",
+        "en": "Rusify is an open-source client-side tool for Minecraft 1.21.1 on NeoForge. It helps find mods without Russian localization, measure the completeness of existing translations and extract language files so they can be prepared for translation. Original JAR files are left unchanged."
+      },
+      "release_notes": {
+        "ru": "Версия 0.1.0 указана в конфигурации проекта. Публичного GitHub Release с готовым JAR пока нет. В README перечислены уже реализованные функции и план дальнейшей разработки.",
+        "en": "Version 0.1.0 is set in the project configuration. There is no public GitHub Release with a ready-to-install JAR yet. The README lists implemented features and the development roadmap."
+      }
     }
   ]
 }
