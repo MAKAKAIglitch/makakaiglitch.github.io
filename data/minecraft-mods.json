@@ -1,0 +1,233 @@
+{
+  "generated_at": "2026-11-07T10:20:01Z",
+  "items": [
+    {
+      "slug": "tabby",
+      "name": "Tabby",
+      "monogram": "T",
+      "type": "client",
+      "type_label": {
+        "ru": "Клиентский мод",
+        "en": "Client-side mod"
+      },
+      "summary": {
+        "ru": "Несколько подключений и игровых миров Minecraft в одном клиенте — переключайся между ними через удобную панель вкладок.",
+        "en": "Keep multiple Minecraft connections and game worlds in one client, then switch between them using a convenient tab bar."
+      },
+      "loader": "Fabric",
+      "minecraft_versions": [
+        "1.21.4"
+      ],
+      "java": "21",
+      "status": "released",
+      "status_label": {
+        "ru": "Релиз опубликован",
+        "en": "Release published"
+      },
+      "version": "1.0",
+      "updated_at": "2026-11-07T10:20:01Z",
+      "repo_url": "https://github.com/MAKAKAIglitch/tabby",
+      "issues_url": "https://github.com/MAKAKAIglitch/tabby/issues",
+      "new_issue_url": "https://github.com/MAKAKAIglitch/tabby/issues/new",
+      "pulls_url": "https://github.com/MAKAKAIglitch/tabby/pulls",
+      "compare_url": "https://github.com/MAKAKAIglitch/tabby/compare",
+      "releases_url": "https://github.com/MAKAKAIglitch/tabby/releases",
+      "latest_release_url": "https://github.com/MAKAKAIglitch/tabby/releases/tag/v1.0",
+      "download_url": "https://github.com/MAKAKAIglitch/tabby/releases/download/v1.0/Tabby-1.21.4.jar",
+      "download_name": "Tabby-1.21.4.jar",
+      "download_size": 190823,
+      "sha256": "b82c6b6abc84e26c2822f5c3c33c15d453edf2828a12f045814fce77515dd267",
+      "installation": {
+        "ru": [
+          "Установи Minecraft Java Edition 1.21.4 и Fabric Loader версии 0.16.14 или новее.",
+          "Установи Fabric API для Minecraft 1.21.4.",
+          "Скачай Tabby-1.21.4.jar из GitHub Release.",
+          "Помести JAR-файл в папку mods нужного профиля Minecraft.",
+          "Запусти игру через профиль Fabric."
+        ],
+        "en": [
+          "Install Minecraft Java Edition 1.21.4 and Fabric Loader 0.16.14 or newer.",
+          "Install Fabric API for Minecraft 1.21.4.",
+          "Download Tabby-1.21.4.jar from the GitHub Release.",
+          "Place the JAR file in the mods folder of your Minecraft profile.",
+          "Launch the game using the Fabric profile."
+        ]
+      },
+      "features": [
+        {
+          "ru": "Переключение между несколькими вкладками с отдельными подключениями к серверам и игровыми мирами.",
+          "en": "Switch between multiple tabs with separate server connections and game worlds."
+        },
+        {
+          "ru": "Горячие клавиши: Ctrl+T — новая вкладка, Ctrl+W — закрыть активную, Ctrl+Tab — переключение.",
+          "en": "Keyboard shortcuts: Ctrl+T creates a tab, Ctrl+W closes the active tab, and Ctrl+Tab switches tabs."
+        },
+        {
+          "ru": "Настройки внешнего вида, ограничение фоновых вкладок и дополнительные параметры через Mod Menu.",
+          "en": "Appearance settings, background-tab limits and extra options through Mod Menu."
+        },
+        {
+          "ru": "Уведомления о событиях в фоновых вкладках, непрочитанных сообщениях и повторном подключении.",
+          "en": "Background-tab notifications, unread-message indicators and automatic reconnect support."
+        }
+      ],
+      "compatibility": [
+        {
+          "label": "Minecraft",
+          "value": "Java Edition 1.21.4"
+        },
+        {
+          "label": "Mod loader",
+          "value": "Fabric Loader 0.16.14+"
+        },
+        {
+          "label": "Dependency",
+          "value": "Fabric API for 1.21.4"
+        },
+        {
+          "label": "Java",
+          "value": "21"
+        },
+        {
+          "label": "Mod Menu",
+          "value": "Optional"
+        }
+      ],
+      "limitations": [
+        {
+          "ru": "Проверки CI — это автоматизированные smoke-тесты, а не подтверждение полной совместимости со всеми модпаками.",
+          "en": "CI checks are automated smoke tests, not a guarantee of full compatibility with every modpack."
+        },
+        {
+          "ru": "Полная изоляция чата, инвентаря и сущностей всё ещё требует дополнительного тестирования. Совместимость с Voxy в реальном модпаке отдельно не подтверждена.",
+          "en": "Full chat, inventory and entity isolation still need further testing. Real-modpack Voxy compatibility has not yet been confirmed."
+        },
+        {
+          "ru": "Аппаратный рендеринг, шейдерпаки и одновременная работа нескольких крупных модов не покрыты всеми CI-тестами.",
+          "en": "Hardware rendering, shader packs and combinations of several large mods are not covered by all CI tests."
+        }
+      ],
+      "overview": {
+        "ru": "Tabby — клиентский мод для Minecraft Java Edition 1.21.4 на Fabric. Он добавляет в клиент систему вкладок, позволяющую держать несколько подключений и миров открытыми и быстро переключаться между ними. Проект разделяет управление вкладками, сетевыми подключениями и состояниями рендеринга на отдельные компоненты.",
+        "en": "Tabby is a client-side Fabric mod for Minecraft Java Edition 1.21.4. It adds a tab system that lets one client keep multiple connections and worlds open and switch between them. The project separates tab management, network connections and rendering state into dedicated components."
+      },
+      "release_notes": {
+        "ru": "Первый публичный релиз v1.0. В него входят панель вкладок, управление фоновыми подключениями, настройки Mod Menu, уведомления, повторное подключение и оптимизации горячих путей.",
+        "en": "First public v1.0 release. It includes the tab bar, background connection management, Mod Menu settings, notifications, reconnect support and hot-path optimizations."
+      }
+    },
+    {
+      "slug": "savewatch",
+      "name": "SaveWatch",
+      "monogram": "SW",
+      "type": "diagnostic",
+      "type_label": {
+        "ru": "Диагностический мод",
+        "en": "Diagnostic mod"
+      },
+      "summary": {
+        "ru": "Собирает диагностические снимки, когда логический серверный поток Minecraft слишком долго не завершает тик.",
+        "en": "Captures diagnostic snapshots when Minecraft's logical server thread takes unusually long to complete a tick."
+      },
+      "loader": "NeoForge",
+      "minecraft_versions": [
+        "1.21.1"
+      ],
+      "java": "21",
+      "status": "development",
+      "status_label": {
+        "ru": "Разработка · релиз не опубликован",
+        "en": "In development · no release published"
+      },
+      "version": "0.1.0",
+      "updated_at": "2026-11-07T00:00:00Z",
+      "repo_url": "https://github.com/MAKAKAIglitch/SaveWatch",
+      "issues_url": "https://github.com/MAKAKAIglitch/SaveWatch/issues",
+      "new_issue_url": "https://github.com/MAKAKAIglitch/SaveWatch/issues/new",
+      "pulls_url": "https://github.com/MAKAKAIglitch/SaveWatch/pulls",
+      "compare_url": "https://github.com/MAKAKAIglitch/SaveWatch/compare",
+      "releases_url": "https://github.com/MAKAKAIglitch/SaveWatch/releases",
+      "latest_release_url": null,
+      "download_url": null,
+      "download_name": null,
+      "download_size": null,
+      "sha256": null,
+      "installation": {
+        "ru": [
+          "Для сборки потребуется JDK 21.",
+          "Открой репозиторий SaveWatch и скачай исходный код.",
+          "В Windows запусти build.bat: сборщик проверит JDK 21 и при необходимости загрузит Temurin локально с проверкой SHA-256.",
+          "После успешной сборки JAR появится в build/libs/."
+        ],
+        "en": [
+          "JDK 21 is required to build the project.",
+          "Open the SaveWatch repository and download the source code.",
+          "On Windows, run build.bat: the helper checks for JDK 21 and can download Temurin locally with SHA-256 verification.",
+          "After a successful build, the JAR appears in build/libs/."
+        ]
+      },
+      "features": [
+        {
+          "ru": "Отслеживание начала и завершения серверного тика.",
+          "en": "Tracks server tick start and completion."
+        },
+        {
+          "ru": "Отдельный low-priority watchdog проверяет, не завис ли выполняющийся тик.",
+          "en": "A separate low-priority watchdog checks whether a tick is still running."
+        },
+        {
+          "ru": "Снимки stack trace потоков во время длительного тика, а не только после его завершения.",
+          "en": "Captures thread stack traces while a long tick is still in progress, not only after it finishes."
+        },
+        {
+          "ru": "Сбор данных heap/non-heap памяти JVM, GC-счётчиков, состояний потоков и владельцев блокировок.",
+          "en": "Collects JVM heap/non-heap memory, GC counters, thread states and lock owners."
+        },
+        {
+          "ru": "Отчёты сохраняются в logs/savewatch/. Команды: /savewatch status и /savewatch dump.",
+          "en": "Reports are written to logs/savewatch/. Commands: /savewatch status and /savewatch dump."
+        }
+      ],
+      "compatibility": [
+        {
+          "label": "Minecraft",
+          "value": "Java Edition 1.21.1"
+        },
+        {
+          "label": "Mod loader",
+          "value": "NeoForge 21.1.256+"
+        },
+        {
+          "label": "Java",
+          "value": "21"
+        },
+        {
+          "label": "Mod ID",
+          "value": "savewatch"
+        }
+      ],
+      "limitations": [
+        {
+          "ru": "Длительный серверный тик сам по себе не доказывает проблему диска или системы сохранения.",
+          "en": "A long server tick alone does not prove a disk or world-save problem."
+        },
+        {
+          "ru": "Версия 0.1.0 фиксирует диагностические данные, но не определяет автоматически точную причину зависания.",
+          "en": "Version 0.1.0 captures diagnostic evidence but does not automatically identify the exact cause of a stall."
+        },
+        {
+          "ru": "Мод не изменяет реализацию сохранения Minecraft и не модифицирует файлы мира.",
+          "en": "The mod does not change Minecraft's save implementation or modify world files."
+        }
+      ],
+      "overview": {
+        "ru": "SaveWatch — диагностический мод для NeoForge и Minecraft 1.21.1. Его задача — зафиксировать состояние JVM и потоков в момент, когда логический серверный поток слишком долго выполняет тик. Эти данные помогают исследовать зависания, но сами по себе не устанавливают точную первопричину.",
+        "en": "SaveWatch is a diagnostic mod for NeoForge and Minecraft 1.21.1. Its purpose is to capture JVM and thread state when the logical server thread spends unusually long processing a tick. This evidence helps investigate stalls, but does not by itself establish the root cause."
+      },
+      "release_notes": {
+        "ru": "В репозитории описана версия 0.1.0, но опубликованного GitHub Release с готовым JAR сейчас нет. Доступна сборка из исходников.",
+        "en": "The repository documents version 0.1.0, but there is currently no published GitHub Release containing a JAR. Building from source is available."
+      }
+    }
+  ]
+}
