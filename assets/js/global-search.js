@@ -2,10 +2,11 @@
   "use strict";
   const PAGE_PATHS = [
     "/", "/tools/", "/tools/warp-generator/", "/tools/magnet-to-torrent/",
-    "/tools/ip-check/", "/tools/dns-lookup/", "/tools/dns-tester/", "/tools/download-time/", "/tools/vpn-leak-test/", "/tools/ip-intelligence/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/"
+    "/tools/ip-check/", "/tools/dns-lookup/", "/tools/dns-tester/", "/tools/download-time/", "/tools/vpn-leak-test/", "/tools/ip-intelligence/", "/library/", "/library/torrent/", "/library/torrent/shares/", "/library/torrent/client/", "/minecraft/", "/minecraft/tabby/", "/minecraft/savewatch/"
   ];
   const REPOSITORY_SNAPSHOT = "/data/repositories.json";
-  const CACHE_KEY = "makakaiglitch.global-search.v8";
+  const MINECRAFT_CATALOG = "/data/minecraft-mods.json";
+  const CACHE_KEY = "makakaiglitch.global-search.v9";
   const CACHE_TTL = 5 * 60 * 1000;
   const MAX_RESULTS = 12;
   const topbar = document.querySelector(".topbar");
@@ -78,7 +79,7 @@
         block.getAttribute("data-search"), block.getAttribute("data-category"),
         block.getAttribute("data-section"), block.getAttribute("data-torrent-view")
       ].filter(Boolean).join(" ");
-      const type = path.includes("/library") ? "Library" : path.includes("/tools") ? "Utilities" : "Материал";
+      const type = path.includes("/minecraft/") ? "Minecraft" : path.includes("/library") ? "Library" : path.includes("/tools") ? "Utilities" : "Материал";
       searchItems.push(createItem(title, description, safeLocalHref(link, path), type, keywords));
     }
   }
@@ -104,6 +105,28 @@
         ));
       }
     } catch { /* Static page records remain searchable. */ }
+  }
+  async function fetchMinecraftProjects() {
+    try {
+      const response = await fetch(MINECRAFT_CATALOG, { cache: "force-cache" });
+      if (!response.ok) return;
+      const payload = await response.json();
+      if (!Array.isArray(payload.items)) return;
+      for (const project of payload.items) {
+        if (!project || !/^[a-z0-9-]+$/.test(project.slug || "")) continue;
+        searchItems.push(createItem(
+          project.name?.ru || project.name?.en || project.slug,
+          [
+            project.summary?.ru || "", project.summary?.en || "",
+            project.loader || "", ...(project.minecraft_versions || []),
+            ...(project.features || []).flatMap(feature => [feature.ru || "", feature.en || ""])
+          ].join(" "),
+          "/minecraft/" + encodeURIComponent(project.slug) + "/",
+          "Minecraft",
+          "minecraft mod mods fabric forge neoforge java edition issue pull request"
+        ));
+      }
+    } catch { /* Search remains available without the Minecraft catalog. */ }
   }
   function emptyResult(message) {
     const node = document.createElement("div");
@@ -177,7 +200,7 @@
       }
     } catch { /* Session storage is optional. */ }
     meta.textContent = "ИНДЕКСИРУЮ СТРАНИЦЫ И РЕПОЗИТОРИИ…";
-    indexPromise = Promise.all([Promise.all(PAGE_PATHS.map(fetchPage)), fetchRepositories()]).then(() => {
+    indexPromise = Promise.all([Promise.all(PAGE_PATHS.map(fetchPage)), fetchRepositories(), fetchMinecraftProjects()]).then(() => {
       isIndexed = true;
       meta.textContent = "ГОТОВО · " + searchItems.length + " МАТЕРИАЛОВ";
       try { sessionStorage.setItem(CACHE_KEY, JSON.stringify({ items: searchItems, savedAt: Date.now() })); }
