@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T10:20:01Z",
+  "generated_at": "2026-11-07T11:51:31Z",
   "items": [
     {
       "slug": "tabby",
@@ -325,6 +325,14 @@
         {
           "label": "Side",
           "value": "Client-side"
+        },
+        {
+          "label": "Build system",
+          "value": "Gradle"
+        },
+        {
+          "label": "License",
+          "value": "MIT"
         }
       ],
       "limitations": [
@@ -352,7 +360,8 @@
       "release_notes": {
         "ru": "Версия 0.1.0 указана в конфигурации проекта. Публичного GitHub Release с готовым JAR пока нет. В README перечислены уже реализованные функции и план дальнейшей разработки.",
         "en": "Version 0.1.0 is set in the project configuration. There is no public GitHub Release with a ready-to-install JAR yet. The README lists implemented features and the development roadmap."
-      }
+      },
+      "updated_at": "2026-11-07T11:51:31Z"
     }
   ]
 }
