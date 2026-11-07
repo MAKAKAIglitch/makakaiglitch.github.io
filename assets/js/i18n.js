@@ -210,7 +210,7 @@ const map={
 "Статистика ещё не собрана":"Statistics have not been collected yet",
 "Официальный торрент Gaijin Entertainment для War Thunder — можно открыть в qBittorrent или другом BitTorrent-клиенте":"Official Gaijin Entertainment torrent for War Thunder — open it in qBittorrent or another BitTorrent client",
 "Официальный торрент Gaijin Entertainment для Enlisted — загрузка идёт в фоне, страница остаётся открытой":"Official Gaijin Entertainment torrent for Enlisted — downloads in the background while this page stays open",
-"Сидеры":"Seeders","Личеры":"Leechers","Ожидаем статистику":"Waiting for statistics",
+"Сидеры":"Seeders","Личеры":"Leechers","Ожидаем статистику":"Waiting for statistics","Последнее изменение файла:":"File last modified:","Изменение обнаружено:":"Change detected:","Дата создания торрент-файла:":"Torrent file created:","Дата изменения пока неизвестна":"File modification date is not available yet","Отслеживание с:":"Tracking since:",
 "Сайт War Thunder ↗":"War Thunder website ↗","Сайт Enlisted ↗":"Enlisted website ↗",
 "Спрос: высокий":"Demand: High","Спрос: средний":"Demand: Medium",
 "Публичные трекеры и справочная информация для BitTorrent-клиента.":"Public trackers and reference information for a BitTorrent client.",
