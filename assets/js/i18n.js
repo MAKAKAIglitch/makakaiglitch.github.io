@@ -958,6 +958,54 @@ const map={
 ,"EA рекомендует отключать VPN при диагностике нестабильного соединения в EA SPORTS FC из-за дополнительной задержки — это не равнозначно общему запрету VPN.":"EA recommends disabling VPN while troubleshooting unstable EA SPORTS FC connections because of added latency; this is not a blanket VPN ban."
 ,"Для остальных новых статусных страниц официального общего запрета VPN не найдено.":"No official blanket VPN ban was found for the other newly added status pages."
 ,"Доступность отдельных VPN-IP и регионов всё равно может различаться.":"Access may still vary by VPN exit IP and region."
+,"Minecraft Projects":"Minecraft Projects"
+,"Проекты Minecraft":"Minecraft Projects"
+,"Мои модификации и инструменты для Minecraft Java Edition. Документация, релизы и разработка в одном месте.":"My Minecraft Java Edition mods and tools. Documentation, releases and development in one place."
+,"Поиск модов и проектов...":"Search mods and projects..."
+,"Загрузчик":"Mod loader"
+,"Все загрузчики":"All loaders"
+,"Тип проекта":"Project type"
+,"Все проекты":"All projects"
+,"Клиентские моды":"Client-side mods"
+,"Диагностика":"Diagnostics"
+,"Загружаю проекты…":"Loading projects…"
+,"Загружаю каталог проектов…":"Loading project catalog…"
+,"проектов":"projects"
+,"Ничего не найдено":"Nothing found"
+,"Измени запрос или фильтры.":"Change your query or filters."
+,"Не удалось загрузить каталог":"Could not load catalog"
+,"Проверь соединение и попробуй обновить страницу.":"Check your connection and refresh the page."
+,"Повторить":"Retry"
+,"Подробнее":"Details"
+,"Релиз опубликован":"Release published"
+,"Разработка · релиз не опубликован":"In development · no release published"
+,"Клиентский мод":"Client-side mod"
+,"Диагностический мод":"Diagnostic mod"
+,"Обзор":"Overview"
+,"Возможности":"Features"
+,"Установка":"Installation"
+,"Совместимость":"Compatibility"
+,"Примечания и ограничения":"Notes & limitations"
+,"ПОСЛЕДНЯЯ ВЕРСИЯ":"LATEST VERSION"
+,"ССЫЛКИ ПРОЕКТА":"PROJECT LINKS"
+,"ПРОВЕРКА ФАЙЛА":"FILE INTEGRITY"
+,"Загружаю информацию о проекте…":"Loading project information…"
+,"Не удалось загрузить проект":"Could not load project"
+,"Проверь доступность каталога Minecraft и обнови страницу.":"Check the Minecraft catalog is available and refresh the page."
+,"Вернуться к проектам":"Back to projects"
+,"Скачать .jar":"Download .jar"
+,"Исходный код и сборка":"Source code & build"
+,"Исходный код":"Source code"
+,"Сообщить о проблеме":"Report an issue"
+,"Все релизы ↗":"All releases ↗"
+,"Репозиторий ↗":"Repository ↗"
+,"Все Issues ↗":"All issues ↗"
+,"Создать Issue ↗":"Create an issue ↗"
+,"Все Pull Requests ↗":"All pull requests ↗"
+,"Создать Pull Request ↗":"Create a pull request ↗"
+,"без релиза":"unreleased"
+,"Исходный код":"Source code"
+
 };
 const reverse=Object.fromEntries(Object.entries(map).map(([ru,en])=>[en,ru]));
 const titleMap={
@@ -1026,6 +1074,10 @@ const titleMap={
 ,"Ожидаем ответ от трекеров":"Waiting for tracker responses"
 ,"Серверы DNS":"DNS servers"
 
+,"/minecraft/":{ru:"Проекты Minecraft — MAKAKAIglitch",en:"Minecraft Projects — MAKAKAIglitch"}
+,"/minecraft/tabby/":{ru:"Tabby — Minecraft Projects — MAKAKAIglitch",en:"Tabby — Minecraft Projects — MAKAKAIglitch"}
+,"/minecraft/savewatch/":{ru:"SaveWatch — Minecraft Projects — MAKAKAIglitch",en:"SaveWatch — Minecraft Projects — MAKAKAIglitch"}
+
 };
 function detect(){
  try{const saved=localStorage.getItem(KEY);if(saved==="ru"||saved==="en")return saved;}catch{}
@@ -1068,6 +1120,22 @@ function apply(root=document.body){
   const value=el.getAttribute(attr);if(!value)continue;const dest=translateString(value);if(dest!==value)el.setAttribute(attr,dest);
  }
 }
+function buildMinecraftNav(){
+ const nav=document.querySelector(".main-nav");
+ if(!nav||nav.querySelector("[data-minecraft-nav]"))return;
+ const link=document.createElement("a");
+ link.className="nav-link";
+ link.href="/minecraft/";
+ link.dataset.minecraftNav="";
+ link.title="Minecraft";
+ link.setAttribute("aria-label","Minecraft");
+ link.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5v9L12 21 4 16.5v-9L12 3Z"/><path d="m4 7.5 8 4.6 8-4.6M12 12.1V21"/></svg><span>Minecraft</span>';
+ if(location.pathname.startsWith("/minecraft")){
+  link.classList.add("is-active");
+  link.setAttribute("aria-current","page");
+ }
+ nav.appendChild(link);
+}
 function buildControl(){
  const top=document.querySelector(".topbar"),host=top?.querySelector(".topbar-actions")||top;
  if(!host||host.querySelector(".language-switcher"))return;
@@ -1086,8 +1154,8 @@ function setLanguage(next,persist=false){
  if(persist)try{localStorage.setItem(KEY,lang);}catch{}
 }
 window.siteI18n={get language(){return lang;},t,setLanguage};
-if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>{buildControl();setLanguage(lang);},{once:true});
-else{buildControl();setLanguage(lang);}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",()=>{buildMinecraftNav();buildControl();setLanguage(lang);},{once:true});
+else{buildMinecraftNav();buildControl();setLanguage(lang);}
 new MutationObserver(records=>records.forEach(r=>r.addedNodes.forEach(n=>{
  if(n.nodeType===3)translateNode(n);else if(n.nodeType===1)apply(n);
 }))).observe(document.documentElement,{childList:true,subtree:true});
