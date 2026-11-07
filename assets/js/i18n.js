@@ -1135,6 +1135,19 @@ function buildMinecraftNav(){
   link.setAttribute("aria-current","page");
  }
  nav.appendChild(link);
+ const iconPaths={
+  "/":'<path d="M7 3.75h7.1L19.25 9v10.25A1.75 1.75 0 0 1 17.5 21h-10A1.75 1.75 0 0 1 5.75 19.25v-13.5A2 2 0 0 1 7.75 3.75Z"/><path d="M14 4v5h5M8.5 13h7M8.5 16.5h7"/>',
+  "/tools/":'<path d="m14.7 6.3 3 3M4 20l4.3-1 10.9-10.9a2.12 2.12 0 0 0-3-3L5.3 16 4 20Z"/><path d="m13 8 3 3"/>',
+  "/library/":'<path d="M4 5.75A1.75 1.75 0 0 1 5.75 4H20v15H5.75A1.75 1.75 0 0 1 4 17.25z"/><path d="M4 6v12M8 8h8M8 12h7"/>'
+ };
+ nav.querySelectorAll(".nav-link").forEach(item=>{
+  if(item.querySelector("svg"))return;
+  const svg=document.createElementNS("http://www.w3.org/2000/svg","svg");
+  svg.setAttribute("viewBox","0 0 24 24");
+  svg.setAttribute("aria-hidden","true");
+  svg.innerHTML=iconPaths[item.getAttribute("href")]||'<circle cx="12" cy="12" r="8"/>';
+  item.insertBefore(svg,item.firstChild);
+ });
  if(!document.getElementById("minecraft-nav-responsive-style")){
   const style=document.createElement("style");
   style.id="minecraft-nav-responsive-style";
