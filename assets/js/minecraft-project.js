@@ -132,8 +132,14 @@
       const releases = await response.json();
       if (!Array.isArray(releases)) throw new Error("Invalid GitHub releases response");
 
-      const jarPattern = new RegExp("^" + project.slug.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\  async function load() {
-    try {") + "-.*\\.jar$", "i");
+      const jarPrefix = project.slug.toLowerCase() + "-";
+      const jarAssets = releases.flatMap(release =>
+        (Array.isArray(release.assets) ? release.assets : [])
+          .filter(asset => {
+            const name = typeof asset.name === "string" ? asset.name.toLowerCase() : "";
+            return name.startsWith(jarPrefix) && name.endsWith(".jar");
+          })
+      );
       const jarAssets = releases.flatMap(release =>
         (Array.isArray(release.assets) ? release.assets : [])
           .filter(asset => jarPattern.test(asset.name || ""))
@@ -165,6 +171,7 @@
       project = payload.items?.find(item => item.slug === slug);
       if (!project) throw new Error("Unknown Minecraft project: " + slug);
       render();
+      void loadDownloadCount();
     } catch (err) {
       loading.hidden = true;
       error.hidden = false;
