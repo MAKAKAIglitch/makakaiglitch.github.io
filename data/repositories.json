@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-11-08T05:55:50Z",
+  "generated_at": "2026-11-08T13:16:31Z",
   "source": "GitHub REST API via GitHub Actions",
   "repository_count": 13,
   "fork_count": 3,
-  "rate_limit_remaining": "4999",
+  "rate_limit_remaining": "4994",
   "items": [
     {
       "id": 1446153613,
@@ -15,15 +15,15 @@
       "fork": false,
       "archived": false,
       "created_at": "2026-11-04T20:16:37Z",
-      "updated_at": "2026-11-08T02:20:36Z",
-      "pushed_at": "2026-11-08T02:20:32Z",
+      "updated_at": "2026-11-08T12:31:58Z",
+      "pushed_at": "2026-11-08T12:31:54Z",
       "stargazers_count": 0,
       "watchers_count": 0,
       "forks_count": 0,
-      "open_issues_count": 1,
+      "open_issues_count": 0,
       "language": "JavaScript",
       "default_branch": "main",
-      "size": 708,
+      "size": 711,
       "topics": [],
       "homepage": "https://makakaiglitch.github.io/",
       "clone_url": "https://github.com/MAKAKAIglitch/makakaiglitch.github.io.git",
@@ -35,8 +35,8 @@
       "parent": null,
       "details": {
         "languages": {
-          "JavaScript": 300083,
-          "HTML": 225500,
+          "JavaScript": 302634,
+          "HTML": 225851,
           "CSS": 104338,
           "Python": 55468
         },
@@ -45,9 +45,85 @@
         "release_downloads": 0,
         "release_downloads_scope": "all",
         "contributors_count": 2,
-        "commits_count": 578,
-        "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:47Z"
+        "commits_count": 587,
+        "branches_count": 1,
+        "generated_at": "2026-11-08T13:16:29Z"
+      }
+    },
+    {
+      "id": 1449305941,
+      "name": "Rusify",
+      "full_name": "MAKAKAIglitch/Rusify",
+      "html_url": "https://github.com/MAKAKAIglitch/Rusify",
+      "description": "Русификатор для модов ",
+      "fork": false,
+      "archived": false,
+      "created_at": "2026-11-07T11:46:17Z",
+      "updated_at": "2026-11-08T12:25:34Z",
+      "pushed_at": "2026-11-08T12:23:09Z",
+      "stargazers_count": 0,
+      "watchers_count": 0,
+      "forks_count": 0,
+      "open_issues_count": 0,
+      "language": "Java",
+      "default_branch": "main",
+      "size": 990,
+      "topics": [],
+      "homepage": "https://makakaiglitch.github.io/minecraft/rusify/",
+      "clone_url": "https://github.com/MAKAKAIglitch/Rusify.git",
+      "owner": {
+        "login": "MAKAKAIglitch"
+      },
+      "subscribers_count": null,
+      "license": {
+        "key": "mit",
+        "name": "MIT License",
+        "spdx_id": "MIT"
+      },
+      "parent": null,
+      "details": {
+        "languages": {
+          "Java": 83384,
+          "PowerShell": 21350,
+          "Batchfile": 1193
+        },
+        "releases": [
+          {
+            "name": "Rusify v0.1.4",
+            "tag_name": "v0.1.4",
+            "published_at": "2026-11-08T12:23:10Z",
+            "html_url": "https://github.com/MAKAKAIglitch/Rusify/releases/tag/v0.1.4",
+            "assets": [
+              {
+                "name": "rusify-0.1.4.jar",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/Rusify/releases/download/v0.1.4/rusify-0.1.4.jar",
+                "download_count": 1,
+                "size": 343814
+              }
+            ]
+          },
+          {
+            "name": "Rusify v0.1.3",
+            "tag_name": "v0.1.3",
+            "published_at": "2026-11-07T19:30:46Z",
+            "html_url": "https://github.com/MAKAKAIglitch/Rusify/releases/tag/v0.1.3",
+            "assets": [
+              {
+                "name": "rusify-0.1.3.jar",
+                "browser_download_url": "https://github.com/MAKAKAIglitch/Rusify/releases/download/v0.1.3/rusify-0.1.3.jar",
+                "download_count": 1,
+                "size": 253129
+              }
+            ]
+          }
+        ],
+        "releases_count": 2,
+        "release_downloads": 2,
+        "release_downloads_scope": "all",
+        "contributors_count": 1,
+        "commits_count": 310,
+        "branches_count": 1,
+        "generated_at": "2026-11-08T13:16:29Z"
       }
     },
     {
@@ -110,69 +186,7 @@
         "contributors_count": 1,
         "commits_count": 120,
         "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:47Z"
-      }
-    },
-    {
-      "id": 1449305941,
-      "name": "Rusify",
-      "full_name": "MAKAKAIglitch/Rusify",
-      "html_url": "https://github.com/MAKAKAIglitch/Rusify",
-      "description": null,
-      "fork": false,
-      "archived": false,
-      "created_at": "2026-11-07T11:46:17Z",
-      "updated_at": "2026-11-07T21:40:16Z",
-      "pushed_at": "2026-11-07T21:40:12Z",
-      "stargazers_count": 0,
-      "watchers_count": 0,
-      "forks_count": 0,
-      "open_issues_count": 0,
-      "language": "Java",
-      "default_branch": "main",
-      "size": 990,
-      "topics": [],
-      "homepage": "https://makakaiglitch.github.io/minecraft/rusify/",
-      "clone_url": "https://github.com/MAKAKAIglitch/Rusify.git",
-      "owner": {
-        "login": "MAKAKAIglitch"
-      },
-      "subscribers_count": null,
-      "license": {
-        "key": "mit",
-        "name": "MIT License",
-        "spdx_id": "MIT"
-      },
-      "parent": null,
-      "details": {
-        "languages": {
-          "Java": 83384,
-          "PowerShell": 21350,
-          "Batchfile": 1193
-        },
-        "releases": [
-          {
-            "name": "Rusify v0.1.3",
-            "tag_name": "v0.1.3",
-            "published_at": "2026-11-07T19:30:46Z",
-            "html_url": "https://github.com/MAKAKAIglitch/Rusify/releases/tag/v0.1.3",
-            "assets": [
-              {
-                "name": "rusify-0.1.3.jar",
-                "browser_download_url": "https://github.com/MAKAKAIglitch/Rusify/releases/download/v0.1.3/rusify-0.1.3.jar",
-                "download_count": 1,
-                "size": 253129
-              }
-            ]
-          }
-        ],
-        "releases_count": 1,
-        "release_downloads": 1,
-        "release_downloads_scope": "all",
-        "contributors_count": 1,
-        "commits_count": 309,
-        "branches_count": 1,
-        "generated_at": "2026-11-08T05:55:47Z"
+        "generated_at": "2026-11-08T13:16:29Z"
       }
     },
     {
@@ -185,11 +199,11 @@
       "archived": false,
       "created_at": "2026-10-28T11:57:09Z",
       "updated_at": "2026-11-07T16:00:54Z",
-      "pushed_at": "2026-11-07T16:00:50Z",
+      "pushed_at": "2026-11-08T13:15:53Z",
       "stargazers_count": 0,
       "watchers_count": 0,
       "forks_count": 0,
-      "open_issues_count": 0,
+      "open_issues_count": 2,
       "language": "Java",
       "default_branch": "main",
       "size": 380,
@@ -234,8 +248,8 @@
         "release_downloads_scope": "all",
         "contributors_count": 1,
         "commits_count": 147,
-        "branches_count": 8,
-        "generated_at": "2026-11-08T05:55:47Z"
+        "branches_count": 12,
+        "generated_at": "2026-11-08T13:16:29Z"
       }
     },
     {
@@ -281,7 +295,7 @@
         "contributors_count": 1,
         "commits_count": 66,
         "branches_count": 1,
-        "generated_at": "2026-11-08T05:55:48Z"
+        "generated_at": "2026-11-08T13:16:29Z"
       }
     },
     {
@@ -349,7 +363,7 @@
         "contributors_count": 1,
         "commits_count": 397,
         "branches_count": 6,
-        "generated_at": "2026-11-08T05:55:47Z"
+        "generated_at": "2026-11-08T13:16:29Z"
       }
     },
     {
@@ -398,19 +412,19 @@
               {
                 "name": "zapret-discord-youtube-warp.zip",
                 "browser_download_url": "https://github.com/MAKAKAIglitch/zapret-discord-youtube-warp/releases/download/v1.0-warp/zapret-discord-youtube-warp.zip",
-                "download_count": 35,
+                "download_count": 36,
                 "size": 1333463
               }
             ]
           }
         ],
         "releases_count": 1,
-        "release_downloads": 35,
+        "release_downloads": 36,
         "release_downloads_scope": "all",
         "contributors_count": 55,
         "commits_count": 554,
         "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:48Z"
+        "generated_at": "2026-11-08T13:16:30Z"
       }
     },
     {
@@ -459,7 +473,7 @@
         "contributors_count": 2,
         "commits_count": 270,
         "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:48Z"
+        "generated_at": "2026-11-08T13:16:30Z"
       }
     },
     {
@@ -506,7 +520,7 @@
         "contributors_count": 1,
         "commits_count": 197,
         "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:48Z"
+        "generated_at": "2026-11-08T13:16:30Z"
       }
     },
     {
@@ -549,7 +563,7 @@
         "contributors_count": 1,
         "commits_count": 10,
         "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:48Z"
+        "generated_at": "2026-11-08T13:16:30Z"
       }
     },
     {
@@ -644,7 +658,7 @@
         "contributors_count": 24,
         "commits_count": 1601,
         "branches_count": 3,
-        "generated_at": "2026-11-08T05:55:48Z"
+        "generated_at": "2026-11-08T13:16:30Z"
       }
     },
     {
@@ -720,7 +734,7 @@
         "contributors_count": 1,
         "commits_count": 348,
         "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:50Z"
+        "generated_at": "2026-11-08T13:16:30Z"
       }
     },
     {
@@ -811,7 +825,7 @@
         "contributors_count": 1,
         "commits_count": 18,
         "branches_count": 2,
-        "generated_at": "2026-11-08T05:55:50Z"
+        "generated_at": "2026-11-08T13:16:31Z"
       }
     }
   ]
