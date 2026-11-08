@@ -106,6 +106,57 @@
     content.hidden = false;
   }
 
+  async function loadDownloadCount() {
+    const card = $("project-downloads-card");
+    const count = $("project-download-count");
+    const note = $("project-download-note");
+    if (!card || !count || !note || slug !== "rusify" || !project?.repo_url) return;
+
+    card.hidden = false;
+    count.textContent = "—";
+    note.textContent = text({
+      ru: "Загружаю статистику GitHub…",
+      en: "Loading GitHub download statistics…"
+    });
+
+    try {
+      const repoUrl = new URL(project.repo_url);
+      if (repoUrl.hostname !== "github.com") throw new Error("Unsupported repository host");
+      const apiUrl = "https://api.github.com/repos" + repoUrl.pathname.replace(/\\/+$/, "") + "/releases?per_page=100";
+      const response = await fetch(apiUrl, {
+        headers: { "Accept": "application/vnd.github+json" },
+        cache: "default"
+      });
+      if (!response.ok) throw new Error("GitHub API HTTP " + response.status);
+
+      const releases = await response.json();
+      if (!Array.isArray(releases)) throw new Error("Invalid GitHub releases response");
+
+      const jarPattern = new RegExp("^" + project.slug.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\  async function load() {
+    try {") + "-.*\\.jar$", "i");
+      const jarAssets = releases.flatMap(release =>
+        (Array.isArray(release.assets) ? release.assets : [])
+          .filter(asset => jarPattern.test(asset.name || ""))
+      );
+      const total = jarAssets.reduce((sum, asset) =>
+        sum + (Number.isFinite(asset.download_count) ? asset.download_count : 0), 0
+      );
+
+      count.textContent = new Intl.NumberFormat(language() === "en" ? "en-US" : "ru-RU").format(total);
+      note.textContent = text({
+        ru: "Сумма скачиваний JAR-файлов всех релизов. Это не число уникальных людей.",
+        en: "Combined JAR downloads across all releases. This is not a count of unique people."
+      });
+    } catch (err) {
+      count.textContent = "—";
+      note.textContent = text({
+        ru: "Не удалось получить статистику GitHub. Попробуй обновить страницу позже.",
+        en: "GitHub statistics are unavailable. Please try again later."
+      });
+      console.warn("Rusify download counter:", err);
+    }
+  }
+
   async function load() {
     try {
       const response = await fetch("/data/minecraft-mods.json", {cache:"no-cache"});
