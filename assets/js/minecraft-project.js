@@ -122,7 +122,8 @@
     try {
       const repoUrl = new URL(project.repo_url);
       if (repoUrl.hostname !== "github.com") throw new Error("Unsupported repository host");
-      const apiUrl = "https://api.github.com/repos" + repoUrl.pathname.replace(/\\/+$/, "") + "/releases?per_page=100";
+      const repoPath = repoUrl.pathname.endsWith("/") ? repoUrl.pathname.slice(0, -1) : repoUrl.pathname;
+      const apiUrl = "https://api.github.com/repos" + repoPath + "/releases?per_page=100";
       const response = await fetch(apiUrl, {
         headers: { "Accept": "application/vnd.github+json" },
         cache: "default"
@@ -139,10 +140,6 @@
             const name = typeof asset.name === "string" ? asset.name.toLowerCase() : "";
             return name.startsWith(jarPrefix) && name.endsWith(".jar");
           })
-      );
-      const jarAssets = releases.flatMap(release =>
-        (Array.isArray(release.assets) ? release.assets : [])
-          .filter(asset => jarPattern.test(asset.name || ""))
       );
       const total = jarAssets.reduce((sum, asset) =>
         sum + (Number.isFinite(asset.download_count) ? asset.download_count : 0), 0
