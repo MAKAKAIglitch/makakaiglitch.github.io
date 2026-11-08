@@ -175,6 +175,9 @@
       console.error("Minecraft project page:", err);
     }
   }
-  document.addEventListener("site:language-change", render);
+  document.addEventListener("site:language-change", () => {
+    render();
+    void loadDownloadCount();
+  });
   load();
 })();
