@@ -5,11 +5,6 @@ on:
     branches:
       - main
   workflow_dispatch:
-  schedule:
-    - cron: "1 * * * *"
-  workflow_run:
-    workflows: ["Update torrent swarm statistics", "Update repository snapshot"]
-    types: [completed]
 
 permissions:
   contents: read
@@ -17,12 +12,11 @@ permissions:
   id-token: write
 
 concurrency:
-  group: service-status-pages-v2
+  group: github-pages-deploy
   cancel-in-progress: false
 
 jobs:
   deploy:
-    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     timeout-minutes: 15
     environment:
       name: github-pages
@@ -38,18 +32,6 @@ jobs:
             echo "Checking $file"
             node --check "$file"
           done
-
-      - name: Check torrent statistics collector
-        run: python3 scripts/update_torrent_stats.py --self-test
-
-      - name: Check repository snapshot collector
-        run: python3 scripts/update_repositories.py --self-test
-
-      - name: Test Service Status collector
-        run: python3 scripts/service_status_monitor.py --self-test
-
-      - name: Collect Service Status measurements
-        run: python3 scripts/service_status_monitor.py
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v6.0.0
